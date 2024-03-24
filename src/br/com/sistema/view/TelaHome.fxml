@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="676.0" prefWidth="1158.0"
+	xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="br.com.sistema.controll.TelaHome">
+	<children>
+		<ImageView fitHeight="676.0" fitWidth="1164.0">
+			<image>
+				<Image url="@../icones/icon/fundo.png" />
+			</image>
+		</ImageView>
+		<AnchorPane layoutX="6.0" layoutY="5.0" prefHeight="671.0"
+			prefWidth="1158.0">
+			<children>
+				<TabPane layoutX="5.0" layoutY="57.0" prefHeight="545.0"
+					prefWidth="1142.0" tabClosingPolicy="UNAVAILABLE">
+					<tabs>
+						<Tab text="Lista">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0">
+									<children>
+										<AnchorPane layoutX="3.0" layoutY="4.0"
+											prefHeight="496.0" prefWidth="1142.0"
+											style="-fx-background-color: white;">
+											<children>
+												<TableView fx:id="tbVeiculo" layoutX="1.0"
+													layoutY="62.0" prefHeight="327.0" prefWidth="1135.0"
+													style="-fx-border-color: black;">
+													<columns>
+														<TableColumn fx:id="clnCategoria"
+															prefWidth="106.0" text="Categoria" />
+														<TableColumn fx:id="clnMarca"
+															prefWidth="137.0" text="Marca" />
+														<TableColumn fx:id="clnVeiculo"
+															prefWidth="197.0" text="Veiculo" />
+														<TableColumn fx:id="clnPlaca"
+															prefWidth="101.0" text="Placa" />
+														<TableColumn fx:id="clnCor" prefWidth="103.0"
+															text="Cor" />
+														<TableColumn fx:id="clnKm" prefWidth="90.0"
+															text="KM" />
+														<TableColumn fx:id="clnDataEntrada"
+															prefWidth="99.0" text="Data Entrada" />
+														<TableColumn fx:id="clnValorVenda"
+															prefWidth="101.0" text="Valor Venda" />
+														<TableColumn fx:id="clnSituacao"
+															prefWidth="101.0" text="Situação" />
+														<TableColumn fx:id="clnValorFipe"
+															prefWidth="92.0" text="Valor Fipe" />
+													</columns>
+												</TableView>
+												<Label layoutX="250.0" layoutY="26.0" text="BUSCAR :" />
+												<ComboBox fx:id="cmbBuscar" layoutX="303.0"
+													layoutY="22.0" prefHeight="25.0" prefWidth="143.0" />
+												<TextField fx:id="txtPesquisa" layoutX="453.0"
+													layoutY="22.0" prefHeight="25.0" prefWidth="359.0" />
+												<Button fx:id="btnPesquisar" layoutX="816.0"
+													layoutY="22.0" mnemonicParsing="false" text="Pesquisar">
+													<graphic>
+														<ImageView fitHeight="13.0" fitWidth="24.0">
+															<image>
+																<Image
+																	url="@../icones/icon/searching-for-a-businessman.png" />
+															</image>
+														</ImageView>
+													</graphic>
+												</Button>
+												<Button fx:id="btnImprimir" layoutX="666.0"
+													layoutY="435.0" mnemonicParsing="false" prefHeight="25.0"
+													prefWidth="41.0">
+													<graphic>
+														<ImageView fitHeight="17.0" fitWidth="24.0">
+															<image>
+																<Image url="@../icones/icon/printer.png" />
+															</image>
+														</ImageView>
+													</graphic>
+													<effect>
+														<Reflection />
+													</effect>
+												</Button>
+												<Label layoutX="14.0" layoutY="26.0" text="TIPO :" />
+												<ComboBox fx:id="cmbTipo" layoutX="59.0"
+													layoutY="22.0" prefHeight="25.0" prefWidth="143.0" />
+												<AnchorPane layoutX="1.0" layoutY="394.0"
+													prefHeight="97.0" prefWidth="1134.0"
+													style="-fx-background-color: lightgray; -fx-background-radius: 15; -fx-border-color: blue; -fx-border-radius: 15;">
+													<children>
+														<Button fx:id="btnNovoVeiculo" layoutX="25.0"
+															layoutY="19.0" mnemonicParsing="false" prefHeight="25.0"
+															prefWidth="148.0" style="-fx-border-color: black;"
+															text="Novo Veiculo">
+															<graphic>
+																<ImageView fitHeight="13.0" fitWidth="22.0">
+																	<image>
+																		<Image
+																			url="@../icones/icon/sinal-de-adicao-em-um-circulo-preto.png" />
+																	</image>
+																</ImageView>
+															</graphic>
+															<font>
+																<Font name="MS Reference Sans Serif" size="11.0" />
+															</font>
+														</Button>
+														<Button fx:id="btnEditarDados" layoutX="25.0"
+															layoutY="64.0" mnemonicParsing="false" prefHeight="25.0"
+															prefWidth="148.0" style="-fx-border-color: black;"
+															text="Editar Dados">
+															<graphic>
+																<ImageView fitHeight="13.0" fitWidth="22.0">
+																	<image>
+																		<Image url="@../icones/icon/lapis.png" />
+																	</image>
+																</ImageView>
+															</graphic>
+															<font>
+																<Font name="MS Reference Sans Serif" size="11.0" />
+															</font>
+														</Button>
+														<Button fx:id="btnHistoricoVeiculo" layoutX="243.0"
+															layoutY="65.0" mnemonicParsing="false" prefHeight="25.0"
+															prefWidth="148.0" style="-fx-border-color: black;"
+															text="Historico Veiculo">
+															<graphic>
+																<ImageView fitHeight="13.0" fitWidth="22.0">
+																	<image>
+																		<Image url="@../icones/icon/disquete.png" />
+																	</image>
+																</ImageView>
+															</graphic>
+															<font>
+																<Font name="MS Reference Sans Serif" size="11.0" />
+															</font>
+														</Button>
+														<Button fx:id="btnAdicionarDespesa" layoutX="458.0"
+															layoutY="20.0" mnemonicParsing="false" prefHeight="25.0"
+															prefWidth="148.0" style="-fx-border-color: black;"
+															text="Adicionar Despesa">
+															<graphic>
+																<ImageView fitHeight="13.0" fitWidth="22.0">
+																	<image>
+																		<Image url="@../icones/icon/Calculator-512.png" />
+																	</image>
+																</ImageView>
+															</graphic>
+															<font>
+																<Font name="MS Reference Sans Serif" size="11.0" />
+															</font>
+														</Button>
+														<Button fx:id="btnVenda" layoutX="459.0"
+															layoutY="65.0" mnemonicParsing="false" prefHeight="25.0"
+															prefWidth="148.0" style="-fx-border-color: black;"
+															text="Gerar Venda">
+															<graphic>
+																<ImageView fitHeight="13.0" fitWidth="22.0">
+																	<image>
+																		<Image url="@../icones/aperto-de-mc3a3o.png" />
+																	</image>
+																</ImageView>
+															</graphic>
+															<font>
+																<Font name="MS Reference Sans Serif" size="11.0" />
+															</font>
+														</Button>
+														<Button fx:id="btnImprimirDados" layoutX="674.0"
+															layoutY="64.0" mnemonicParsing="false" prefHeight="25.0"
+															prefWidth="148.0" style="-fx-border-color: black;"
+															text="Imprimir Dados">
+															<graphic>
+																<ImageView fitHeight="13.0" fitWidth="22.0">
+																	<image>
+																		<Image url="@../icones/icon/printer.png" />
+																	</image>
+																</ImageView>
+															</graphic>
+															<font>
+																<Font name="MS Reference Sans Serif" size="11.0" />
+															</font>
+														</Button>
+														<Button fx:id="btnImprimirLista" layoutX="673.0"
+															layoutY="20.0" mnemonicParsing="false" prefHeight="25.0"
+															prefWidth="148.0" style="-fx-border-color: black;"
+															text="Imprimir Lista">
+															<graphic>
+																<ImageView fitHeight="13.0" fitWidth="22.0">
+																	<image>
+																		<Image url="@../icones/1310556350_Printer.png" />
+																	</image>
+																</ImageView>
+															</graphic>
+															<font>
+																<Font name="MS Reference Sans Serif" size="11.0" />
+															</font>
+														</Button>
+														<Button fx:id="btnExcluir" layoutX="242.0"
+															layoutY="20.0" mnemonicParsing="false" prefHeight="25.0"
+															prefWidth="148.0" style="-fx-border-color: black;"
+															text="Excluir Veiculo">
+															<graphic>
+																<ImageView fitHeight="13.0" fitWidth="22.0">
+																	<image>
+																		<Image
+																			url="@../icones/depositphotos_71920725-stock-illustration-the-trashcan-icon-dustbin-symbol.jpg" />
+																	</image>
+																</ImageView>
+															</graphic>
+															<font>
+																<Font name="MS Reference Sans Serif" size="11.0" />
+															</font>
+														</Button>
+														<Label layoutX="835.0" layoutY="11.0"
+															prefHeight="23.0" prefWidth="98.0" text="Qtde Veiculos">
+															<font>
+																<Font name="System Bold" size="15.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblQtdeVeiculos" layoutX="835.0"
+															layoutY="26.0" prefHeight="27.0" prefWidth="45.0"
+															textFill="#0a16f5">
+															<font>
+																<Font size="18.0" />
+															</font>
+														</Label>
+														<Label layoutX="993.0" layoutY="50.0"
+															text="Total Valor Venda">
+															<font>
+																<Font name="System Bold" size="15.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblValorTotalSomaVeiculos"
+															layoutX="992.0" layoutY="66.0" prefHeight="17.0"
+															prefWidth="128.0" textFill="#031fee">
+															<font>
+																<Font size="18.0" />
+															</font>
+														</Label>
+														<Label layoutX="835.0" layoutY="50.0"
+															text="Total Valor Compra">
+															<font>
+																<Font name="System Bold" size="15.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblValorTotalCompraVeiculos"
+															layoutX="835.0" layoutY="67.0" prefHeight="17.0"
+															prefWidth="128.0" textFill="#031fee">
+															<font>
+																<Font size="18.0" />
+															</font>
+														</Label>
+														<Label layoutX="994.0" layoutY="11.0"
+															text="Total Valor Fipe">
+															<font>
+																<Font name="System Bold" size="15.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblValorTotalFipeVeiculos"
+															layoutX="993.0" layoutY="27.0" prefHeight="17.0"
+															prefWidth="128.0" textFill="#031fee">
+															<font>
+																<Font size="18.0" />
+															</font>
+														</Label>
+													</children>
+												</AnchorPane>
+											</children>
+										</AnchorPane>
+									</children>
+								</AnchorPane>
+							</content>
+						</Tab>
+						<Tab text="Detalhes Veiculo">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0">
+									<children>
+										<AnchorPane layoutX="7.0" layoutY="7.0"
+											prefHeight="230.0" prefWidth="1057.0"
+											style="-fx-background-color: white; -fx-background-radius: 20;">
+											<children>
+												<GridPane layoutX="14.0" layoutY="25.0"
+													prefHeight="184.0" prefWidth="475.0">
+													<columnConstraints>
+														<ColumnConstraints hgrow="SOMETIMES"
+															maxWidth="195.0" minWidth="10.0" prefWidth="114.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															maxWidth="390.0" minWidth="10.0" prefWidth="152.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															maxWidth="390.0" minWidth="10.0" prefWidth="113.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															maxWidth="390.0" minWidth="10.0" prefWidth="99.0" />
+													</columnConstraints>
+													<rowConstraints>
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+													</rowConstraints>
+													<children>
+														<Label text="Veiculo :">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Placa :" GridPane.rowIndex="1">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Renavam :" GridPane.rowIndex="2">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Cor :" GridPane.rowIndex="3">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Data Entrada :" GridPane.rowIndex="4">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Valor Venda :" GridPane.rowIndex="5">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblDadosVeiculo" prefHeight="19.0"
+															prefWidth="368.0" GridPane.columnIndex="1">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblDadosPlaca" prefHeight="19.0"
+															prefWidth="381.0" GridPane.columnIndex="1"
+															GridPane.rowIndex="1">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblDadosRenavam" prefHeight="19.0"
+															prefWidth="374.0" GridPane.columnIndex="1"
+															GridPane.rowIndex="2">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblDadosCor" prefHeight="19.0"
+															prefWidth="388.0" GridPane.columnIndex="1"
+															GridPane.rowIndex="3">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblDadosDataEntrada" prefHeight="19.0"
+															prefWidth="411.0" GridPane.columnIndex="1"
+															GridPane.rowIndex="4">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblDadosValorVenda" prefHeight="19.0"
+															prefWidth="385.0" GridPane.columnIndex="1"
+															GridPane.rowIndex="5">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Leilão/RS :" GridPane.columnIndex="2"
+															GridPane.rowIndex="1">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Financiamento :"
+															GridPane.columnIndex="2" GridPane.rowIndex="2">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblLeilaoRs" prefHeight="19.0"
+															prefWidth="368.0" GridPane.columnIndex="3"
+															GridPane.rowIndex="1">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblFinanciamento" prefHeight="19.0"
+															prefWidth="368.0" GridPane.columnIndex="3"
+															GridPane.rowIndex="2">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label text="KM :" GridPane.columnIndex="2">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblKm" prefHeight="19.0"
+															prefWidth="368.0" GridPane.columnIndex="3">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Valor Fipe :" GridPane.columnIndex="2"
+															GridPane.rowIndex="3">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblValorFipe" prefHeight="19.0"
+															prefWidth="368.0" GridPane.columnIndex="3"
+															GridPane.rowIndex="3">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+													</children>
+												</GridPane>
+												<Label layoutX="191.0" layoutY="5.0"
+													text="Dados do Veiculo" textFill="#0217ff">
+													<font>
+														<Font name="MS Reference Sans Serif" size="14.0" />
+													</font>
+												</Label>
+												<Label layoutX="774.0" layoutY="5.0"
+													text="Custos do Veiculo" textFill="#0d09f8">
+													<font>
+														<Font name="MS Reference Sans Serif" size="14.0" />
+													</font>
+												</Label>
+												<GridPane layoutX="639.0" layoutY="24.0"
+													prefHeight="166.0" prefWidth="395.0">
+													<columnConstraints>
+														<ColumnConstraints hgrow="SOMETIMES"
+															maxWidth="294.0" minWidth="10.0" prefWidth="165.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															maxWidth="364.0" minWidth="10.0" prefWidth="230.0" />
+													</columnConstraints>
+													<rowConstraints>
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+													</rowConstraints>
+													<children>
+														<Label text="Dias de Patio :">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Total Despesas :" GridPane.rowIndex="1">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Custo Total do Veiculo:"
+															GridPane.rowIndex="3">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Valor de Entrada :"
+															GridPane.rowIndex="2">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblCustoDiaPatio" prefHeight="17.0"
+															prefWidth="224.0" GridPane.columnIndex="1">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblCustoTotalDespesa"
+															prefHeight="17.0" prefWidth="224.0"
+															GridPane.columnIndex="1" GridPane.rowIndex="1">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblCustoValorEntrada"
+															prefHeight="17.0" prefWidth="224.0"
+															GridPane.columnIndex="1" GridPane.rowIndex="2">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblCustoTotalVeiculo"
+															prefHeight="17.0" prefWidth="224.0"
+															GridPane.columnIndex="1" GridPane.rowIndex="3">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+													</children>
+												</GridPane>
+											</children>
+										</AnchorPane>
+										<AnchorPane layoutX="8.0" layoutY="242.0"
+											prefHeight="267.0" prefWidth="1056.0"
+											style="-fx-background-color: white; -fx-background-radius: 20;">
+											<children>
+												<GridPane layoutX="14.0" layoutY="21.0"
+													prefHeight="235.0" prefWidth="478.0">
+													<columnConstraints>
+														<ColumnConstraints hgrow="SOMETIMES"
+															maxWidth="195.0" minWidth="10.0" prefWidth="157.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															maxWidth="353.0" minWidth="10.0" prefWidth="321.0" />
+													</columnConstraints>
+													<rowConstraints>
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+													</rowConstraints>
+													<children>
+														<Label text="Data Venda :">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Lucro Venda :" GridPane.rowIndex="1">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Cliente :" GridPane.rowIndex="2">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Tipo Pagamento :" GridPane.rowIndex="3">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Parcela :" GridPane.rowIndex="4">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Valor Parcela : " GridPane.rowIndex="5">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblVendaDataVenda" prefHeight="19.0"
+															prefWidth="365.0" GridPane.columnIndex="1">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblVendaLucroVenda" prefHeight="19.0"
+															prefWidth="372.0" GridPane.columnIndex="1"
+															GridPane.rowIndex="1">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblVendaCliente" prefHeight="19.0"
+															prefWidth="366.0" GridPane.columnIndex="1"
+															GridPane.rowIndex="2">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblVendaTipoPagamento"
+															prefHeight="19.0" prefWidth="368.0"
+															GridPane.columnIndex="1" GridPane.rowIndex="3">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblVendaParcela" prefHeight="19.0"
+															prefWidth="366.0" GridPane.columnIndex="1"
+															GridPane.rowIndex="4">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblVendaValorParcela"
+															prefHeight="19.0" prefWidth="388.0"
+															GridPane.columnIndex="1" GridPane.rowIndex="5">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Observação :" GridPane.rowIndex="6">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Garantia :" GridPane.rowIndex="7">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblVendaObservacao" prefHeight="19.0"
+															prefWidth="388.0" GridPane.columnIndex="1"
+															GridPane.rowIndex="6">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblVendaGarantia" prefHeight="19.0"
+															prefWidth="388.0" GridPane.columnIndex="1"
+															GridPane.rowIndex="7">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+														<Label text="Vencimento Garantia :"
+															GridPane.rowIndex="8">
+															<font>
+																<Font name="MS Reference Sans Serif" size="13.0" />
+															</font>
+														</Label>
+														<Label fx:id="lblVencimentoGarantia"
+															prefHeight="19.0" prefWidth="388.0"
+															GridPane.columnIndex="1" GridPane.rowIndex="8">
+															<font>
+																<Font name="System Bold" size="13.0" />
+															</font>
+														</Label>
+													</children>
+												</GridPane>
+												<Label layoutX="157.0" layoutY="2.0" prefHeight="24.0"
+													prefWidth="192.0" text="Dados da Venda do Veiculo"
+													textFill="#0d09f8">
+													<font>
+														<Font name="MS Reference Sans Serif" size="14.0" />
+													</font>
+												</Label>
+											</children>
+										</AnchorPane>
+									</children>
+								</AnchorPane>
+							</content>
+						</Tab>
+					</tabs>
+				</TabPane>
+				<Label fx:id="lblUsuario" layoutX="79.0" layoutY="617.0"
+					prefHeight="23.0" prefWidth="264.0">
+					<font>
+						<Font name="System Bold" size="14.0" />
+					</font>
+				</Label>
+				<Label layoutX="14.0" layoutY="619.0" text="Usuario :">
+					<font>
+						<Font name="MS Reference Sans Serif" size="14.0" />
+					</font>
+				</Label>
+				<Label fx:id="lblData" layoutX="411.0" layoutY="617.0"
+					prefHeight="23.0" prefWidth="78.0">
+					<font>
+						<Font name="System Bold" size="14.0" />
+					</font>
+				</Label>
+				<Label layoutX="361.0" layoutY="619.0" text="Data :">
+					<font>
+						<Font name="MS Reference Sans Serif" size="14.0" />
+					</font>
+				</Label>
+				<Label fx:id="lblHora" layoutX="504.0" layoutY="617.0"
+					prefHeight="23.0" prefWidth="136.0">
+					<font>
+						<Font name="System Bold" size="14.0" />
+					</font>
+				</Label>
+			</children>
+		</AnchorPane>
+		<HBox layoutX="11.0" layoutY="7.0" prefHeight="50.0"
+			prefWidth="1142.0">
+			<children>
+				<MenuBar opacity="0.94" prefHeight="50.0" prefWidth="1152.0">
+					<menus>
+						<Menu mnemonicParsing="false" text="Usuarios">
+							<items>
+								<MenuItem fx:id="menuListaUsuario"
+									mnemonicParsing="false" text="Lista Usuarios" />
+							</items>
+							<graphic>
+								<ImageView fitHeight="34.0" fitWidth="34.0">
+									<image>
+										<Image url="@../icones/clients.png" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Menu>
+						<Menu mnemonicParsing="false" text="Clientes">
+							<items>
+								<MenuItem fx:id="menuListaClientes"
+									mnemonicParsing="false" text="Lista Clientes" />
+								<Menu mnemonicParsing="false" text="Adicionar">
+									<items>
+										<MenuItem fx:id="menuClientesPF"
+											mnemonicParsing="false" text="Clientes Pessoa Física" />
+										<MenuItem fx:id="menuClientesPJ"
+											mnemonicParsing="false" text="Clientes Pessoa Jurídica" />
+									</items>
+								</Menu>
+								<Menu mnemonicParsing="false" text="Cliente CRM">
+									<items>
+										<MenuItem fx:id="menuCadastroClienteInteresse"
+											mnemonicParsing="false"
+											text="Cadastro Cliente/Interesse Veiculo" />
+										<MenuItem fx:id="menuListaClienteInteresse"
+											mnemonicParsing="false"
+											text="Lista Cliente/Interesse Veiculo" />
+									</items>
+								</Menu>
+							</items>
+							<graphic>
+								<ImageView fitHeight="37.0" fitWidth="37.0">
+									<image>
+										<Image url="@../icones/7837_64x64.png" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Menu>
+						<Menu mnemonicParsing="false" text="Funcionarios">
+							<items>
+								<MenuItem fx:id="menuListaFuncionarios"
+									mnemonicParsing="false" text="Lista Funcionarios" />
+							</items>
+							<graphic>
+								<ImageView fitHeight="36.0" fitWidth="32.0">
+									<image>
+										<Image url="@../icones/icone-empresarial.png" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Menu>
+						<Menu mnemonicParsing="false" text="Tabela FIPE"
+							visible="false">
+							<items>
+								<MenuItem fx:id="menuConsultaFipe"
+									mnemonicParsing="false" text="Consulta Tabela FIPE" />
+							</items>
+							<graphic>
+								<ImageView fitHeight="38.0" fitWidth="35.0">
+									<image>
+										<Image url="@../icones/28-fipe_icon.png" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Menu>
+						<Menu mnemonicParsing="false" text="Contas a Pagar">
+							<items>
+								<MenuItem fx:id="menuListaContasPagar"
+									mnemonicParsing="false" text="Lista Contas" />
+							</items>
+							<graphic>
+								<ImageView fitHeight="39.0" fitWidth="41.0">
+									<image>
+										<Image url="@../icones/formulari.png" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Menu>
+						<Menu mnemonicParsing="false" text="Contas a Receber">
+							<items>
+								<MenuItem fx:id="menuListaContasReceber"
+									mnemonicParsing="false" text="Lista Contas" />
+							</items>
+							<graphic>
+								<ImageView fitHeight="41.0" fitWidth="41.0">
+									<image>
+										<Image url="@../icones/images.jpg" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Menu>
+						<Menu mnemonicParsing="false" text="Relatorios">
+							<items>
+								<MenuItem fx:id="menuRelatorioVendedores"
+									mnemonicParsing="false" text="Relatorio Vendedores" />
+								<MenuItem fx:id="menuRelatorioGeralVendas"
+									mnemonicParsing="false" text="Relatorio Geral Vendas" />
+								<MenuItem fx:id="menuRelatorioDre"
+									mnemonicParsing="false" text="Relatorio DRE" />
+							</items>
+							<graphic>
+								<ImageView fitHeight="41.0" fitWidth="41.0">
+									<image>
+										<Image url="@../icones/images.jpg" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Menu>
+						<Menu mnemonicParsing="false" text="Garantia">
+							<items>
+								<MenuItem fx:id="menuListaGarantia"
+									mnemonicParsing="false" text="Lista Veiculos em Garantia" />
+							</items>
+							<graphic>
+								<ImageView fitHeight="41.0" fitWidth="41.0">
+									<image>
+										<Image url="@../icones/1055_128x128.png" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Menu>
+					</menus>
+				</MenuBar>
+			</children>
+		</HBox>
+	</children>
+</AnchorPane>

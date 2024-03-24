@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0"
+	prefWidth="1211.0" xmlns="http://javafx.com/javafx/18"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="br.com.sistema.controll.TelaListaContasReceber">
+	<children>
+		<ImageView fitHeight="730.0" fitWidth="1240.0"
+			layoutX="-11.0" layoutY="-11.0">
+			<image>
+				<Image url="@../icones/icon/fundo.png" />
+			</image>
+		</ImageView>
+		<Button fx:id="btnReceberTotal" layoutX="646.0" layoutY="656.0"
+			mnemonicParsing="false" prefHeight="28.0" prefWidth="145.0"
+			text="Receber Total">
+			<graphic>
+				<ImageView fitHeight="15.0" fitWidth="30.0">
+					<image>
+						<Image url="@../icones/oque-sao-moedas-virtuais.png" />
+					</image>
+				</ImageView>
+			</graphic>
+			<effect>
+				<Reflection />
+			</effect>
+		</Button>
+		<Label layoutX="14.0" layoutY="594.0" text="Valor a Receber ">
+			<font>
+				<Font name="Microsoft Sans Serif" size="15.0" />
+			</font>
+		</Label>
+		<Label fx:id="lblValorReceber" alignment="CENTER"
+			layoutX="127.0" layoutY="590.0" prefHeight="25.0" prefWidth="145.0"
+			style="-fx-background-color: red;" textFill="#f5f5f5">
+			<font>
+				<Font name="Times New Roman" size="18.0" />
+			</font>
+		</Label>
+		<Label layoutX="334.0" layoutY="594.0" text="Valor Pago ">
+			<font>
+				<Font name="Microsoft Sans Serif" size="15.0" />
+			</font>
+		</Label>
+		<Label fx:id="lblValorPago" alignment="CENTER" layoutX="415.0"
+			layoutY="590.0" prefHeight="25.0" prefWidth="145.0"
+			style="-fx-background-color: green;" textFill="#f5f5f5">
+			<font>
+				<Font name="Times New Roman" size="18.0" />
+			</font>
+		</Label>
+		<Label layoutX="669.0" layoutY="594.0" text="Valor Total ">
+			<font>
+				<Font name="Microsoft Sans Serif" size="15.0" />
+			</font>
+		</Label>
+		<Label fx:id="lblValorTotal" alignment="CENTER" layoutX="751.0"
+			layoutY="590.0" prefHeight="25.0" prefWidth="145.0"
+			style="-fx-background-color: lightblue;">
+			<font>
+				<Font name="Times New Roman" size="18.0" />
+			</font>
+		</Label>
+		<ComboBox fx:id="cmbBuscar" layoutX="560.0" layoutY="75.0"
+			prefHeight="25.0" prefWidth="180.0" />
+		<Label layoutX="491.0" layoutY="78.0" text="Buscar :">
+			<font>
+				<Font name="Microsoft Sans Serif" size="16.0" />
+			</font>
+		</Label>
+		<TextField fx:id="txtPesquisa" layoutX="746.0"
+			layoutY="74.0" prefHeight="28.0" prefWidth="364.0">
+			<font>
+				<Font name="Times New Roman" size="15.0" />
+			</font>
+		</TextField>
+		<Button fx:id="btnAtualizar" layoutX="1113.0" layoutY="75.0"
+			mnemonicParsing="false" text="Atualizar">
+			<graphic>
+				<ImageView fitHeight="14.0" fitWidth="17.0">
+					<image>
+						<Image url="@../icones/icon/searching-for-a-businessman.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
+		<Label layoutX="453.0" layoutY="14.0" prefHeight="26.0"
+			prefWidth="338.0" text="Relatorio Geral Contas à Receber">
+			<font>
+				<Font name="Microsoft Sans Serif" size="22.0" />
+			</font>
+		</Label>
+		<Label layoutX="1009.0" layoutY="594.0" text="Saldo ">
+			<font>
+				<Font name="Microsoft Sans Serif" size="15.0" />
+			</font>
+		</Label>
+		<Label fx:id="lblSaldo" alignment="CENTER" layoutX="1052.0"
+			layoutY="590.0" prefHeight="25.0" prefWidth="145.0"
+			style="-fx-background-color: yellow;">
+			<font>
+				<Font name="Times New Roman" size="18.0" />
+			</font>
+		</Label>
+		<DatePicker fx:id="txtDataInicial" layoutX="97.0"
+			layoutY="75.0" prefHeight="25.0" prefWidth="107.0" />
+		<Label layoutX="14.0" layoutY="78.0" text="Data inicio :">
+			<font>
+				<Font name="Microsoft Sans Serif" size="16.0" />
+			</font>
+		</Label>
+		<Label layoutX="238.0" layoutY="79.0" text="Data final :">
+			<font>
+				<Font name="Microsoft Sans Serif" size="16.0" />
+			</font>
+		</Label>
+		<DatePicker fx:id="txtDataFinal" layoutX="323.0"
+			layoutY="76.0" prefHeight="25.0" prefWidth="107.0" />
+		<Button fx:id="btnReceberParcelado" layoutX="856.0"
+			layoutY="656.0" mnemonicParsing="false" prefHeight="28.0"
+			prefWidth="145.0" text="Receber Parcelado">
+			<graphic>
+				<ImageView fitHeight="14.0" fitWidth="17.0">
+					<image>
+						<Image url="@../icones/Icone.png" />
+					</image>
+				</ImageView>
+			</graphic>
+			<effect>
+				<Reflection />
+			</effect>
+		</Button>
+		<Button fx:id="btnImprimir" layoutX="1052.0" layoutY="656.0"
+			mnemonicParsing="false" prefHeight="28.0" prefWidth="145.0"
+			text="Imprimir">
+			<graphic>
+				<ImageView fitHeight="17.0" fitWidth="30.0">
+					<image>
+						<Image url="@../icones/icon/printer.png" />
+					</image>
+				</ImageView>
+			</graphic>
+			<effect>
+				<Reflection />
+			</effect>
+		</Button>
+		<Button fx:id="btnNovoPagamento" layoutX="13.0" layoutY="656.0"
+			mnemonicParsing="false" prefHeight="28.0" prefWidth="145.0"
+			text="Novo Pagamento">
+			<graphic>
+				<ImageView fitHeight="15.0" fitWidth="30.0">
+					<image>
+						<Image url="@../icones/formulari.png" />
+					</image>
+				</ImageView>
+			</graphic>
+			<effect>
+				<Reflection />
+			</effect>
+		</Button>
+		<Button fx:id="btnExcluirPagamento" layoutX="437.0"
+			layoutY="656.0" mnemonicParsing="false" prefHeight="28.0"
+			prefWidth="152.0" text="Excluir Pagamento">
+			<graphic>
+				<ImageView fitHeight="15.0" fitWidth="30.0">
+					<image>
+						<Image
+							url="@../icones/depositphotos_71920725-stock-illustration-the-trashcan-icon-dustbin-symbol.jpg" />
+					</image>
+				</ImageView>
+			</graphic>
+			<effect>
+				<Reflection />
+			</effect>
+		</Button>
+		<AnchorPane layoutX="14.0" layoutY="152.0"
+			prefHeight="397.0" prefWidth="865.0"
+			style="-fx-background-color: white; -fx-background-radius: 10;">
+			<children>
+				<ScrollPane layoutX="-1.0" prefHeight="394.0"
+					prefWidth="858.0">
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0"
+							prefHeight="373.0" prefWidth="1021.0">
+							<children>
+								<TableView fx:id="tbPagamento" layoutX="3.0"
+									layoutY="7.0" prefHeight="365.0" prefWidth="1016.0">
+									<columns>
+										<TableColumn fx:id="clnCliente" prefWidth="254.0"
+											text="Cliente" />
+										<TableColumn fx:id="clnDescricao"
+											prefWidth="336.0" text="Descrição" />
+										<TableColumn fx:id="clnValorTotal"
+											prefWidth="84.0" text="Valor Total" />
+										<TableColumn fx:id="clnDataVencimento"
+											prefWidth="72.0" text="Vencimento" />
+										<TableColumn fx:id="clnQtdeParcelas"
+											prefWidth="83.0" text="Qtde Parcelas" />
+										<TableColumn fx:id="clnNumeroParcela"
+											prefWidth="67.0" text="Nº Parcela" />
+										<TableColumn fx:id="clnSituacao" prefWidth="115.0"
+											text="Situação" />
+									</columns>
+								</TableView>
+							</children>
+						</AnchorPane>
+					</content>
+				</ScrollPane>
+			</children>
+		</AnchorPane>
+		<TableView fx:id="tbDetalhesPagamento" layoutX="890.0"
+			layoutY="154.0" prefHeight="106.0" prefWidth="308.0">
+			<columns>
+				<TableColumn fx:id="clnDetalhesTipo" prefWidth="131.0"
+					text="Tipo" />
+				<TableColumn fx:id="clnDetalhesValor" prefWidth="72.0"
+					text="Valor" />
+				<TableColumn fx:id="clnDataPagamento" prefWidth="101.0"
+					text="Data Pagamento" />
+			</columns>
+		</TableView>
+		<GridPane layoutX="957.0" layoutY="293.0" prefHeight="90.0"
+			prefWidth="240.0">
+			<columnConstraints>
+				<ColumnConstraints halignment="CENTER"
+					hgrow="SOMETIMES" maxWidth="141.0" minWidth="10.0"
+					prefWidth="136.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					maxWidth="119.0" minWidth="10.0" prefWidth="104.0" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints minHeight="10.0" prefHeight="30.0"
+					vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0"
+					vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0"
+					vgrow="SOMETIMES" />
+			</rowConstraints>
+			<children>
+				<Label text="Valor Total Recebido :">
+					<font>
+						<Font name="Times New Roman" size="14.0" />
+					</font>
+				</Label>
+				<Label text="Valor Total a Receber :" GridPane.rowIndex="1">
+					<font>
+						<Font name="Times New Roman" size="14.0" />
+					</font>
+				</Label>
+				<Label text="Saldo Devedor :" GridPane.rowIndex="2">
+					<font>
+						<Font name="Times New Roman" size="14.0" />
+					</font>
+				</Label>
+				<TextField fx:id="txtTotalRecebido" alignment="CENTER"
+					prefHeight="25.0" prefWidth="85.0" GridPane.columnIndex="1">
+					<font>
+						<Font name="Times New Roman" size="12.0" />
+					</font>
+				</TextField>
+				<TextField fx:id="txtTotalReceber" alignment="CENTER"
+					GridPane.columnIndex="1" GridPane.rowIndex="1">
+					<font>
+						<Font name="Times New Roman" size="12.0" />
+					</font>
+				</TextField>
+				<TextField fx:id="txtSaldoDevedor" alignment="CENTER"
+					GridPane.columnIndex="1" GridPane.rowIndex="2">
+					<font>
+						<Font name="Times New Roman" size="12.0" />
+					</font>
+				</TextField>
+			</children>
+		</GridPane>
+		<Label layoutX="349.0" layoutY="124.0"
+			text="Lista Pagamento Geral">
+			<font>
+				<Font name="Microsoft Sans Serif" size="16.0" />
+			</font>
+		</Label>
+		<Label layoutX="916.0" layoutY="124.0"
+			text="Lista Recebimento de Pagamentos">
+			<font>
+				<Font name="Microsoft Sans Serif" size="16.0" />
+			</font>
+		</Label>
+		<Button fx:id="btnEditarPagamento" layoutX="225.0"
+			layoutY="656.0" mnemonicParsing="false" prefHeight="28.0"
+			prefWidth="152.0" text="Editar Pagamento">
+			<graphic>
+				<ImageView fitHeight="15.0" fitWidth="30.0">
+					<image>
+						<Image url="@../icones/1055_128x128.png" />
+					</image>
+				</ImageView>
+			</graphic>
+			<effect>
+				<Reflection />
+			</effect>
+		</Button>
+	</children>
+</AnchorPane>

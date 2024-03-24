@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="315.0"
+	prefWidth="611.0" xmlns="http://javafx.com/javafx/18"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="br.com.sistema.controll.TelaHistoricoVeiculo">
+	<children>
+		<ImageView fitHeight="347.0" fitWidth="622.0">
+			<image>
+				<Image url="@../icones/icon/fundo.png" />
+			</image>
+		</ImageView>
+		<Label layoutX="233.0" layoutY="14.0" text="Historico Veiculo">
+			<font>
+				<Font name="MS Reference Sans Serif" size="18.0" />
+			</font>
+		</Label>
+		<TableView fx:id="tbDespesaVeiculo" layoutX="5.0"
+			layoutY="43.0" prefHeight="200.0" prefWidth="602.0">
+			<columns>
+				<TableColumn fx:id="clnTipo" prefWidth="103.0"
+					text="Tipo" />
+				<TableColumn fx:id="clnDescricao" prefWidth="220.0"
+					text="Descrição" />
+				<TableColumn fx:id="clnData" text="Data" />
+				<TableColumn fx:id="clnValor" prefWidth="82.0"
+					text="Valor" />
+				<TableColumn fx:id="clnResponsavel" prefWidth="113.0"
+					text="Responsavel" />
+			</columns>
+		</TableView>
+		<GridPane layoutX="14.0" layoutY="256.0" prefHeight="53.0"
+			prefWidth="481.0">
+			<columnConstraints>
+				<ColumnConstraints hgrow="SOMETIMES"
+					maxWidth="245.0" minWidth="10.0" prefWidth="96.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					maxWidth="399.0" minWidth="10.0" prefWidth="385.0" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints minHeight="10.0" prefHeight="30.0"
+					vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0"
+					vgrow="SOMETIMES" />
+			</rowConstraints>
+			<children>
+				<Label text="Nome Cliente :">
+					<font>
+						<Font name="MS Reference Sans Serif" size="12.0" />
+					</font>
+				</Label>
+				<Label text="Cpf/Cnpj :" GridPane.rowIndex="1">
+					<font>
+						<Font name="MS Reference Sans Serif" size="12.0" />
+					</font>
+				</Label>
+				<TextField fx:id="lblNomeCliente" editable="false"
+					GridPane.columnIndex="1" />
+				<TextField fx:id="lblCpfCnpj" editable="false"
+					prefHeight="25.0" prefWidth="376.0" GridPane.columnIndex="1"
+					GridPane.rowIndex="1" />
+			</children>
+		</GridPane>
+	</children>
+</AnchorPane>

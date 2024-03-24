@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0"
+	prefWidth="450.0" xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="br.com.sistema.controll.TelaDesenvolvedor">
+	<children>
+		<ImageView fitHeight="107.0" fitWidth="450.0"
+			layoutY="284.0" opacity="0.56">
+			<image>
+				<Image
+					url="@../icones/show-motors-oficina-mecanica-1333193011849843.jpg" />
+			</image>
+		</ImageView>
+		<Label layoutX="7.0" layoutY="399.0"
+			text="\@Todos os DIreitos reservados" />
+		<Label layoutX="312.0" layoutY="399.0"
+			text="\@Autor : Wesley Souza" />
+		<ImageView fitHeight="314.0" fitWidth="450.0">
+			<image>
+				<Image url="@../icones/render%201.png" />
+			</image>
+		</ImageView>
+		<Label layoutX="312.0" layoutY="417.0" text="(42) 99825-6570" />
+	</children>
+</AnchorPane>

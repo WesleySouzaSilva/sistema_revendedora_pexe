@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="524.0"
+	prefWidth="806.0" xmlns="http://javafx.com/javafx/18"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="br.com.sistema.controll.TelaListaFuncionario">
+	<children>
+		<ImageView fitHeight="524.0" fitWidth="806.0">
+			<image>
+				<Image url="@../icones/icon/fundo.png" />
+			</image>
+		</ImageView>
+		<TabPane layoutX="6.0" layoutY="67.0" prefHeight="456.0"
+			prefWidth="794.0" tabClosingPolicy="UNAVAILABLE">
+			<tabs>
+				<Tab text="Lista">
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0"
+							prefHeight="180.0" prefWidth="200.0">
+							<children>
+								<Button fx:id="btnDemitir" layoutX="434.0"
+									layoutY="328.0" mnemonicParsing="false" prefHeight="27.0"
+									prefWidth="150.0" text="Demitir">
+									<graphic>
+										<ImageView fitHeight="19.0" fitWidth="20.0">
+											<image>
+												<Image url="@../icones/icon/lapis.png" />
+											</image>
+										</ImageView>
+									</graphic>
+									<effect>
+										<Reflection />
+									</effect>
+								</Button>
+								<Button fx:id="btnImprimir" layoutX="649.0"
+									layoutY="327.0" mnemonicParsing="false" prefHeight="27.0"
+									prefWidth="150.0" text="Imprimir">
+									<graphic>
+										<ImageView fitHeight="19.0" fitWidth="24.0">
+											<image>
+												<Image url="@../icones/icon/printer.png" />
+											</image>
+										</ImageView>
+									</graphic>
+									<effect>
+										<Reflection />
+									</effect>
+								</Button>
+								<TableView fx:id="tbFuncionario" layoutX="-1.0"
+									prefHeight="282.0" prefWidth="794.0">
+									<columns>
+										<TableColumn fx:id="clnNome" prefWidth="245.0"
+											text="Nome" />
+										<TableColumn fx:id="clnProfissao"
+											prefWidth="239.0" text="Profissão" />
+										<TableColumn fx:id="clnDataAdmissao"
+											prefWidth="125.0" text="Data Admissão" />
+										<TableColumn fx:id="clnDataDemissao"
+											prefWidth="118.0" text="Data Demissão" />
+										<TableColumn fx:id="clnAtivo" prefWidth="59.0"
+											text="Ativo" />
+									</columns>
+								</TableView>
+								<MenuButton layoutX="-1.0" layoutY="327.0"
+									mnemonicParsing="false" prefHeight="28.0" prefWidth="150.0"
+									text="Funcionario">
+									<items>
+										<MenuItem fx:id="menuNovoFuncionario"
+											mnemonicParsing="false" text="Novo Funcionario" />
+										<MenuItem fx:id="menuEditarFuncionario"
+											mnemonicParsing="false" text="Editar Funcionario" />
+										<MenuItem fx:id="menuExcluirFuncionario"
+											mnemonicParsing="false" text="Excluir Funcionario" />
+									</items>
+									<graphic>
+										<ImageView fitHeight="20.0" fitWidth="18.0">
+											<image>
+												<Image url="@../icones/icon/salve-.png" />
+											</image>
+										</ImageView>
+									</graphic>
+									<effect>
+										<Reflection />
+									</effect>
+								</MenuButton>
+								<Button fx:id="btnDespesaVale" layoutX="223.0"
+									layoutY="327.0" mnemonicParsing="false" prefHeight="27.0"
+									prefWidth="150.0" text="Despesa Vale">
+									<graphic>
+										<ImageView fitHeight="19.0" fitWidth="20.0">
+											<image>
+												<Image url="@../icones/1055_128x128.png" />
+											</image>
+										</ImageView>
+									</graphic>
+									<effect>
+										<Reflection />
+									</effect>
+								</Button>
+							</children>
+						</AnchorPane>
+					</content>
+				</Tab>
+				<Tab text="Endereco">
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0"
+							prefHeight="180.0" prefWidth="200.0">
+							<children>
+								<GridPane layoutX="14.0" layoutY="42.0"
+									prefHeight="269.0" prefWidth="382.0">
+									<columnConstraints>
+										<ColumnConstraints halignment="CENTER"
+											hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0"
+											prefWidth="61.0" />
+										<ColumnConstraints hgrow="SOMETIMES"
+											maxWidth="341.0" minWidth="10.0" prefWidth="321.0" />
+									</columnConstraints>
+									<rowConstraints>
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+									</rowConstraints>
+									<children>
+										<Label text="Rua :">
+											<font>
+												<Font name="Arial Bold" size="13.0" />
+											</font>
+										</Label>
+										<Label text="Bairro :" GridPane.rowIndex="1">
+											<font>
+												<Font name="Arial Bold" size="13.0" />
+											</font>
+										</Label>
+										<Label text="Cep :" GridPane.rowIndex="3">
+											<font>
+												<Font name="Arial Bold" size="13.0" />
+											</font>
+										</Label>
+										<Label text="Cidade :" GridPane.rowIndex="4">
+											<font>
+												<Font name="Arial Bold" size="13.0" />
+											</font>
+										</Label>
+										<Label text="Estado :" GridPane.rowIndex="5">
+											<font>
+												<Font name="Arial Bold" size="13.0" />
+											</font>
+										</Label>
+										<Label fx:id="lblRua" prefHeight="17.0"
+											prefWidth="347.0" GridPane.columnIndex="1">
+											<font>
+												<Font name="Arial" size="12.0" />
+											</font>
+										</Label>
+										<Label fx:id="lblBairro" prefHeight="17.0"
+											prefWidth="386.0" GridPane.columnIndex="1"
+											GridPane.rowIndex="1">
+											<font>
+												<Font name="Arial" size="12.0" />
+											</font>
+										</Label>
+										<Label fx:id="lblCep" prefHeight="17.0"
+											prefWidth="374.0" GridPane.columnIndex="1"
+											GridPane.rowIndex="3">
+											<font>
+												<Font name="Arial" size="12.0" />
+											</font>
+										</Label>
+										<Label fx:id="lblCidade" prefHeight="17.0"
+											prefWidth="363.0" GridPane.columnIndex="1"
+											GridPane.rowIndex="4">
+											<font>
+												<Font name="Arial" size="12.0" />
+											</font>
+										</Label>
+										<Label fx:id="lblEstado" prefHeight="17.0"
+											prefWidth="351.0" GridPane.columnIndex="1"
+											GridPane.rowIndex="5">
+											<font>
+												<Font name="Arial" size="12.0" />
+											</font>
+										</Label>
+										<Label layoutX="13.0" layoutY="70.0" text="Numero :"
+											GridPane.rowIndex="2">
+											<font>
+												<Font name="Arial Bold" size="13.0" />
+											</font>
+										</Label>
+										<Label fx:id="lblNumero" prefHeight="17.0"
+											prefWidth="320.0" GridPane.columnIndex="1"
+											GridPane.rowIndex="2">
+											<font>
+												<Font name="Arial" size="12.0" />
+											</font>
+										</Label>
+									</children>
+								</GridPane>
+								<GridPane layoutX="395.0" layoutY="42.0"
+									prefHeight="224.0" prefWidth="399.0">
+									<columnConstraints>
+										<ColumnConstraints halignment="CENTER"
+											hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0"
+											prefWidth="110.0" />
+										<ColumnConstraints hgrow="SOMETIMES"
+											maxWidth="341.0" minWidth="10.0" prefWidth="289.0" />
+									</columnConstraints>
+									<rowConstraints>
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+									</rowConstraints>
+									<children>
+										<Label text="Tel. Celular :">
+											<font>
+												<Font name="Arial Bold" size="13.0" />
+											</font>
+										</Label>
+										<Label text="Tel. Comercial :" GridPane.rowIndex="1">
+											<font>
+												<Font name="Arial Bold" size="13.0" />
+											</font>
+										</Label>
+										<Label text="Tel. Residencial :" GridPane.rowIndex="2">
+											<font>
+												<Font name="Arial Bold" size="13.0" />
+											</font>
+										</Label>
+										<Label text="Tel. Whatsapp :" GridPane.rowIndex="3">
+											<font>
+												<Font name="Arial Bold" size="13.0" />
+											</font>
+										</Label>
+										<Label text="Email :" GridPane.rowIndex="4">
+											<font>
+												<Font name="Arial Bold" size="13.0" />
+											</font>
+										</Label>
+										<Label fx:id="lblTelCelular" prefHeight="17.0"
+											prefWidth="347.0" GridPane.columnIndex="1" />
+										<Label fx:id="lblTelComercial" prefHeight="17.0"
+											prefWidth="386.0" GridPane.columnIndex="1"
+											GridPane.rowIndex="1" />
+										<Label fx:id="lblTelResidencial" prefHeight="17.0"
+											prefWidth="374.0" GridPane.columnIndex="1"
+											GridPane.rowIndex="2" />
+										<Label fx:id="lblTelWhatsapp" prefHeight="17.0"
+											prefWidth="363.0" GridPane.columnIndex="1"
+											GridPane.rowIndex="3" />
+										<Label fx:id="lblEmail" prefHeight="17.0"
+											prefWidth="351.0" GridPane.columnIndex="1"
+											GridPane.rowIndex="4" />
+									</children>
+								</GridPane>
+							</children>
+						</AnchorPane>
+					</content>
+				</Tab>
+				<Tab text="Despesas">
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0"
+							prefHeight="180.0" prefWidth="200.0">
+							<children>
+								<Label layoutX="25.0" layoutY="39.0" text="Data Inicial :">
+									<font>
+										<Font name="MS Reference Sans Serif" size="14.0" />
+									</font>
+								</Label>
+								<Label layoutX="301.0" layoutY="39.0" text="Data Final :">
+									<font>
+										<Font name="MS Reference Sans Serif" size="14.0" />
+									</font>
+								</Label>
+								<DatePicker fx:id="txtDataInicial" layoutX="128.0"
+									layoutY="35.0" prefHeight="25.0" prefWidth="150.0" />
+								<DatePicker fx:id="txtDataFinal" layoutX="391.0"
+									layoutY="35.0" prefHeight="25.0" prefWidth="150.0" />
+								<Button fx:id="btnPesquisarDetalhes" layoutX="617.0"
+									layoutY="35.0" mnemonicParsing="false" prefHeight="25.0"
+									prefWidth="150.0" text="Pesquisar">
+									<graphic>
+										<ImageView fitHeight="16.0" fitWidth="23.0">
+											<image>
+												<Image
+													url="@../icones/icon/searching-for-a-businessman.png" />
+											</image>
+										</ImageView>
+									</graphic>
+								</Button>
+								<TableView fx:id="tbDespesa" layoutX="14.0"
+									layoutY="74.0" prefHeight="242.0" prefWidth="753.0">
+									<columns>
+										<TableColumn fx:id="clnDescricao"
+											prefWidth="311.0" text="Descrição" />
+										<TableColumn fx:id="clnResponsavel"
+											prefWidth="243.0" text="Responsavel" />
+										<TableColumn fx:id="clnData" prefWidth="101.0"
+											text="Data" />
+										<TableColumn fx:id="clnValor" prefWidth="93.0"
+											text="Valor " />
+									</columns>
+								</TableView>
+								<Button fx:id="btnImprimirDespesa" layoutX="312.0"
+									layoutY="364.0" mnemonicParsing="false" prefHeight="25.0"
+									prefWidth="150.0" text="Imprimir">
+									<graphic>
+										<ImageView fitHeight="14.0" fitWidth="20.0">
+											<image>
+												<Image url="@../icones/icon/printer.png" />
+											</image>
+										</ImageView>
+									</graphic>
+									<effect>
+										<Reflection />
+									</effect>
+								</Button>
+								<Label layoutX="41.0" layoutY="333.0"
+									text="Total Despesas : R$">
+									<font>
+										<Font name="MS Reference Sans Serif" size="14.0" />
+									</font>
+								</Label>
+								<Label fx:id="lblTotalDespesas" layoutX="191.0"
+									layoutY="332.0" prefHeight="17.0" prefWidth="99.0"
+									textFill="#0004ff">
+									<font>
+										<Font name="System Bold" size="14.0" />
+									</font>
+								</Label>
+								<Label layoutX="240.0" layoutY="2.0"
+									text="Historico Despesa Funcionario ">
+									<font>
+										<Font name="MS Reference Sans Serif" size="19.0" />
+									</font>
+								</Label>
+							</children>
+						</AnchorPane>
+					</content>
+				</Tab>
+			</tabs>
+		</TabPane>
+		<ComboBox fx:id="cmbBuscar" layoutX="93.0" layoutY="26.0"
+			prefWidth="150.0" />
+		<Label layoutX="30.0" layoutY="29.0" text="Buscar :">
+			<font>
+				<Font name="MS Reference Sans Serif" size="15.0" />
+			</font>
+		</Label>
+		<TextField fx:id="txtPesquisa" layoutX="250.0"
+			layoutY="26.0" prefHeight="25.0" prefWidth="392.0" />
+		<Button fx:id="btnPesquisar" layoutX="649.0" layoutY="26.0"
+			mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0"
+			text="Pesquisar">
+			<graphic>
+				<ImageView fitHeight="14.0" fitWidth="19.0">
+					<image>
+						<Image url="@../icones/icon/searching-for-a-businessman.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
+	</children>
+</AnchorPane>
