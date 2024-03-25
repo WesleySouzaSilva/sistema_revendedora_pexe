@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 
+import br.com.sistema.conexao.Conexao;
 import br.com.sistema.model.Despesa;
 import br.com.sistema.model.dao.DespesaDAO;
 import javafx.collections.FXCollections;
@@ -47,7 +48,8 @@ public class TelaDespesasFixa {
 	private Button btnNovo;
 
 	private static Integer despesaId = null;
-	private DespesaDAO despesaDAO = Principal.getDespesaDAO();
+	private DespesaDAO despesaDAO = null;
+	private Conexao conexao;
 
 	public void initialize() {
 
@@ -85,10 +87,13 @@ public class TelaDespesasFixa {
 	}
 
 	private void listaDados() {
+		this.conexao = new Conexao();
+		this.despesaDAO = new DespesaDAO(conexao);
 		clnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		clnDespesa.setCellValueFactory(new PropertyValueFactory<>("descricao"));
 		ObservableList<Despesa> lista = FXCollections.observableArrayList(despesaDAO.listarDadosDespesaFixa());
 		tbDespesa.setItems(lista);
+		conexao.fecharConexao();
 	}
 
 	private void editarDados() {
@@ -126,7 +131,10 @@ public class TelaDespesasFixa {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get().equals(sim)) {
+				this.conexao = new Conexao();
+				this.despesaDAO = new DespesaDAO(conexao);
 				boolean sucesso = despesaDAO.apagarDespesaFixa(despesaId);
+				conexao.fecharConexao();
 				if (sucesso) {
 					Alert dlg = new Alert(AlertType.INFORMATION);
 					dlg.setContentText("Despesa excluida com sucesso!");

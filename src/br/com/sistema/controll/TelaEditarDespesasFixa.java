@@ -29,7 +29,7 @@ public class TelaEditarDespesasFixa {
 	private TextField txtDescricao;
 
 	private DespesaDAO despesaDAO = null;
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private TelaDespesasFixa despesasFixa = new TelaDespesasFixa();
 
 	public void initialize() {
@@ -53,7 +53,8 @@ public class TelaEditarDespesasFixa {
 	}
 
 	private void listaDado() {
-		this.despesaDAO = Principal.getDespesaDAO();
+		this.conexao = new Conexao();
+		this.despesaDAO = new DespesaDAO(conexao);
 		for (Despesa d : despesaDAO.listarDadosDespesaFixa(despesasFixa.idTabela())) {
 			txtDescricao.setText(d.getDescricao());
 		}
@@ -81,7 +82,8 @@ public class TelaEditarDespesasFixa {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get().equals(sim)) {
-			this.despesaDAO = Principal.getDespesaDAO();
+			this.conexao = new Conexao();
+			this.despesaDAO = new DespesaDAO(conexao);
 			boolean sucesso = despesaDAO.atualizarDespesaFixa(despesasFixa.idTabela(), descricao);
 			conexao.fecharConexao();
 			if (sucesso) {

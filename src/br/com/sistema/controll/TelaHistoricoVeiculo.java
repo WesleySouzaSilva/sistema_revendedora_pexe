@@ -37,7 +37,7 @@ public class TelaHistoricoVeiculo {
 	@FXML
 	private TextField lblCpfCnpj;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private static Integer despesa_id;
 	private HistoricoVeiculoDAO historicoVeiculoDAO = null;
 	private TelaHome telaListaVeiculos = null;
@@ -61,7 +61,8 @@ public class TelaHistoricoVeiculo {
 
 	public void buscaDados() {
 		telaListaVeiculos = new TelaHome();
-		this.historicoVeiculoDAO = Principal.getHistoricoVeiculoDAO();
+		this.conexao = new Conexao();
+		this.historicoVeiculoDAO = new HistoricoVeiculoDAO(conexao);
 		clnData.setCellValueFactory(new PropertyValueFactory<>("dataFormatada"));
 		clnDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
 		clnResponsavel.setCellValueFactory(new PropertyValueFactory<>("responsavel"));
@@ -77,7 +78,8 @@ public class TelaHistoricoVeiculo {
 	public void listaDadosCliente() {
 		lblNomeCliente.setText("");
 		lblCpfCnpj.setText("");
-		this.historicoVeiculoDAO = Principal.getHistoricoVeiculoDAO();
+		this.conexao = new Conexao();
+		this.historicoVeiculoDAO = new HistoricoVeiculoDAO(conexao);
 		for (HistoricoVeiculo h : historicoVeiculoDAO.listarDadosCliente(despesa_id)) {
 			lblNomeCliente.setText(h.getNomeCliente());
 			lblCpfCnpj.setText(h.getCpfCnpj());

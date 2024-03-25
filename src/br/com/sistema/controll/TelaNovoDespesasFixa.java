@@ -31,7 +31,7 @@ public class TelaNovoDespesasFixa {
 	private TextField txtDescricao;
 
 	private DespesaDAO despesaDAO = null;
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao ;
 	private TelaDespesasFixa despesasFixa = new TelaDespesasFixa();
 
 	public void initialize() {
@@ -55,7 +55,8 @@ public class TelaNovoDespesasFixa {
 	}
 
 	private void listaDado() {
-		this.despesaDAO = Principal.getDespesaDAO();
+		this.conexao = new Conexao();
+		this.despesaDAO = new DespesaDAO(conexao);
 		for (Despesa d : despesaDAO.listarDadosDespesaFixa(despesasFixa.idTabela())) {
 			txtDescricao.setText(d.getDescricao());
 		}
@@ -64,6 +65,7 @@ public class TelaNovoDespesasFixa {
 
 	private void salvar() throws SQLException {
 		String descricao = null;
+		this.conexao = new Conexao();
 		if (txtDescricao.getText().isEmpty()) {
 			ValidationFields.checkEmptyFields(txtDescricao);
 			Alert dlg = new Alert(AlertType.ERROR);
@@ -84,7 +86,7 @@ public class TelaNovoDespesasFixa {
 			} else {
 				descricao = txtDescricao.getText();
 			}
-
+	
 		}
 
 		ButtonType sim = new ButtonType("SIM", ButtonBar.ButtonData.YES);
@@ -93,7 +95,7 @@ public class TelaNovoDespesasFixa {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get().equals(sim)) {
-			this.despesaDAO = Principal.getDespesaDAO();
+			this.despesaDAO = new DespesaDAO(conexao);
 			boolean sucesso = despesaDAO.inserirDespesaFixa(descricao);
 			conexao.fecharConexao();
 			if (sucesso) {
@@ -129,7 +131,6 @@ public class TelaNovoDespesasFixa {
 	}
 
 	public boolean verificaDespesaCadastrada(String descricao) throws SQLException {
-		conexao = Principal.getConexao();
 		boolean result = false;
 
 		String sql = "SELECT * FROM despesa_fixa WHERE descricao = '" + descricao + "' ";

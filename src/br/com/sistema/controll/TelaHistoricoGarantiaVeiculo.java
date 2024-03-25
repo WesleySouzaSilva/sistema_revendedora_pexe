@@ -50,7 +50,7 @@ public class TelaHistoricoGarantiaVeiculo {
 	@FXML
 	private Button btnDespesaGarantia;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private static Integer despesa_id;
 	private PagamentoVeiculoDAO pagamentoVeiculoDAO = null;
 
@@ -108,7 +108,8 @@ public class TelaHistoricoGarantiaVeiculo {
 	private void preencherTabela() {
 		SimpleDateFormat formatarData = new SimpleDateFormat("yyyy-MM-dd");
 		Date data = new Date();
-		this.pagamentoVeiculoDAO = Principal.getPagamentoVeiculoDAO();
+		this.conexao  = new Conexao();
+		this.pagamentoVeiculoDAO = new PagamentoVeiculoDAO(conexao);
 		clnDataGarantia.setCellValueFactory(new PropertyValueFactory<>("dataGarantiaFormatada"));
 		clnDataVenda.setCellValueFactory(new PropertyValueFactory<>("dataVendaFormatada"));
 		clnPlaca.setCellValueFactory(new PropertyValueFactory<>("placa"));

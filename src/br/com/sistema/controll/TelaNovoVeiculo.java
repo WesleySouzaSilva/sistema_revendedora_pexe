@@ -135,7 +135,7 @@ public class TelaNovoVeiculo {
 	private DespesaDAO despesaDAO = null;
 	private HistoricoVeiculoDAO historicoVeiculoDAO = null;
 	private static Integer pessoa_id = null;
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	ArrayList<ClienteCrm> listaVeiculosEncontrados = new ArrayList<>();
 
 	public void initialize() {
@@ -394,6 +394,8 @@ public class TelaNovoVeiculo {
 			clnAtivo.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("ativo"));
 			clnRg.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("rg"));
 			clnTipo.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("tipo"));
+			this.conexao = new Conexao();
+			this.pessoaDAO = new PessoaDAO(conexao);
 			switch (cmb) {
 			case "Nome":
 				if (txtPesquisa.getText().isEmpty()) {
@@ -404,11 +406,9 @@ public class TelaNovoVeiculo {
 					txtPesquisa.requestFocus();
 
 				} else {
-					this.pessoaDAO = Principal.getPessoaDAO();
 					ObservableList<Pessoa> lista = FXCollections
 							.observableArrayList(pessoaDAO.buscarNome(txtPesquisa.getText()));
 					tbPessoa.setItems(lista);
-					conexao.fecharConexao();
 				}
 
 				break;
@@ -421,20 +421,16 @@ public class TelaNovoVeiculo {
 					txtPesquisa.requestFocus();
 
 				} else {
-					this.pessoaDAO = Principal.getPessoaDAO();
 					ObservableList<Pessoa> lista = FXCollections.observableArrayList(
 							pessoaDAO.buscarCpfCnpjCliente(formatarCpfCnpj(txtPesquisa.getText())));
 					tbPessoa.setItems(lista);
-					conexao.fecharConexao();
 
 				}
 
 				break;
 			case "Todos":
-				this.pessoaDAO = Principal.getPessoaDAO();
 				ObservableList<Pessoa> lista = FXCollections.observableArrayList(pessoaDAO.listarTodos());
 				tbPessoa.setItems(lista);
-				conexao.fecharConexao();
 
 				break;
 
@@ -442,6 +438,7 @@ public class TelaNovoVeiculo {
 				break;
 
 			}
+			conexao.fecharConexao();
 
 		}
 	}
@@ -679,13 +676,15 @@ public class TelaNovoVeiculo {
 			valorFipe = new BigDecimal(txtValorFipe.getText().replace(",", "."));
 
 		}
-
+		
+		this.conexao = new Conexao();
 		if (verificaVeiculo(veiculo, placa, renavam)) {
 			ValidationFields.checkEmptyFields(txtNome);
 			Alert dlg = new Alert(AlertType.WARNING);
 			dlg.setContentText("Veiculo " + veiculo + " com a placa " + placa + " ja está cadastrado!");
 			dlg.showAndWait();
 			txtNome.requestFocus();
+			conexao.fecharConexao();
 			return;
 		}
 
@@ -704,7 +703,8 @@ public class TelaNovoVeiculo {
 		Optional<ButtonType> result = alert.showAndWait();
 
 		if (result.get().equals(sim)) {
-			this.veiculoDAO = Principal.getVeiculoDAO();
+			this.conexao = new Conexao();
+			this.veiculoDAO = new VeiculoDAO(conexao);
 			boolean sucesso = veiculoDAO.inserir(veiculo2);
 			System.out.println("valor boolean :" + sucesso);
 			conexao.fecharConexao();
@@ -728,14 +728,17 @@ public class TelaNovoVeiculo {
 			voltarTela();
 
 		}
+		
+		conexao.fecharConexao();
 
 	}
 
 	public void salvarHistorico(String tipo, String descricao, String situacao, String responsavel, BigDecimal valor,
 			Date dataEntrada, Veiculo veiculo, Pessoa pessoa) {
+		this.conexao = new Conexao();
 		HistoricoVeiculo h = new HistoricoVeiculo(null, tipo, descricao, dataEntrada, valor, responsavel, null, null,
 				null, null, veiculo, pessoa);
-		this.historicoVeiculoDAO = Principal.getHistoricoVeiculoDAO();
+		this.historicoVeiculoDAO = new HistoricoVeiculoDAO(conexao);
 		boolean sucesso = historicoVeiculoDAO.inserir(h);
 		if (sucesso) {
 			System.out.println("historico do veiculo salvo com sucesso!");
@@ -748,7 +751,8 @@ public class TelaNovoVeiculo {
 			Date data, Veiculo veiculo, Pessoa pessoa) {
 		Despesa despesa = new Despesa(null, tipo, descricao, data, null, valor, null, responsavel, null, null, veiculo,
 				null, pessoa, situacao);
-		this.despesaDAO = Principal.getDespesaDAO();
+		this.conexao = new Conexao();
+		this.despesaDAO = new DespesaDAO(conexao);
 		boolean sucesso = despesaDAO.inserirDespesaVeiculoCompra(despesa);
 		if (sucesso) {
 			System.out.println("despesa compra do veiculo salva com sucesso!");
@@ -758,7 +762,8 @@ public class TelaNovoVeiculo {
 	}
 
 	private void verificaClienteInteresse(String marca, String modelo, BigDecimal valorVenda) {
-		this.pessoaDAO = Principal.getPessoaDAO();
+		this.conexao = new Conexao();
+		this.pessoaDAO = new PessoaDAO(conexao);
 		List<ClienteCrm> lista = pessoaDAO.obterClientesEncontrados(marca, modelo, valorVenda);
 		conexao.fecharConexao();
 
@@ -856,14 +861,16 @@ public class TelaNovoVeiculo {
 	}
 
 	public void comboBoxCategoriaVeiculo() {
+		this.conexao = new Conexao();
 		cmbCategoria.getItems().clear();
-		this.veiculoDAO = Principal.getVeiculoDAO();
+		this.veiculoDAO = new VeiculoDAO(conexao);
 		cmbCategoria.getItems().addAll(veiculoDAO.listarCategoriaMarca());
 		conexao.fecharConexao();
 	}
 
 	public void comboBoxMarcaVeiculo() {
-		this.veiculoDAO = Principal.getVeiculoDAO();
+		this.conexao = new Conexao();
+		this.veiculoDAO = new VeiculoDAO(conexao);
 		cmbMarca.getItems().clear();
 		if (cmbCategoria.getSelectionModel().getSelectedItem() != null) {
 			cmbMarca.getItems()
@@ -910,7 +917,6 @@ public class TelaNovoVeiculo {
 	}
 
 	public boolean verificaVeiculo(String nome, String placa, String renavam) throws SQLException {
-		conexao = Principal.getConexao();
 		boolean result = false;
 
 		String sql = "SELECT * FROM veiculo WHERE veiculo = '" + nome + "' AND placa = '" + placa + "' AND renavam = '"

@@ -154,7 +154,7 @@ public class TelaListaFuncionario {
 	@FXML
 	private Button btnDespesaVale;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private FuncionarioDAO funcionarioDAO = null;
 	private static Integer funcionario_id = null;
 	private static Date dataInicial, dataFinal;
@@ -309,7 +309,8 @@ public class TelaListaFuncionario {
 			clnDataAdmissao.setCellValueFactory(new PropertyValueFactory<>("dataAdmissaoFormatado"));
 			clnDataDemissao.setCellValueFactory(new PropertyValueFactory<>("dataDemissaoFormatado"));
 			clnAtivo.setCellValueFactory(new PropertyValueFactory<>("ativo"));
-
+			this.conexao = new Conexao();
+			this.funcionarioDAO = new FuncionarioDAO(conexao);
 			switch (cmb) {
 			case "Nome":
 				String pesquisa = txtPesquisa.getText();
@@ -321,35 +322,30 @@ public class TelaListaFuncionario {
 					txtPesquisa.requestFocus();
 					return;
 				} else {
-					this.funcionarioDAO = Principal.getFuncionarioDAO();
 					ObservableList<Funcionario> lista = FXCollections
 							.observableArrayList(funcionarioDAO.listarTodosNome(pesquisa));
 					tbFuncionario.setItems(lista);
-					conexao.fecharConexao();
 
 				}
 				break;
 
 			case "Todos":
-				this.funcionarioDAO = Principal.getFuncionarioDAO();
 				ObservableList<Funcionario> lista = FXCollections.observableArrayList(funcionarioDAO.listarTodos());
 				tbFuncionario.setItems(lista);
-				conexao.fecharConexao();
 
 				break;
 
 			case "Ativo":
-
-				this.funcionarioDAO = Principal.getFuncionarioDAO();
 				ObservableList<Funcionario> listas = FXCollections
 						.observableArrayList(funcionarioDAO.listarTodosAtivo("SIM"));
 				tbFuncionario.setItems(listas);
-				conexao.fecharConexao();
 
 				break;
 			default:
 				break;
 			}
+			conexao.fecharConexao();
+
 		}
 	}
 
@@ -377,7 +373,8 @@ public class TelaListaFuncionario {
 			dataFinal = java.sql.Date.valueOf(txtDataFinal.getValue());
 		}
 
-		this.funcionarioDAO = Principal.getFuncionarioDAO();
+		this.conexao = new Conexao();
+		this.funcionarioDAO = new FuncionarioDAO(conexao);
 		clnDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
 		clnResponsavel.setCellValueFactory(new PropertyValueFactory<>("responsavel"));
 		clnData.setCellValueFactory(new PropertyValueFactory<>("dataFormatada"));
@@ -420,11 +417,9 @@ public class TelaListaFuncionario {
 		dataInicio = df.format(dataInicial);
 		dataFim = df.format(dataFinal);
 
-		this.funcionarioDAO = Principal.getFuncionarioDAO();
+		this.conexao = new Conexao();
+		this.funcionarioDAO = new FuncionarioDAO(conexao);
 		totalDespesa = funcionarioDAO.getTotalDespesa(dataInicial, dataFinal);
-		conexao.fecharConexao();
-
-		this.funcionarioDAO = Principal.getFuncionarioDAO();
 		for (Despesa d : funcionarioDAO.listarTodosDespesa(dataInicial, dataFinal)) {
 			descricao = d.getDescricao();
 			responsavel = d.getResponsavel();
@@ -458,7 +453,8 @@ public class TelaListaFuncionario {
 			return;
 		} else {
 			cmb = cmbBuscar.getValue().toString();
-
+			this.conexao = new Conexao();
+			this.funcionarioDAO = new FuncionarioDAO(conexao);
 			switch (cmb) {
 			case "Nome":
 				String pesquisa = txtPesquisa.getText();
@@ -470,7 +466,6 @@ public class TelaListaFuncionario {
 					txtPesquisa.requestFocus();
 					return;
 				} else {
-					this.funcionarioDAO = Principal.getFuncionarioDAO();
 					for (Funcionario f : funcionarioDAO.listarTodosNome(pesquisa)) {
 						nome = f.getNome();
 						profissao = f.getProfissao();
@@ -487,13 +482,11 @@ public class TelaListaFuncionario {
 
 					Relatorio relatorio = new Relatorio();
 					relatorio.gerarRelatorioFuncionario(lista);
-					conexao.fecharConexao();
 
 				}
 				break;
 
 			case "Todos":
-				this.funcionarioDAO = Principal.getFuncionarioDAO();
 				for (Funcionario f : funcionarioDAO.listarTodos()) {
 					nome = f.getNome();
 					profissao = f.getProfissao();
@@ -510,13 +503,11 @@ public class TelaListaFuncionario {
 
 				Relatorio relatorio = new Relatorio();
 				relatorio.gerarRelatorioFuncionario(lista);
-				conexao.fecharConexao();
 
 				break;
 
 			case "Ativo":
 
-				this.funcionarioDAO = Principal.getFuncionarioDAO();
 				for (Funcionario f : funcionarioDAO.listarTodosAtivo("SIM")) {
 					nome = f.getNome();
 					profissao = f.getProfissao();
@@ -533,12 +524,12 @@ public class TelaListaFuncionario {
 
 				Relatorio relatorios = new Relatorio();
 				relatorios.gerarRelatorioFuncionario(lista);
-				conexao.fecharConexao();
 
 				break;
 			default:
 				break;
 			}
+			conexao.fecharConexao();
 		}
 	}
 
@@ -552,9 +543,9 @@ public class TelaListaFuncionario {
 			tbFuncionario.requestFocus();
 			return;
 		} else {
-			this.funcionarioDAO = Principal.getFuncionarioDAO();
+			this.conexao = new Conexao();
+			this.funcionarioDAO = new FuncionarioDAO(conexao);
 			String nome = funcionarioDAO.getNome(funcionario_id);
-			conexao.fecharConexao();
 			Alert alerta = new Alert(AlertType.CONFIRMATION);
 			alerta.setTitle("Confirmação de EXCLUSÃO");
 			alerta.setHeaderText("Você quer mesmo excluir o Funcionario ? ");
@@ -566,13 +557,12 @@ public class TelaListaFuncionario {
 			funcionario = new Funcionario(funcionario_id, null, null, ativo, null, null, null, null, null);
 
 			if (escolha.get() == ButtonType.OK) {
-				this.funcionarioDAO = Principal.getFuncionarioDAO();
 				boolean sucesso = funcionarioDAO.apagar(funcionario);
 				System.out.println("sucesso excluir funcionario :" + sucesso);
-				conexao.fecharConexao();
 				pesquisar();
 
 			}
+			conexao.fecharConexao();
 		}
 	}
 
@@ -586,8 +576,8 @@ public class TelaListaFuncionario {
 			tbFuncionario.requestFocus();
 			return;
 		} else {
-
-			this.funcionarioDAO = Principal.getFuncionarioDAO();
+			this.conexao = new Conexao();
+			this.funcionarioDAO = new FuncionarioDAO(conexao);
 			if (funcionarioDAO.getStatusDemissao(funcionario_id).equalsIgnoreCase("NAO")) {
 				ValidationFields.checkEmptyFields(tbFuncionario);
 				Alert dlg = new Alert(AlertType.WARNING);
@@ -596,11 +586,8 @@ public class TelaListaFuncionario {
 				tbFuncionario.requestFocus();
 				return;
 			} else {
-				conexao.fecharConexao();
 				Date data = new Date();
-				this.funcionarioDAO = Principal.getFuncionarioDAO();
 				String nome = funcionarioDAO.getNome(funcionario_id);
-				conexao.fecharConexao();
 				Alert alerta = new Alert(AlertType.CONFIRMATION);
 				alerta.setTitle("Confirmação de DEMISSÃO");
 				alerta.setHeaderText("Você quer mesmo demitir o Funcionario ? ");
@@ -613,13 +600,12 @@ public class TelaListaFuncionario {
 				funcionario = new Funcionario(funcionario_id, null, null, ativo, null, null, null, null, dataDemissao);
 
 				if (escolha.get() == ButtonType.OK) {
-					this.funcionarioDAO = Principal.getFuncionarioDAO();
 					boolean sucesso = funcionarioDAO.atualizarDemissao(funcionario);
 					System.out.println("sucesso demitir funcionario :" + sucesso);
-					conexao.fecharConexao();
 					pesquisar();
 
 				}
+				conexao.fecharConexao();
 			}
 		}
 	}
@@ -633,7 +619,9 @@ public class TelaListaFuncionario {
 			tbFuncionario.requestFocus();
 			return;
 		} else {
-			if (funcionarioDAO.getStatusDemissao(funcionario_id).equalsIgnoreCase("NAO")) {
+			this.conexao = new Conexao();
+			this.funcionarioDAO = new FuncionarioDAO(conexao);
+			if (funcionarioDAO.getStatusDemissao(funcionario_id).equalsIgnoreCase("SIM")) {
 				chamarTela("TelaEditarFuncionario");
 			} else {
 				ValidationFields.checkEmptyFields(tbFuncionario);
@@ -643,6 +631,7 @@ public class TelaListaFuncionario {
 				tbFuncionario.requestFocus();
 				return;
 			}
+			conexao.fecharConexao();
 		}
 	}
 
@@ -655,6 +644,8 @@ public class TelaListaFuncionario {
 			tbFuncionario.requestFocus();
 			return;
 		} else {
+			this.conexao = new Conexao();
+			this.funcionarioDAO = new FuncionarioDAO(conexao);
 			if (funcionarioDAO.getStatusDemissao(funcionario_id).equalsIgnoreCase("SIM")) {
 				chamarTela("TelaDespesaVale");
 			} else {
@@ -665,12 +656,13 @@ public class TelaListaFuncionario {
 				tbFuncionario.requestFocus();
 				return;
 			}
-
+			conexao.fecharConexao();
 		}
 	}
 
 	public void buscaDadosFuncionario() {
-		this.funcionarioDAO = Principal.getFuncionarioDAO();
+		this.conexao = new Conexao();
+		this.funcionarioDAO = new FuncionarioDAO(conexao);
 		for (Funcionario f : funcionarioDAO.listarEnderecoFuncionario(funcionario_id)) {
 			lblRua.setText(f.getRua());
 			lblBairro.setText(f.getBairro());

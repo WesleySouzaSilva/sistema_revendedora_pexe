@@ -39,7 +39,7 @@ public class TelaRelatorioVendedores {
 	@FXML
 	private ComboBox<Funcionario> cmbFuncionario;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private RelatorioVendaDAO relatorioVendaDAO = null;
 	private FuncionarioDAO funcionarioDAO = null;
 	private DecimalFormat decimal = new DecimalFormat("###,###,###,##0.00");
@@ -107,9 +107,9 @@ public class TelaRelatorioVendedores {
 		} else {
 			vendedor = cmbFuncionario.getValue().toString();
 		}
-
+		this.conexao = new Conexao();
 		if (dataInicial != null && dataFinal != null && cmbFuncionario.getValue() != null) {
-			this.relatorioVendaDAO = Principal.getRelatorioVendaDAO();
+			this.relatorioVendaDAO = new RelatorioVendaDAO(conexao);
 			for (RelatorioVenda re : relatorioVendaDAO.listarTodos(dataInicial, dataFinal, vendedor)) {
 				veiculo = re.getVeiculo();
 				vendedor = re.getVendedor();
@@ -151,12 +151,12 @@ public class TelaRelatorioVendedores {
 				lista.add(relatorio);
 			}
 
-			conexao.fecharConexao();
 
 			Relatorio relatorioImprimir = new Relatorio();
 			relatorioImprimir.gerarRelatorio(lista, "RelatorioVendaVendedores");
-			voltarTela();
+
 		}
+		conexao.fecharConexao(); 
 
 	}
 
@@ -174,13 +174,9 @@ public class TelaRelatorioVendedores {
 		}
 	}
 
-	public void voltarTela() {
-		Stage stage = (Stage) btnCancelar.getScene().getWindow();
-		stage.close();
-	}
-
 	public void carregaComboBoxVendedor() {
-		this.funcionarioDAO = Principal.getFuncionarioDAO();
+		this.conexao = new Conexao();
+		this.funcionarioDAO = new FuncionarioDAO(conexao);
 		cmbFuncionario.getItems().addAll(funcionarioDAO.listarTodos());
 		conexao.fecharConexao();
 

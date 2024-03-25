@@ -12,46 +12,30 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="509.0"
-	prefWidth="986.0" xmlns="http://javafx.com/javafx/18"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="br.com.sistema.controll.TelaListaClienteCrm">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="509.0" prefWidth="986.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sistema.controll.TelaListaClienteCrm">
 	<children>
-		<ImageView fitHeight="529.0" fitWidth="1118.0"
-			layoutX="-108.0">
+		<ImageView fitHeight="529.0" fitWidth="1118.0" layoutX="-108.0">
 			<image>
 				<Image url="@../icones/icon/fundo.png" />
 			</image>
 		</ImageView>
-		<Label layoutX="234.0" layoutY="14.0"
-			text="Historico Clientes com Interesse em Compra de Veiculos">
+		<Label layoutX="234.0" layoutY="14.0" text="Historico Clientes com Interesse em Compra de Veiculos">
 			<font>
 				<Font name="MS Reference Sans Serif" size="19.0" />
 			</font>
 		</Label>
-		<TableView fx:id="tbClientes" layoutX="14.0" layoutY="110.0"
-			prefHeight="302.0" prefWidth="968.0">
+		<TableView fx:id="tbClientes" layoutX="14.0" layoutY="110.0" prefHeight="302.0" prefWidth="968.0">
 			<columns>
-				<TableColumn fx:id="clnNome" prefWidth="223.0"
-					text="Nome" />
-				<TableColumn fx:id="clnTelefone" minWidth="0.0"
-					prefWidth="114.0" text="Telefone" />
-				<TableColumn fx:id="clnTipo" prefWidth="122.0"
-					text="Tipo" />
-				<TableColumn fx:id="clnMarca" prefWidth="142.0"
-					text="Marca" />
-				<TableColumn fx:id="clnModelo" prefWidth="134.0"
-					text="Modelo" />
-				<TableColumn fx:id="clnValorInicial" prefWidth="114.0"
-					text="Valor Inicial" />
-				<TableColumn fx:id="clnValorFinal" prefWidth="114.0"
-					text="Valor Final" />
+				<TableColumn fx:id="clnNome" prefWidth="223.0" text="Nome" />
+				<TableColumn fx:id="clnTelefone" minWidth="0.0" prefWidth="114.0" text="Telefone" />
+				<TableColumn fx:id="clnTipo" prefWidth="122.0" text="Tipo" />
+				<TableColumn fx:id="clnMarca" prefWidth="142.0" text="Marca" />
+				<TableColumn fx:id="clnModelo" prefWidth="134.0" text="Modelo" />
+				<TableColumn fx:id="clnValorInicial" prefWidth="114.0" text="Valor Inicial" />
+				<TableColumn fx:id="clnValorFinal" prefWidth="114.0" text="Valor Final" />
 			</columns>
 		</TableView>
-		<Button fx:id="btnImprimir" layoutX="639.0" layoutY="433.0"
-			mnemonicParsing="false" prefHeight="31.0" prefWidth="111.0"
-			text="Imprimir">
+		<Button fx:id="btnImprimir" layoutX="572.0" layoutY="433.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="178.0" text="Imprimir">
 			<graphic>
 				<ImageView fitHeight="23.0" fitWidth="24.0">
 					<image>
@@ -63,14 +47,11 @@
 				<Reflection />
 			</effect>
 		</Button>
-		<Button fx:id="btnExcluir" layoutX="438.0" layoutY="433.0"
-			mnemonicParsing="false" prefHeight="31.0" prefWidth="111.0"
-			text="Excluir">
+		<Button fx:id="btnExcluir" layoutX="300.0" layoutY="433.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="178.0" text="Excluir">
 			<graphic>
 				<ImageView fitHeight="23.0" fitWidth="24.0">
 					<image>
-						<Image
-							url="@../icones/depositphotos_71920725-stock-illustration-the-trashcan-icon-dustbin-symbol.jpg" />
+						<Image url="@../icones/depositphotos_71920725-stock-illustration-the-trashcan-icon-dustbin-symbol.jpg" />
 					</image>
 				</ImageView>
 			</graphic>
@@ -78,28 +59,11 @@
 				<Reflection />
 			</effect>
 		</Button>
-		<Button fx:id="btnEditar" layoutX="229.0" layoutY="433.0"
-			mnemonicParsing="false" prefHeight="31.0" prefWidth="111.0"
-			text="Editar">
+		<Button fx:id="btnNovo" layoutX="14.0" layoutY="433.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="178.0" text="Novo">
 			<graphic>
 				<ImageView fitHeight="23.0" fitWidth="24.0">
 					<image>
-						<Image url="@../icones/formulari.png" />
-					</image>
-				</ImageView>
-			</graphic>
-			<effect>
-				<Reflection />
-			</effect>
-		</Button>
-		<Button fx:id="btnNovo" layoutX="14.0" layoutY="433.0"
-			mnemonicParsing="false" prefHeight="31.0" prefWidth="111.0"
-			text="Novo">
-			<graphic>
-				<ImageView fitHeight="23.0" fitWidth="24.0">
-					<image>
-						<Image
-							url="@../icones/icon/sinal-de-adicao-em-um-circulo-preto.png" />
+						<Image url="@../icones/icon/sinal-de-adicao-em-um-circulo-preto.png" />
 					</image>
 				</ImageView>
 			</graphic>
@@ -112,13 +76,9 @@
 				<Font name="MS Reference Sans Serif" size="16.0" />
 			</font>
 		</Label>
-		<ComboBox fx:id="cmbBuscar" layoutX="82.0" layoutY="72.0"
-			prefHeight="25.0" prefWidth="198.0" />
-		<TextField fx:id="txtPesquisa" layoutX="284.0"
-			layoutY="72.0" prefHeight="25.0" prefWidth="441.0" />
-		<Button fx:id="btnPesquisar" layoutX="734.0" layoutY="72.0"
-			mnemonicParsing="false" prefHeight="20.0" prefWidth="111.0"
-			text="Pesquisar">
+		<ComboBox fx:id="cmbBuscar" layoutX="82.0" layoutY="72.0" prefHeight="25.0" prefWidth="198.0" />
+		<TextField fx:id="txtPesquisa" layoutX="284.0" layoutY="72.0" prefHeight="25.0" prefWidth="441.0" />
+		<Button fx:id="btnPesquisar" layoutX="734.0" layoutY="72.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="111.0" text="Pesquisar">
 			<graphic>
 				<ImageView fitHeight="15.0" fitWidth="24.0">
 					<image>
@@ -127,14 +87,12 @@
 				</ImageView>
 			</graphic>
 		</Button>
-		<Label layoutX="780.0" layoutY="426.0"
-			text="Qtde Interesse/Veiculos Estoque">
+		<Label layoutX="780.0" layoutY="426.0" text="Qtde Interesse/Veiculos Estoque">
 			<font>
 				<Font name="MS Reference Sans Serif" size="12.0" />
 			</font>
 		</Label>
-		<Label fx:id="lblQtdeInteresse" layoutX="872.0" layoutY="449.0"
-			prefHeight="25.0" prefWidth="29.0">
+		<Label fx:id="lblQtdeInteresse" layoutX="872.0" layoutY="449.0" prefHeight="25.0" prefWidth="29.0">
 			<font>
 				<Font name="MS Reference Sans Serif" size="20.0" />
 			</font>

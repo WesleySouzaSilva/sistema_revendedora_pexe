@@ -39,9 +39,6 @@ import net.sf.jasperreports.engine.JRException;
 public class TelaListaClienteCrm {
 
 	@FXML
-	private Button btnEditar;
-
-	@FXML
 	private Button btnExcluir;
 
 	@FXML
@@ -87,7 +84,7 @@ public class TelaListaClienteCrm {
 	private Label lblQtdeInteresse;
 
 	private PessoaDAO pessoaDAO = null;
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	List<ClienteCrm> listaVeiculosEncontrados = new ArrayList<>();
 	private static Integer clienteId = null;
 
@@ -124,15 +121,6 @@ public class TelaListaClienteCrm {
 		btnPesquisar.setOnAction(e -> {
 			pesquisar();
 
-		});
-
-		btnEditar.setOnAction(e -> {
-			try {
-				editar();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 		});
 
 		btnExcluir.setOnAction(e -> {
@@ -175,7 +163,8 @@ public class TelaListaClienteCrm {
 	private Integer getQtdeEncontrado() {
 		String estoque = "ESTOQUE";
 		String consignado = "CONSIGNADO";
-		this.pessoaDAO = Principal.getPessoaDAO();
+		this.conexao = new Conexao();
+		this.pessoaDAO = new PessoaDAO(conexao);
 		List<ClienteCrm> clientesEncontradosEstoque = pessoaDAO.obterClientesEncontrados(estoque);
 		List<ClienteCrm> clientesEncontradosConsignado = pessoaDAO.obterClientesEncontrados(consignado);
 		conexao.fecharConexao();
@@ -217,10 +206,10 @@ public class TelaListaClienteCrm {
 			clnModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
 			clnValorInicial.setCellValueFactory(new PropertyValueFactory<>("valorInicial"));
 			clnValorFinal.setCellValueFactory(new PropertyValueFactory<>("valorFinal"));
-
+			this.conexao = new Conexao();
+			this.pessoaDAO = new PessoaDAO(conexao);
 			switch (cmbBuscar.getValue()) {
 			case "Tipo":
-				this.pessoaDAO = Principal.getPessoaDAO();
 				if (txtPesquisa.getText().isEmpty()) {
 					ObservableList<ClienteCrm> lista = FXCollections
 							.observableArrayList(pessoaDAO.listarTodosClienteCrm());
@@ -230,11 +219,9 @@ public class TelaListaClienteCrm {
 							.observableArrayList(pessoaDAO.listarTodosClienteCrm("tipo", txtPesquisa.getText()));
 					tbClientes.setItems(lista);
 				}
-				conexao.fecharConexao();
 				break;
 
 			case "Marca":
-				this.pessoaDAO = Principal.getPessoaDAO();
 				if (txtPesquisa.getText().isEmpty()) {
 					ObservableList<ClienteCrm> lista = FXCollections
 							.observableArrayList(pessoaDAO.listarTodosClienteCrm());
@@ -244,11 +231,9 @@ public class TelaListaClienteCrm {
 							.observableArrayList(pessoaDAO.listarTodosClienteCrm("marca", txtPesquisa.getText()));
 					tbClientes.setItems(lista);
 				}
-				conexao.fecharConexao();
 				break;
 
 			case "Modelo":
-				this.pessoaDAO = Principal.getPessoaDAO();
 				if (txtPesquisa.getText().isEmpty()) {
 					ObservableList<ClienteCrm> lista = FXCollections
 							.observableArrayList(pessoaDAO.listarTodosClienteCrm());
@@ -258,11 +243,9 @@ public class TelaListaClienteCrm {
 							.observableArrayList(pessoaDAO.listarTodosClienteCrm("modelo", txtPesquisa.getText()));
 					tbClientes.setItems(lista);
 				}
-				conexao.fecharConexao();
 				break;
 
 			case "Todos":
-				this.pessoaDAO = Principal.getPessoaDAO();
 				if (txtPesquisa.getText().isEmpty()) {
 					ObservableList<ClienteCrm> lista = FXCollections
 							.observableArrayList(pessoaDAO.listarTodosClienteCrm());
@@ -272,12 +255,13 @@ public class TelaListaClienteCrm {
 							.observableArrayList(pessoaDAO.listarTodosClienteCrm("tipo", txtPesquisa.getText()));
 					tbClientes.setItems(lista);
 				}
-				conexao.fecharConexao();
 				break;
 
 			default:
 				break;
 			}
+
+			conexao.fecharConexao();
 		}
 
 		lblQtdeInteresse.setText(String.valueOf(getQtdeEncontrado()));
@@ -299,19 +283,6 @@ public class TelaListaClienteCrm {
 
 	}
 
-	private void editar() throws IOException {
-		if (tbClientes.getSelectionModel().getSelectedItem() == null) {
-			Alert dlg = new Alert(AlertType.WARNING);
-			dlg.setContentText("selecione o cliente que deseja EDITAR!");
-			dlg.showAndWait();
-			btnExcluir.requestFocus();
-			return;
-		} else {
-			chamarTela("");
-		}
-
-	}
-
 	private void excluir() {
 		if (tbClientes.getSelectionModel().getSelectedItem() == null) {
 			Alert dlg = new Alert(AlertType.WARNING);
@@ -327,7 +298,8 @@ public class TelaListaClienteCrm {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get().equals(sim)) {
-				this.pessoaDAO = Principal.getPessoaDAO();
+				this.conexao = new Conexao();
+				this.pessoaDAO = new PessoaDAO(conexao);
 				boolean sucesso = pessoaDAO.apagarClienteCrm(clienteId);
 				conexao.fecharConexao();
 				if (sucesso) {

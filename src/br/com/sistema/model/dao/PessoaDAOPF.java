@@ -13,15 +13,9 @@ import br.com.sistema.model.Pessoa;
 
 public class PessoaDAOPF extends AbstractGenericDAO<Pessoa> {
 
-	final private EnderecoDAO enderecoDAO;
-	final private TelefoneDAO telefoneDAO;
-	final private EmailDAO emailDAO;
-
-	public PessoaDAOPF(Conexao conexao, EnderecoDAO enderecoDAO, TelefoneDAO telefoneDAO, EmailDAO emailDAO) {
+	public PessoaDAOPF(Conexao conexao) {
 		super(conexao);
-		this.emailDAO = emailDAO;
-		this.enderecoDAO = enderecoDAO;
-		this.telefoneDAO = telefoneDAO;
+
 		// TODO Auto-generated constructor stub
 	}
 
@@ -160,18 +154,6 @@ public class PessoaDAOPF extends AbstractGenericDAO<Pessoa> {
 		}
 
 		return lista;
-	}
-
-	public EmailDAO getEmailDAO() {
-		return emailDAO;
-	}
-
-	public EnderecoDAO getEnderecoDAO() {
-		return enderecoDAO;
-	}
-
-	public TelefoneDAO getTelefoneDAO() {
-		return telefoneDAO;
 	}
 
 	@Override

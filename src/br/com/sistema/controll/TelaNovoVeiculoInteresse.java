@@ -56,7 +56,7 @@ public class TelaNovoVeiculoInteresse {
 
 	private PessoaDAO pessoaDAO = null;
 	private VeiculoDAO veiculoDAO = null;
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 
 	public void initialize() {
 		comboBoxCategoriaVeiculo();
@@ -291,7 +291,8 @@ public class TelaNovoVeiculoInteresse {
 		Optional<ButtonType> result = alert.showAndWait();
 
 		if (result.get().equals(sim)) {
-			this.pessoaDAO = Principal.getPessoaDAO();
+			this.conexao = new Conexao();
+			this.pessoaDAO = new PessoaDAO(conexao);
 			boolean sucesso = pessoaDAO.inserirClienteCrm(cliente);
 			conexao.fecharConexao();
 			if (sucesso) {
@@ -328,13 +329,15 @@ public class TelaNovoVeiculoInteresse {
 
 	private void comboBoxCategoriaVeiculo() {
 		cmbCategoria.getItems().clear();
-		this.veiculoDAO = Principal.getVeiculoDAO();
+		this.conexao = new Conexao();
+		this.veiculoDAO = new VeiculoDAO(conexao);
 		cmbCategoria.getItems().addAll(veiculoDAO.listarCategoriaMarca());
 		conexao.fecharConexao();
 	}
 
 	private void comboBoxMarcaVeiculo() {
-		this.veiculoDAO = Principal.getVeiculoDAO();
+		this.conexao = new Conexao();
+		this.veiculoDAO = new VeiculoDAO(conexao);
 		cmbMarca.getItems().clear();
 		if (cmbCategoria.getSelectionModel().getSelectedItem() != null) {
 			cmbMarca.getItems()

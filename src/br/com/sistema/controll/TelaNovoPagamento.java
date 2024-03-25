@@ -77,7 +77,7 @@ public class TelaNovoPagamento {
 	@FXML
 	private Button btnCancelar;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private ContasReceberDAO contasReceberDAO = null;
 	private PessoaDAO pessoaDAO = null;
 	private static Integer pessoa_id;
@@ -172,6 +172,8 @@ public class TelaNovoPagamento {
 	}
 
 	public void pesquisaPessoa() {
+		this.conexao = new Conexao();
+		this.pessoaDAO = new PessoaDAO(conexao);
 		if (cmbBuscar.getValue() == null) {
 			Alert dlg = new Alert(AlertType.INFORMATION);
 			ValidationFields.checkEmptyFields(cmbBuscar);
@@ -188,13 +190,11 @@ public class TelaNovoPagamento {
 					txtPesquisa.requestFocus();
 
 				} else {
-					this.pessoaDAO = Principal.getPessoaDAO();
 					String sql = txtPesquisa.getText();
 					clnNome.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("nome"));
 					clnCpfCnpj.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("cpfcnpj"));
 					ObservableList<Pessoa> lista = FXCollections.observableArrayList(pessoaDAO.buscarNome(sql));
 					tbPessoa.setItems(lista);
-					conexao.fecharConexao();
 				}
 
 			} else {
@@ -208,20 +208,20 @@ public class TelaNovoPagamento {
 						txtPesquisa.requestFocus();
 
 					} else {
-						this.pessoaDAO = Principal.getPessoaDAO();
 						String sql = txtPesquisa.getText();
 						clnNome.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("Nome"));
 						clnCpfCnpj.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("cpfcnpj"));
 						ObservableList<Pessoa> lista = FXCollections
 								.observableArrayList(pessoaDAO.buscar(formatarCpfCnpj(sql)));
 						tbPessoa.setItems(lista);
-						conexao.fecharConexao();
 
 					}
 				}
 			}
 
 		}
+
+		conexao.fecharConexao();
 
 	}
 
@@ -326,13 +326,12 @@ public class TelaNovoPagamento {
 			Optional<ButtonType> escolha = alerta.showAndWait();
 
 			if (escolha.get() == ButtonType.OK) {
-				this.contasReceberDAO = Principal.getContasReceberDAO();
+				this.conexao = new Conexao();
+				this.contasReceberDAO = new ContasReceberDAO(conexao);
 				boolean suce = contasReceberDAO.inserirContas(contas);
 				System.out.println("valor boolean registro contas receber:" + suce);
 				Integer qtdeParcelas = Integer.parseInt(parcelas) - 1;
-				conexao.fecharConexao();
 				for (int i = 0; i < qtdeParcelas; i++) {
-					this.contasReceberDAO = Principal.getContasReceberDAO();
 					Integer par = contasReceberDAO.getNumeroParcelaCliente(pessoa_id, descricao, valor) + 1;
 					Date dataParcela = contasReceberDAO.getDataParcelaCliente(pessoa_id, descricao, valor);
 					Calendar c = Calendar.getInstance();
@@ -345,8 +344,8 @@ public class TelaNovoPagamento {
 							null, null, null);
 					boolean sucesso = contasReceberDAO.inserirContas(conta);
 					System.out.println("inseriu aprcelas : " + sucesso);
-					conexao.fecharConexao();
 				}
+				conexao.fecharConexao();
 
 			}
 

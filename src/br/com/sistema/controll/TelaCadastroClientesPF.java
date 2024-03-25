@@ -105,16 +105,16 @@ public class TelaCadastroClientesPF {
 	@FXML
 	private Button btnSair;
 
-	private EnderecoDAO enderecoDAO = Principal.getEnderecoDAO();
-	private EstadoDAO estadoDAO = Principal.getEstadoDAO();
-	private CidadeDAO cidadeDAO = Principal.getCidadeDAO();
-	private TelefoneDAO telefoneDAO = Principal.getTelefoneDAO();
-	private EmailDAO emailDAO = Principal.getEmailDAO();
-	private PessoaDAOPF pessoaDAOPF = Principal.getPessoaDAOPF();
+	private EnderecoDAO enderecoDAO = null;
+	private EstadoDAO estadoDAO = null;
+	private CidadeDAO cidadeDAO = null;
+	private TelefoneDAO telefoneDAO = null;
+	private EmailDAO emailDAO = null;
+	private PessoaDAOPF pessoaDAOPF = null;
 	private Date dataSql;
 	private Date dataHoje;
 	private Date dataMin;
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 
 	private List<String> listaSexo = new ArrayList<>();
 
@@ -326,9 +326,8 @@ public class TelaCadastroClientesPF {
 			String cpfs = txtCpf.getText();
 			cpfFormatado = cpfs;
 
-			boolean teste = true;
-
-			if (teste == isRegistro(cpfFormatado)) {
+			this.conexao = new Conexao();
+			if (isRegistro(cpfFormatado)) {
 				ValidationFields.checkEmptyFields(txtCpf);
 				Alert dlg = new Alert(AlertType.INFORMATION);
 				dlg.setContentText("CPF " + txtCpf.getText() + " Já cadastrado");
@@ -337,6 +336,7 @@ public class TelaCadastroClientesPF {
 				return;
 
 			}
+			conexao.fecharConexao();
 			cpf = cpfFormatado;
 			System.out.println("cpf :" + cpf);
 		}
@@ -461,41 +461,8 @@ public class TelaCadastroClientesPF {
 
 		}
 
-		Endereco enderecos = new Endereco(null, rua, bairro, numero, cidade, uf, cep);
-		boolean sucess = enderecoDAO.inserir(enderecos);
-		if (sucess) {
-			enderecos.getId();
-		} else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Confirmação de INCLUSÃO");
-			alert.setHeaderText("Erro ao cadastrar um novo endereco! ");
-		}
-
-		Telefone telefones = new Telefone(null, telComercial, telCelular, telResidencial, telWhatsapp);
-		boolean suce = telefoneDAO.inserir(telefones);
-		if (suce) {
-			telefones.getId();
-		} else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Confirmação de INCLUSÃO");
-			alert.setHeaderText("Erro ao cadastrar um novo telefone! ");
-		}
-
-		Email emails = new Email(null, emai);
-		boolean su = emailDAO.inserir(emails);
-		if (su) {
-			emails.getId();
-		} else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Confirmação de INCLUSÃO");
-			alert.setHeaderText("Erro ao cadastrar um novo email! ");
-		}
-
 		String ativo = new String("SIM");
 		String tipo = new String("PF");
-
-		Pessoa pessoa = new Pessoa(null, nome, cpf, rg, sexo, dataNascimento, null, enderecos, telefones, emails, ativo,
-				tipo);
 
 		boolean sucess1 = true;
 		if (sucess1) {
@@ -506,8 +473,45 @@ public class TelaCadastroClientesPF {
 			Optional<ButtonType> escolha = alerta.showAndWait();
 
 			if (escolha.get() == ButtonType.OK) {
+				this.conexao = new Conexao();
+				this.enderecoDAO = new EnderecoDAO(conexao);
+				Endereco enderecos = new Endereco(null, rua, bairro, numero, cidade, uf, cep);
+				boolean sucess = enderecoDAO.inserir(enderecos);
+				if (sucess) {
+					enderecos.getId();
+				} else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Confirmação de INCLUSÃO");
+					alert.setHeaderText("Erro ao cadastrar um novo endereco! ");
+				}
+				this.telefoneDAO = new TelefoneDAO(conexao);
+				Telefone telefones = new Telefone(null, telComercial, telCelular, telResidencial, telWhatsapp);
+				boolean suce = telefoneDAO.inserir(telefones);
+				if (suce) {
+					telefones.getId();
+				} else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Confirmação de INCLUSÃO");
+					alert.setHeaderText("Erro ao cadastrar um novo telefone! ");
+				}
+				this.emailDAO = new EmailDAO(conexao);
+				Email emails = new Email(null, emai);
+				boolean su = emailDAO.inserir(emails);
+				if (su) {
+					emails.getId();
+				} else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Confirmação de INCLUSÃO");
+					alert.setHeaderText("Erro ao cadastrar um novo email! ");
+				}
+
+				Pessoa pessoa = new Pessoa(null, nome, cpf, rg, sexo, dataNascimento, null, enderecos, telefones,
+						emails, ativo, tipo);
+
+				this.pessoaDAOPF = new PessoaDAOPF(conexao);
 				boolean sucesso = pessoaDAOPF.inserir(pessoa);
 				System.out.println("valor boolean :" + sucesso);
+				conexao.fecharConexao();
 				voltarTela();
 
 			}
@@ -553,12 +557,18 @@ public class TelaCadastroClientesPF {
 	}
 
 	public void carregaComboBoxEstados() {
+		this.conexao = new Conexao();
+		this.estadoDAO = new EstadoDAO(conexao);
 		cmbUf.getItems().addAll(estadoDAO.listar());
 		cmbUf.toString();
+		conexao.fecharConexao();
 
 	}
 
 	public void comboBoxCidadePorEstado() {
+		this.conexao = new Conexao();
+		this.estadoDAO = new EstadoDAO(conexao);
+		this.cidadeDAO = new CidadeDAO(conexao);
 		if (cmbUf.getValue().toString().isEmpty()) {
 
 		} else {
@@ -572,11 +582,8 @@ public class TelaCadastroClientesPF {
 			cmbCidade.getItems().addAll(cidadeDAO.buscarCidade(id.getId()));
 			cmbCidade.toString();
 		}
-
-	}
-
-	public void tabelaBuscaPessoa() {
-
+		conexao.fecharConexao();
+		conexao.fecharConexao();
 	}
 
 	public void voltarTela() {

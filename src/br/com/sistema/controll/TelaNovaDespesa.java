@@ -47,7 +47,7 @@ public class TelaNovaDespesa {
 	@FXML
 	private Button btnCancelar;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private DespesaDAO despesaDAO = null;
 
 	public void initialize() {
@@ -213,8 +213,10 @@ public class TelaNovaDespesa {
 		Optional<ButtonType> escolha = alerta.showAndWait();
 
 		if (escolha.get() == ButtonType.OK) {
-			this.despesaDAO = Principal.getDespesaDAO();
+			this.conexao = new Conexao();
+			this.despesaDAO = new DespesaDAO(conexao);
 			boolean sucesso = despesaDAO.inserir(despesa);
+			conexao.fecharConexao();
 			if (sucesso) {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Confirmação de INCLUSÃO");

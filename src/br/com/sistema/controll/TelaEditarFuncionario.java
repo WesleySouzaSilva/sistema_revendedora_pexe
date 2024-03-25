@@ -1,8 +1,5 @@
 package br.com.sistema.controll;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -103,7 +100,7 @@ public class TelaEditarFuncionario {
 	private Date dataSql;
 	private Date dataHoje;
 	private Date dataMin;
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 
 	public void initialize() {
 
@@ -277,7 +274,8 @@ public class TelaEditarFuncionario {
 		Integer idEndereco = null, idTelefone = null, idEmail = null, idFuncionario = null;
 
 		Date dataAdmissao = null;
-		this.funcionarioDAO = Principal.getFuncionarioDAO();
+		this.conexao = new Conexao();
+		this.funcionarioDAO = new FuncionarioDAO(conexao);
 		idEndereco = funcionarioDAO.getIdEndereco(tela.IdFuncionario());
 		idTelefone = funcionarioDAO.getIdTelefone(tela.IdFuncionario());
 		idEmail = funcionarioDAO.getIdEmail(tela.IdFuncionario());
@@ -455,40 +453,10 @@ public class TelaEditarFuncionario {
 		}
 
 		Endereco enderecos = new Endereco(idEndereco, rua, bairro, numero, cidade, uf, cep);
-		this.enderecoDAO = Principal.getEnderecoDAO();
-		boolean sucess = enderecoDAO.atualizar(enderecos);
-		if (sucess) {
-			enderecos.getId();
-			conexao.fecharConexao();
-		} else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Confirmação de INCLUSÃO");
-			alert.setHeaderText("Erro ao cadastrar um novo endereco! ");
-		}
 
 		Telefone telefones = new Telefone(idTelefone, telComercial, telCelular, telResidencial, telWhatsapp);
-		this.telefoneDAO = Principal.getTelefoneDAO();
-		boolean suce = telefoneDAO.atualizar(telefones);
-		if (suce) {
-			telefones.getId();
-			conexao.fecharConexao();
-		} else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Confirmação de INCLUSÃO");
-			alert.setHeaderText("Erro ao cadastrar um novo telefone! ");
-		}
-
+		
 		Email emails = new Email(idEmail, email);
-		this.emailDAO = Principal.getEmailDAO();
-		boolean su = emailDAO.atualizar(emails);
-		if (su) {
-			emails.getId();
-			conexao.fecharConexao();
-		} else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Confirmação de INCLUSÃO");
-			alert.setHeaderText("Erro ao cadastrar um novo email! ");
-		}
 
 		ativo = new String("SIM");
 		Funcionario funcionario = new Funcionario(idFuncionario, nome, profissao, ativo, enderecos, telefones, emails,
@@ -501,7 +469,17 @@ public class TelaEditarFuncionario {
 		Optional<ButtonType> escolha = alerta.showAndWait();
 
 		if (escolha.get() == ButtonType.OK) {
-			this.funcionarioDAO = Principal.getFuncionarioDAO();
+			this.conexao = new Conexao();
+			this.enderecoDAO = new EnderecoDAO(conexao);
+			boolean sucessos = enderecoDAO.atualizar(enderecos);
+			System.out.println("sucesso atualizar endereco :" + sucessos);
+			this.telefoneDAO = new TelefoneDAO(conexao);
+			boolean suces = telefoneDAO.atualizar(telefones);
+			System.out.println("sucesso atualizar telefone :" + suces);
+			this.emailDAO = new EmailDAO(conexao);
+			boolean secess = emailDAO.atualizar(emails);
+			System.out.println("sucesso atualizar email :" + secess);
+			this.funcionarioDAO = new FuncionarioDAO(conexao);
 			boolean sucesso = funcionarioDAO.atualizar(funcionario);
 			System.out.println("sucesso atualizar funcionario :" + sucesso);
 			conexao.fecharConexao();
@@ -512,8 +490,9 @@ public class TelaEditarFuncionario {
 	}
 
 	public void carregaDadosFuncionario() {
+		this.conexao = new Conexao();
 		TelaListaFuncionario tela = new TelaListaFuncionario();
-		this.funcionarioDAO = Principal.getFuncionarioDAO();
+		this.funcionarioDAO = new FuncionarioDAO(conexao);
 		for (Funcionario f : funcionarioDAO.listarTodosDadosId(tela.IdFuncionario())) {
 			txtNome.setText(f.getNome());
 			txtProfissao.setText(f.getProfissao());
@@ -533,7 +512,8 @@ public class TelaEditarFuncionario {
 	}
 
 	public void carregaComboBoxEstados() {
-		this.estadoDAO = Principal.getEstadoDAO();
+		this.conexao = new Conexao();
+		this.estadoDAO = new EstadoDAO(conexao);
 		cmbUf.getItems().addAll(estadoDAO.listar());
 		cmbUf.toString();
 		conexao.fecharConexao();
@@ -541,6 +521,9 @@ public class TelaEditarFuncionario {
 	}
 
 	public void comboBoxCidadePorEstado() {
+		this.conexao = new Conexao();
+		this.estadoDAO = new EstadoDAO(conexao);
+		this.cidadeDAO = new CidadeDAO(conexao);
 		if (cmbUf.getValue().toString().isEmpty()) {
 
 		} else {
@@ -548,15 +531,15 @@ public class TelaEditarFuncionario {
 			Estado nome = cmbUf.getSelectionModel().getSelectedItem();
 			Estado id = estadoDAO.buscar(nome.getNome());
 
-			System.out.println("valor cmbUf: " + nome);
+			System.out.println("valor cmbEstado: " + nome);
 			System.out.println("valor Objeto estado: " + id.getId());
 
-			this.cidadeDAO = Principal.getCidadeDAO();
 			cmbCidade.getItems().addAll(cidadeDAO.buscarCidade(id.getId()));
 			cmbCidade.toString();
-			conexao.fecharConexao();
 		}
-
+		conexao.fecharConexao();
+		conexao.fecharConexao();
+	
 	}
 
 	public void cancelar() {
@@ -587,24 +570,6 @@ public class TelaEditarFuncionario {
 		tff.setCaracteresValidos("0987654321");
 		tff.setTf(txtDataAdmissao);
 		tff.formatter();
-	}
-
-	public boolean verificaSalario(Date data, BigDecimal valor) throws SQLException {
-		conexao = Principal.getConexao();
-		boolean result = false;
-
-		String sql = "SELECT * FROM salario_funcionario WHERE valor = ? AND data = '" + data + "'";
-
-		PreparedStatement cmd = conexao.getConexao().prepareStatement(sql);
-		cmd.setBigDecimal(1, valor);
-		ResultSet rs = cmd.executeQuery();
-		if (rs.next()) {
-			result = true;
-
-		}
-
-		return result;
-
 	}
 
 	public void textFieldInicial(TextField tf) {

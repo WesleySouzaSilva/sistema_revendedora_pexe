@@ -38,7 +38,7 @@ public class TelaEditarUsuario {
 	@FXML
 	private Button btnCancelar;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private ObservableList<String> observa;
 	private ArrayList<String> lista = new ArrayList<>();
 	private UsuarioDAO usuarioDAO = null;
@@ -149,10 +149,10 @@ public class TelaEditarUsuario {
 				Optional<ButtonType> escolha = alerta.showAndWait();
 
 				if (escolha.get() == ButtonType.OK) {
-					this.usuarioDAO = Principal.getUsuarioDAO();
+					this.conexao  =new Conexao();
+					this.usuarioDAO = new UsuarioDAO(conexao);
 					boolean sucesso = usuarioDAO.atualizar(usuario);
 					System.out.println("sucesso : " + sucesso);
-
 					conexao.fecharConexao();
 					voltarTela();
 
@@ -199,7 +199,8 @@ public class TelaEditarUsuario {
 	}
 
 	public void acaoUsuario() {
-		this.usuarioDAO = Principal.getUsuarioDAO();
+		this.conexao = new Conexao();
+		this.usuarioDAO = new UsuarioDAO(conexao);
 		for (Usuario usuario : usuarioDAO.buscarId(id)) {
 			txtNome.setText(usuario.getNome());
 			txtSenha.setText(usuario.getSenha());

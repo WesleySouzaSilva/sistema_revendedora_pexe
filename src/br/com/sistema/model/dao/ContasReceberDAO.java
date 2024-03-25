@@ -81,7 +81,7 @@ public class ContasReceberDAO extends AbstractGenericDAO<ContasReceber> {
 	}
 
 	public boolean inserirPagamentoParcelado(ContasReceber pojo) {
-		String sql = "INSERT INTO detalhes_pagamento(tipo, valor, data_pagamento,contas_receber_id) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO detalhes_pagamento(tipo, valor, data_pagamento, contas_receber_id) VALUES (?, ?, ?, ?)";
 		try {
 			PreparedStatement cmd = dbConnection.prepareStatement(sql);
 			cmd.setString(1, pojo.getSituacao());

@@ -45,7 +45,7 @@ public class TelaEditarPagamento {
 	@FXML
 	private TextField txtValor;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private ContasReceberDAO contasReceberDAO = null;
 	private DecimalFormat decimal = new DecimalFormat("###,###,###,##0.00");
 	private TelaListaContasReceber telaListaContasReceber = new TelaListaContasReceber();
@@ -92,7 +92,8 @@ public class TelaEditarPagamento {
 	}
 
 	private void listaDados() {
-		this.contasReceberDAO = Principal.getContasReceberDAO();
+		this.conexao = new Conexao();
+		this.contasReceberDAO = new ContasReceberDAO(conexao);
 		LocalDate data = contasReceberDAO.getDataContasReceberPorId(telaListaContasReceber.getIdTabela()).toLocalDate()
 				.plusDays(1);
 		for (ContasReceber c : contasReceberDAO.listarTodos(telaListaContasReceber.getIdTabela())) {
@@ -180,15 +181,16 @@ public class TelaEditarPagamento {
 
 		Optional<ButtonType> result = alerta.showAndWait();
 		if (result.get().equals(sim)) {
-			this.contasReceberDAO = Principal.getContasReceberDAO();
+			this.conexao = new Conexao();
+			this.contasReceberDAO = new ContasReceberDAO(conexao);
 			boolean sucesso = contasReceberDAO.atualizar(contas);
+			conexao.fecharConexao();
 			if (sucesso) {
 				Alert dlg = new Alert(AlertType.INFORMATION);
 				dlg.setContentText("Dados atualizados com sucesso!");
 				dlg.showAndWait();
 				acaoSair();
 			}
-			conexao.fecharConexao();
 		}
 
 	}

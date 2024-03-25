@@ -137,7 +137,7 @@ public class TelaListaContasReceber {
 	@FXML
 	private TextField txtTotalRecebido;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private ContasReceberDAO contasReceberDAO = null;
 	private DetalhesPagamentoDAO detalhesPagamentoDAO = null;
 	private static Date dataInicial, dataFinal;
@@ -287,6 +287,7 @@ public class TelaListaContasReceber {
 		btnEditarPagamento.setOnAction(e -> {
 			if (tbPagamento.getSelectionModel().getSelectedItem() != null) {
 				try {
+					this.conexao = new Conexao();
 					if (validaRecebido(contas_id)) {
 						ValidationFields.checkEmptyFields(tbPagamento);
 						Alert dlg = new Alert(AlertType.WARNING);
@@ -306,6 +307,7 @@ public class TelaListaContasReceber {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				conexao.fecharConexao();
 
 			} else {
 				ValidationFields.checkEmptyFields(tbPagamento);
@@ -412,6 +414,8 @@ public class TelaListaContasReceber {
 			clnValorTotal.setCellValueFactory(new PropertyValueFactory<>("valorTotalFormatado"));
 			clnDataVencimento.setCellValueFactory(new PropertyValueFactory<>("dataVencimentoFormatada"));
 			clnSituacao.setCellValueFactory(new PropertyValueFactory<>("situacao"));
+			this.conexao = new Conexao();
+			this.contasReceberDAO = new ContasReceberDAO(conexao);
 			switch (cmb) {
 
 			case "Nome Cliente":
@@ -424,7 +428,6 @@ public class TelaListaContasReceber {
 					return;
 				} else {
 					String pesquisa = txtPesquisa.getText();
-					this.contasReceberDAO = Principal.getContasReceberDAO();
 					ObservableList<ContasReceber> lis = FXCollections.observableArrayList(
 							contasReceberDAO.listarTodos(dataInicial, dataFinal, "p.nome", pesquisa));
 					lblValorPago.setText(decimal.format(contasReceberDAO.getValorContasReceberCliente(dataInicial,
@@ -440,7 +443,7 @@ public class TelaListaContasReceber {
 					BigDecimal calcula = pago.subtract(receber);
 					lblSaldo.setText(decimal.format(calcula));
 					tbPagamento.setItems(lis);
-					conexao.fecharConexao();
+
 				}
 				break;
 
@@ -454,7 +457,6 @@ public class TelaListaContasReceber {
 					return;
 				} else {
 					String pesquisa = txtPesquisa.getText();
-					this.contasReceberDAO = Principal.getContasReceberDAO();
 					ObservableList<ContasReceber> lis = FXCollections.observableArrayList(
 							contasReceberDAO.listarTodos(dataInicial, dataFinal, "c.descricao", pesquisa));
 					lblValorPago.setText(decimal.format(contasReceberDAO.getValorContasReceber(dataInicial, dataFinal,
@@ -470,7 +472,6 @@ public class TelaListaContasReceber {
 					BigDecimal calcula = pago.subtract(receber);
 					lblSaldo.setText(decimal.format(calcula));
 					tbPagamento.setItems(lis);
-					conexao.fecharConexao();
 				}
 
 				break;
@@ -485,7 +486,6 @@ public class TelaListaContasReceber {
 					return;
 				} else {
 					String pesquisa = txtPesquisa.getText();
-					this.contasReceberDAO = Principal.getContasReceberDAO();
 					ObservableList<ContasReceber> lis = FXCollections.observableArrayList(
 							contasReceberDAO.listarTodos(dataInicial, dataFinal, "c.situacao", pesquisa));
 					lblValorPago.setText(decimal.format(contasReceberDAO.getValorContasReceber(dataInicial, dataFinal,
@@ -502,14 +502,12 @@ public class TelaListaContasReceber {
 					BigDecimal calcula = pago.subtract(receber);
 					lblSaldo.setText(decimal.format(calcula));
 					tbPagamento.setItems(lis);
-					conexao.fecharConexao();
 
 				}
 
 				break;
 
 			case "Todos":
-				this.contasReceberDAO = Principal.getContasReceberDAO();
 				ObservableList<ContasReceber> lis = FXCollections
 						.observableArrayList(contasReceberDAO.listarTodos(dataInicial, dataFinal));
 				lblValorPago.setText(
@@ -523,13 +521,13 @@ public class TelaListaContasReceber {
 				BigDecimal calcula = pago.subtract(receber);
 				lblSaldo.setText(decimal.format(calcula));
 				tbPagamento.setItems(lis);
-				conexao.fecharConexao();
 
 				break;
 
 			default:
 				break;
 			}
+			conexao.fecharConexao();
 
 		}
 
@@ -569,11 +567,13 @@ public class TelaListaContasReceber {
 	}
 
 	public void receberTotal() throws SQLException {
+		this.conexao = new Conexao();
 		if (validaRecebido(contas_id)) {
 			Alert alerta = new Alert(AlertType.CONFIRMATION);
 			alerta.setTitle("Confirmação de Pagamento");
 			alerta.setHeaderText("Pagamento TOTAL já efetuado ! ");
 			alerta.showAndWait();
+			conexao.fecharConexao();
 			return;
 		} else {
 			Alert alerta = new Alert(AlertType.CONFIRMATION);
@@ -583,12 +583,17 @@ public class TelaListaContasReceber {
 			Optional<ButtonType> escolha = alerta.showAndWait();
 
 			if (escolha.get() == ButtonType.OK) {
+				this.conexao = new Conexao();
 				String totalRecebido = new String("PGTO TOTAL");
 				Date data = new Date();
 				Date dataPagamentoTotal = new java.sql.Date(data.getTime());
-				this.contasReceberDAO = Principal.getContasReceberDAO();
+				this.contasReceberDAO = new ContasReceberDAO(conexao);
 				BigDecimal receber = contasReceberDAO.getValorContasReceber(contas_id, "valor_receber");
 				BigDecimal valorTotal = contasReceberDAO.getValorContasReceber(contas_id, "valor_total");
+				if(receber.compareTo(BigDecimal.ZERO) == 0) {
+					receber = valorTotal;
+				}
+				System.out.println("pegou valor total receber : " + receber);
 				BigDecimal valorZero = new BigDecimal("0.00");
 
 				ContasReceber contas = new ContasReceber(contas_id, dataPagamentoTotal, receber, null, null, null, null,
@@ -619,7 +624,8 @@ public class TelaListaContasReceber {
 	}
 
 	public void preencherTabelaDetalhesPagamento() {
-		this.detalhesPagamentoDAO = Principal.getDetalhesPagamentoDAO();
+		this.conexao = new Conexao();
+		this.detalhesPagamentoDAO = new DetalhesPagamentoDAO(conexao);
 		clnDetalhesTipo.setCellValueFactory(new PropertyValueFactory<DetalhesPagamento, String>("tipo"));
 		clnDetalhesValor.setCellValueFactory(new PropertyValueFactory<DetalhesPagamento, BigDecimal>("valor"));
 		clnDataPagamento.setCellValueFactory(new PropertyValueFactory<DetalhesPagamento, String>("dataFormatada"));
@@ -631,7 +637,8 @@ public class TelaListaContasReceber {
 	}
 
 	public void valorPagamentoReceber() {
-		this.contasReceberDAO = Principal.getContasReceberDAO();
+		this.conexao = new Conexao();
+		this.contasReceberDAO = new ContasReceberDAO(conexao);
 		txtTotalRecebido.setText(decimal.format(contasReceberDAO.getValorContasReceber(contas_id, "valor_pago")));
 		BigDecimal recebido = contasReceberDAO.getValorContasReceber(contas_id, "valor_pago");
 		txtTotalReceber.setText(decimal.format(contasReceberDAO.getValorContasReceber(contas_id, "valor_receber")));
@@ -653,7 +660,8 @@ public class TelaListaContasReceber {
 		Optional<ButtonType> escolha = alerta.showAndWait();
 
 		if (escolha.get() == ButtonType.OK) {
-			this.contasReceberDAO = Principal.getContasReceberDAO();
+			this.conexao = new Conexao();
+			this.contasReceberDAO = new ContasReceberDAO(conexao);
 			Integer idVeiculo = contasReceberDAO.getIdVeiculo(contas_id);
 			System.out.println("pegou id do veiculo " + idVeiculo);
 			boolean sucess = contasReceberDAO.apagarHistoricoVeiculo("VENDA", idVeiculo);
@@ -661,13 +669,13 @@ public class TelaListaContasReceber {
 			boolean suce = contasReceberDAO.apagarPagamento(contas);
 			System.out.println("sucesso excluir historico venda : " + sucess);
 			System.out.println("sucesso atualizar status veiculo : " + su);
+			conexao.fecharConexao();
 			if (suce) {
 				Alert dlg = new Alert(AlertType.INFORMATION);
 				dlg.setContentText("Conta excluida com sucesso !");
 				dlg.showAndWait();
 				preencherTabela();
 			}
-			conexao.fecharConexao();
 		}
 	}
 
@@ -709,6 +717,8 @@ public class TelaListaContasReceber {
 			return;
 		} else {
 			String cmb = cmbBuscar.getValue().toString();
+			this.conexao = new Conexao();
+			this.contasReceberDAO = new ContasReceberDAO(conexao);
 			switch (cmb) {
 
 			case "Descrição":
@@ -721,7 +731,6 @@ public class TelaListaContasReceber {
 					return;
 				} else {
 					String pesquisa = txtPesquisa.getText();
-					this.contasReceberDAO = Principal.getContasReceberDAO();
 					for (ContasReceber c : contasReceberDAO.listarTodos(dataInicial, dataFinal, "c.descricao",
 							pesquisa)) {
 						nomeCliente = c.getNomeCliente();
@@ -771,7 +780,6 @@ public class TelaListaContasReceber {
 					return;
 				} else {
 					String pesquisa = txtPesquisa.getText();
-					this.contasReceberDAO = Principal.getContasReceberDAO();
 					for (ContasReceber c : contasReceberDAO.listarTodos(dataInicial, dataFinal, "p.nome", pesquisa)) {
 						nomeCliente = c.getNomeCliente();
 						descricao = c.getDescricao();
@@ -819,7 +827,6 @@ public class TelaListaContasReceber {
 					return;
 				} else {
 					String pesquisa = txtPesquisa.getText();
-					this.contasReceberDAO = Principal.getContasReceberDAO();
 					for (ContasReceber c : contasReceberDAO.listarTodos(dataInicial, dataFinal, "c.situacao",
 							pesquisa)) {
 						nomeCliente = c.getNomeCliente();
@@ -861,7 +868,6 @@ public class TelaListaContasReceber {
 				break;
 
 			case "Todos":
-				this.contasReceberDAO = Principal.getContasReceberDAO();
 				for (ContasReceber c : contasReceberDAO.listarTodos(dataInicial, dataFinal)) {
 					nomeCliente = c.getNomeCliente();
 					descricao = c.getDescricao();
@@ -901,6 +907,7 @@ public class TelaListaContasReceber {
 			default:
 				break;
 			}
+			conexao.fecharConexao();
 
 		}
 	}
@@ -920,7 +927,6 @@ public class TelaListaContasReceber {
 	}
 
 	public boolean validaRecebido(Integer id) throws SQLException {
-		conexao = Principal.getConexao();
 		boolean result = false;
 
 		String sql = "SELECT * FROM contas_receber WHERE id = ? AND situacao = 'PAGO' ";

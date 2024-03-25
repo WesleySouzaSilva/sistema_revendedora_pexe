@@ -102,7 +102,7 @@ public class TelaNovoFuncionario {
 	private Date dataSql;
 	private Date dataHoje;
 	private Date dataMin;
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 
 	public void initialize() {
 
@@ -271,7 +271,7 @@ public class TelaNovoFuncionario {
 				uf = null, telCelular = null, telComercial = null, telResidencial = null, telWhatsapp = null,
 				email = null, ativo = null;
 		Date dataAdmissao = null;
-
+		this.conexao = new Conexao();
 		if (txtNome.getText().isEmpty()) {
 			ValidationFields.checkEmptyFields(txtNome);
 			Alert dlg = new Alert(AlertType.ERROR);
@@ -469,42 +469,40 @@ public class TelaNovoFuncionario {
 		Optional<ButtonType> escolha = alerta.showAndWait();
 
 		if (escolha.get() == ButtonType.OK) {
-			this.enderecoDAO = Principal.getEnderecoDAO();
+			this.enderecoDAO = new EnderecoDAO(conexao);
 			boolean sucess = enderecoDAO.inserir(enderecos);
 			if (sucess) {
 				enderecos.getId();
 			}
-			conexao.fecharConexao();
 
-			this.telefoneDAO = Principal.getTelefoneDAO();
+			this.telefoneDAO = new TelefoneDAO(conexao);
 			boolean suce = telefoneDAO.inserir(telefones);
 			if (suce) {
 				telefones.getId();
 			}
-			conexao.fecharConexao();
 
-			this.emailDAO = Principal.getEmailDAO();
+			this.emailDAO = new EmailDAO(conexao);
 			boolean su = emailDAO.inserir(emails);
 			if (su) {
 				emails.getId();
 			}
-			conexao.fecharConexao();
-
-			this.funcionarioDAO = Principal.getFuncionarioDAO();
+		
+			this.funcionarioDAO = new FuncionarioDAO(conexao);
 			boolean sucesso = funcionarioDAO.inserir(funcionario);
+			conexao.fecharConexao();
 			if (sucesso) {
 				Alert dlg = new Alert(AlertType.INFORMATION);
 				dlg.setContentText("Funcionario cadastrado com sucesso");
 				dlg.showAndWait();
 				acaoSair();
 			}
-			conexao.fecharConexao();
 		}
 
 	}
 
 	public void carregaComboBoxEstados() {
-		this.estadoDAO = Principal.getEstadoDAO();
+		this.conexao = new Conexao();
+		this.estadoDAO = new EstadoDAO(conexao);
 		cmbUf.getItems().addAll(estadoDAO.listar());
 		cmbUf.toString();
 		conexao.fecharConexao();
@@ -512,6 +510,9 @@ public class TelaNovoFuncionario {
 	}
 
 	public void comboBoxCidadePorEstado() {
+		this.conexao = new Conexao();
+		this.estadoDAO = new EstadoDAO(conexao);
+		this.cidadeDAO = new CidadeDAO(conexao);
 		if (cmbUf.getValue().toString().isEmpty()) {
 
 		} else {
@@ -519,15 +520,14 @@ public class TelaNovoFuncionario {
 			Estado nome = cmbUf.getSelectionModel().getSelectedItem();
 			Estado id = estadoDAO.buscar(nome.getNome());
 
-			System.out.println("valor cmbUf: " + nome);
+			System.out.println("valor cmbEstado: " + nome);
 			System.out.println("valor Objeto estado: " + id.getId());
 
-			this.cidadeDAO = Principal.getCidadeDAO();
 			cmbCidade.getItems().addAll(cidadeDAO.buscarCidade(id.getId()));
 			cmbCidade.toString();
-			conexao.fecharConexao();
 		}
-
+		conexao.fecharConexao();
+		conexao.fecharConexao();
 	}
 
 	public void cancelar() {
@@ -552,7 +552,6 @@ public class TelaNovoFuncionario {
 	}
 
 	public boolean verificaNome(String campo) throws SQLException {
-		conexao = Principal.getConexao();
 		boolean result = false;
 
 		String sql = "SELECT * FROM funcionario WHERE nome = ? AND ativo = 'SIM'";

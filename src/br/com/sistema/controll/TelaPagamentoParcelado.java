@@ -44,7 +44,7 @@ public class TelaPagamentoParcelado {
 	@FXML
 	private Button btnConfirmar;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 
 	private TelaListaContasReceber tela = new TelaListaContasReceber();
 	private DetalhesPagamentoDAO detalhesPagamentoDAO = null;
@@ -121,6 +121,7 @@ public class TelaPagamentoParcelado {
 			txtValor.requestFocus();
 			return;
 		} else {
+			this.conexao = new Conexao();
 			String teste = txtValor.getText();
 			BigDecimal txt = new BigDecimal(teste.replace(".", "").replaceAll(",", "."));
 			Integer id = tela.getIdTabela();
@@ -140,6 +141,7 @@ public class TelaPagamentoParcelado {
 				valor = new BigDecimal(valorTxt.replace(".", "").replaceAll(",", "."));
 				System.out.println("valor formatado : " + valor);
 			}
+			conexao.fecharConexao();
 		}
 
 		if (txtData.getValue() == null) {
@@ -187,7 +189,8 @@ public class TelaPagamentoParcelado {
 			Optional<ButtonType> escolha = alerta.showAndWait();
 
 			if (escolha.get() == ButtonType.OK) {
-				this.detalhesPagamentoDAO = Principal.getDetalhesPagamentoDAO();
+				this.conexao = new Conexao();
+				this.detalhesPagamentoDAO = new DetalhesPagamentoDAO(conexao);
 				boolean sucesso = detalhesPagamentoDAO.inserir(detalhes);
 				BigDecimal valorRestante = detalhesPagamentoDAO.getTotalRecebido(tela.getIdTabela());
 				BigDecimal valorTotal = detalhesPagamentoDAO.getTotalPagamentoReceber(tela.getIdTabela());
@@ -213,9 +216,8 @@ public class TelaPagamentoParcelado {
 					alert.showAndWait();
 				}
 
-			} else {
-
-			}
+			} 
+			
 			Stage stage = (Stage) btnConfirmar.getScene().getWindow();
 			stage.close();
 		}
@@ -236,7 +238,6 @@ public class TelaPagamentoParcelado {
 
 	public Float filtroValor(Integer id) {
 		Float valor = null;
-		conexao = Principal.getConexao();
 
 		String sql = "SELECT * FROM contas_receber WHERE id = '" + id + "' ";
 		try {

@@ -58,7 +58,7 @@ public class TelaNovaDespesaGarantia {
 
 	private TelaHistoricoGarantiaVeiculo telaHistoricoGarantiaVeiculo = new TelaHistoricoGarantiaVeiculo();
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private DespesaDAO despesaDAO = null;
 	private PagamentoVeiculoDAO pagamentoVeiculoDAO = null;
 	private HistoricoVeiculoDAO historicoVeiculoDAO = null;
@@ -117,7 +117,8 @@ public class TelaNovaDespesaGarantia {
 
 	private void listaDadosTxt() {
 		txtTipo.setText("DESPESA VEICULO GARANTIA");
-		this.pagamentoVeiculoDAO = Principal.getPagamentoVeiculoDAO();
+		this.conexao = new Conexao();
+		this.pagamentoVeiculoDAO = new PagamentoVeiculoDAO(conexao);
 		for (PagamentoVeiculo p : pagamentoVeiculoDAO.listarTodosId(telaHistoricoGarantiaVeiculo.getIdGarantia())) {
 			txtPlaca.setText(p.getPlaca());
 			txtVeiculo.setText(p.getNomeVeiculo());
@@ -187,11 +188,11 @@ public class TelaNovaDespesaGarantia {
 			}
 		}
 
-		this.pagamentoVeiculoDAO = Principal.getPagamentoVeiculoDAO();
+		this.conexao = new Conexao();
+		this.pagamentoVeiculoDAO = new PagamentoVeiculoDAO(conexao);
 		Integer veiculoId = pagamentoVeiculoDAO.getIdVeiculo(telaHistoricoGarantiaVeiculo.getIdGarantia());
 		BigDecimal lucroVenda = pagamentoVeiculoDAO.getLucroVendaVeiculo(telaHistoricoGarantiaVeiculo.getIdGarantia());
 		BigDecimal calculo = lucroVenda.subtract(valor);
-		conexao.fecharConexao();
 
 		Veiculo veiculo = new Veiculo(veiculoId);
 
@@ -209,17 +210,14 @@ public class TelaNovaDespesaGarantia {
 		Optional<ButtonType> result = alerta.showAndWait();
 
 		if (result.get().equals(sim)) {
-			this.pagamentoVeiculoDAO = Principal.getPagamentoVeiculoDAO();
 			boolean sucesso = pagamentoVeiculoDAO.atualizarValor(calculo, telaHistoricoGarantiaVeiculo.getIdGarantia());
 			System.out.println("sucesso atualizou lucro_venda : " + sucesso);
-			conexao.fecharConexao();
 
-			this.historicoVeiculoDAO = Principal.getHistoricoVeiculoDAO();
+			this.historicoVeiculoDAO = new HistoricoVeiculoDAO(conexao);
 			boolean suce = historicoVeiculoDAO.inserirHistorico(historico);
-			conexao.fecharConexao();
 			System.out.println("sucesso inserir historico : " + suce);
 
-			this.despesaDAO = Principal.getDespesaDAO();
+			this.despesaDAO = new DespesaDAO(conexao);
 			boolean suc = despesaDAO.inserirDespesaVeiculo(despesa);
 			conexao.fecharConexao();
 			if (suc) {

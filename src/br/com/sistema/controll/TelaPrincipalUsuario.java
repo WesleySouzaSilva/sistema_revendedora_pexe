@@ -61,7 +61,7 @@ public class TelaPrincipalUsuario {
 	private Button btnExcluir;
 
 	private UsuarioDAO usuarioDAO = null;
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private ArrayList<String> listaBusca = null;
 	private ObservableList<String> observaLista = null;
 	private static Integer usuario_id;
@@ -121,6 +121,8 @@ public class TelaPrincipalUsuario {
 			dlg.showAndWait();
 			cmbBuscar.requestFocus();
 		} else {
+			this.conexao = new Conexao();
+			this.usuarioDAO = new UsuarioDAO(conexao);
 			if (cmbBuscar.getValue().equals("Nome")) {
 				if (txtPesquisa.getText().isEmpty()) {
 					Alert dlg = new Alert(AlertType.INFORMATION);
@@ -130,32 +132,28 @@ public class TelaPrincipalUsuario {
 					txtPesquisa.requestFocus();
 
 				} else {
-					this.usuarioDAO = Principal.getUsuarioDAO();
 					String sql = txtPesquisa.getText();
 					clnNome.setCellValueFactory(new PropertyValueFactory<Usuario, String>("nome"));
 					clnPermissao.setCellValueFactory(new PropertyValueFactory<Usuario, String>("permissao"));
 					ObservableList<Usuario> lista = FXCollections.observableArrayList(usuarioDAO.buscarNome(sql));
 					tbUsuarios.setItems(lista);
-					conexao.fecharConexao();
 				}
 
 			} else {
 
 				if (cmbBuscar.getValue().equals("Todos")) {
 					txtPesquisa.clear();
-					this.usuarioDAO = Principal.getUsuarioDAO();
 					clnNome.setCellValueFactory(new PropertyValueFactory<Usuario, String>("nome"));
 					clnPermissao.setCellValueFactory(new PropertyValueFactory<Usuario, String>("permissao"));
 					ObservableList<Usuario> lista = FXCollections.observableArrayList(usuarioDAO.listarTodos());
 					tbUsuarios.setItems(lista);
-					conexao.fecharConexao();
-
-				} else {
-
-				}
+					
+				} 
 			}
 
 		}
+		
+		conexao.fecharConexao();
 
 	}
 
@@ -178,20 +176,20 @@ public class TelaPrincipalUsuario {
 
 	public void excluir() {
 		if (tbUsuarios.getSelectionModel().getSelectedItem() != null) {
-			this.usuarioDAO = Principal.getUsuarioDAO();
-			boolean apagar = true;
 			Usuario us = new Usuario(usuario_id, null, null, null);
-			if (apagar) {
-				Alert alerta = new Alert(AlertType.CONFIRMATION);
-				alerta.setTitle("Confirmação de EXCLUSÂO ");
-				alerta.setHeaderText("Você quer mesmo excluir o USUARIO selecionado ? ");
-				alerta.setContentText("O usuario será excluido!" + "\nVocê tem certeza?");
-				Optional<ButtonType> escolha = alerta.showAndWait();
-				if (escolha.get() == ButtonType.OK) {
-					boolean teste = usuarioDAO.apagar(us);
-					System.out.println("excluir usuario : " + teste);
-					listarTodos();
-				}
+			this.conexao = new Conexao();
+			this.usuarioDAO = new UsuarioDAO(conexao);
+			Alert alerta = new Alert(AlertType.CONFIRMATION);
+			alerta.setTitle("Confirmação de EXCLUSÂO ");
+			alerta.setHeaderText("Você quer mesmo excluir o USUARIO selecionado ? ");
+			alerta.setContentText("O usuario será excluido!" + "\nVocê tem certeza?");
+			Optional<ButtonType> escolha = alerta.showAndWait();
+			if (escolha.get() == ButtonType.OK) {
+				boolean teste = usuarioDAO.apagar(us);
+				System.out.println("excluir usuario : " + teste);
+				conexao.fecharConexao();
+				listarTodos();
+
 			}
 
 			conexao.fecharConexao();
@@ -212,30 +210,25 @@ public class TelaPrincipalUsuario {
 	public void editar() throws IOException {
 		Stage stage;
 		if (tbUsuarios.getSelectionModel().getSelectedItem() != null) {
-			this.usuarioDAO = Principal.getUsuarioDAO();
-			boolean apagar = true;
-			if (apagar) {
-				Alert alerta = new Alert(AlertType.CONFIRMATION);
-				alerta.setTitle("Confirmação de EDIÇÃO ");
-				alerta.setHeaderText("Você quer mesmo Editar o USUARIO selecionado ? ");
-				Optional<ButtonType> escolha = alerta.showAndWait();
-				if (escolha.get() == ButtonType.OK) {
-					stage = new Stage();
-					Image image = new Image("/br/com/sistema/icones/funcionario.png");
+			Alert alerta = new Alert(AlertType.CONFIRMATION);
+			alerta.setTitle("Confirmação de EDIÇÃO ");
+			alerta.setHeaderText("Você quer mesmo Editar o USUARIO selecionado ? ");
+			Optional<ButtonType> escolha = alerta.showAndWait();
+			if (escolha.get() == ButtonType.OK) {
+				stage = new Stage();
+				Image image = new Image("/br/com/sistema/icones/funcionario.png");
 
-					stage.setTitle("Controle de Usuario");
-					stage.getIcons().add(image);
-					URL FXML = this.getClass().getResource("/br/com/sistema/view/TelaEditarUsuario.fxml");
+				stage.setTitle("Controle de Usuario");
+				stage.getIcons().add(image);
+				URL FXML = this.getClass().getResource("/br/com/sistema/view/TelaEditarUsuario.fxml");
 
-					Parent painel = (Parent) FXMLLoader.load(FXML);
-					stage.setScene(new Scene(painel));
-					stage.initModality(Modality.APPLICATION_MODAL);
-					stage.show();
-					stage.setResizable(false);
-				}
+				Parent painel = (Parent) FXMLLoader.load(FXML);
+				stage.setScene(new Scene(painel));
+				stage.initModality(Modality.APPLICATION_MODAL);
+				stage.show();
+				stage.setResizable(false);
 			}
 
-			conexao.fecharConexao();
 		} else {
 			Alert dlg = new Alert(AlertType.WARNING);
 			dlg.setContentText("Selecione o USUARIO que deseja Editar!");

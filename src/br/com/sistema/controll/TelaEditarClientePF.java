@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.sistema.conexao.Conexao;
 import br.com.sistema.filtros.FiltroEmail;
 import br.com.sistema.filtros.FiltroFone;
 import br.com.sistema.filtros.FiltroInteiro;
@@ -106,13 +107,14 @@ public class TelaEditarClientePF {
 	@FXML
 	private Button btnSair;
 
-	private PessoaDAO pessoaDAO = Principal.getPessoaDAO();
-	private PessoaDAOPF pessoaDAOPF = Principal.getPessoaDAOPF();
-	private EnderecoDAO enderecoDAO = Principal.getEnderecoDAO();
-	private EmailDAO emailDAO = Principal.getEmailDAO();
-	private TelefoneDAO telefoneDAO = Principal.getTelefoneDAO();
-	private CidadeDAO cidadeDAO = Principal.getCidadeDAO();
-	private EstadoDAO estadoDAO = Principal.getEstadoDAO();
+	private PessoaDAO pessoaDAO;
+	private PessoaDAOPF pessoaDAOPF;
+	private EnderecoDAO enderecoDAO;
+	private EmailDAO emailDAO;
+	private TelefoneDAO telefoneDAO;
+	private CidadeDAO cidadeDAO;
+	private EstadoDAO estadoDAO;
+	private Conexao conexao;
 	private TelaPrincipalClientes telaHome;
 	private Date dataSql;
 	private Date dataHoje;
@@ -304,11 +306,18 @@ public class TelaEditarClientePF {
 	}
 
 	public void carregaComboBoxEstados() {
+		this.conexao = new Conexao();
+		this.estadoDAO = new EstadoDAO(conexao);
 		cmbUf.getItems().addAll(estadoDAO.listar());
 		cmbUf.toString();
+		conexao.fecharConexao();
+
 	}
 
 	public void comboBoxCidadePorEstado() {
+		this.conexao = new Conexao();
+		this.estadoDAO = new EstadoDAO(conexao);
+		this.cidadeDAO = new CidadeDAO(conexao);
 		if (cmbUf.getValue().toString().isEmpty()) {
 
 		} else {
@@ -321,9 +330,9 @@ public class TelaEditarClientePF {
 
 			cmbCidade.getItems().addAll(cidadeDAO.buscarCidade(id.getId()));
 			cmbCidade.toString();
-			
 		}
-
+		conexao.fecharConexao();
+		conexao.fecharConexao();
 	}
 
 	public void voltarTela() {
@@ -348,7 +357,8 @@ public class TelaEditarClientePF {
 
 	public void acaoBuscarCliente() {
 		telaHome = new TelaPrincipalClientes();
-
+		this.conexao = new Conexao();
+		this.pessoaDAO = new PessoaDAO(conexao);
 		for (Pessoa pessoa : pessoaDAO.buscarCidade(telaHome.pessoaId())) {
 			System.out.println("id tela principal: " + telaHome);
 			txtNome.setText(pessoa.getNome());
@@ -369,7 +379,7 @@ public class TelaEditarClientePF {
 			txtRg.setText(pessoa.getRg());
 
 		}
-
+		conexao.fecharConexao();
 	}
 
 	public void salvarCliente() {
@@ -533,13 +543,14 @@ public class TelaEditarClientePF {
 
 		}
 
+		this.conexao = new Conexao();
+		this.pessoaDAO = new PessoaDAO(conexao);
 		Integer endereco_id = pessoaDAO.getEndereco(telaHome.pessoaId());
 		System.out.println("buscou endereco_id editar : " + endereco_id);
 		Integer email_id = pessoaDAO.getEmail(telaHome.pessoaId());
 		System.out.println("buscou email_id editar : " + email_id);
 		Integer telefone_id = pessoaDAO.getTelefone(telaHome.pessoaId());
 		System.out.println("buscou telefone_id editar : " + telefone_id);
-
 		Endereco enderecos = new Endereco(endereco_id, rua, bairro, numero, cidade, uf, cep);
 		Telefone telefones = new Telefone(telefone_id, telComercial, telCelular, telResidencial, telWhatsapp);
 		Email emails = new Email(email_id, emai);
@@ -547,34 +558,30 @@ public class TelaEditarClientePF {
 		Pessoa pessoa = new Pessoa(telaHome.pessoaId(), nome, cpf, rg, sexo, dataNascimento, null, enderecos, telefones,
 				emails, null, null);
 
-		boolean sucesso = true;
-		if (sucesso) {
-			Alert alerta = new Alert(AlertType.CONFIRMATION);
-			alerta.setTitle("Confirmação de ATUALIZAÇÃO ");
-			alerta.setHeaderText("Você quer mesmo atualizar o Cliente ? ");
-			alerta.setContentText("O cliente " + txtNome.getText() + " será atualizado!" + "\nVocê tem certeza?");
-			Optional<ButtonType> escolha = alerta.showAndWait();
+		Alert alerta = new Alert(AlertType.CONFIRMATION);
+		alerta.setTitle("Confirmação de ATUALIZAÇÃO ");
+		alerta.setHeaderText("Você quer mesmo atualizar o Cliente ? ");
+		alerta.setContentText("O cliente " + txtNome.getText() + " será atualizado!" + "\nVocê tem certeza?");
+		Optional<ButtonType> escolha = alerta.showAndWait();
 
-			if (escolha.get() == ButtonType.OK) {
-				boolean sucessos = enderecoDAO.atualizar(enderecos);
-				boolean suces = telefoneDAO.atualizar(telefones);
-				boolean secess = emailDAO.atualizar(emails);
-				boolean su = pessoaDAOPF.atualizar(pessoa);
-				System.out.println("atualizar endereco : " + sucessos);
-				System.out.println("atualizar telefone : " + suces);
-				System.out.println("atualizar email : " + secess);
-				System.out.println("atualizar pessoa : " + su);
-				voltarTelaIncial();
+		if (escolha.get() == ButtonType.OK) {
+			this.enderecoDAO = new EnderecoDAO(conexao);
+			boolean sucessos = enderecoDAO.atualizar(enderecos);
+			this.telefoneDAO = new TelefoneDAO(conexao);
+			boolean suces = telefoneDAO.atualizar(telefones);
+			this.emailDAO = new EmailDAO(conexao);
+			boolean secess = emailDAO.atualizar(emails);
+			this.pessoaDAOPF = new PessoaDAOPF(conexao);
+			boolean su = pessoaDAOPF.atualizar(pessoa);
+			System.out.println("atualizar endereco : " + sucessos);
+			System.out.println("atualizar telefone : " + suces);
+			System.out.println("atualizar email : " + secess);
+			System.out.println("atualizar pessoa : " + su);
+			conexao.fecharConexao();
+			voltarTelaIncial();
 
-			} else {
-
-			}
-
-		} else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Confirmação de INCLUSÃO");
-			alert.setHeaderText("Erro ao cadastrar um novo cliente! ");
 		}
+		conexao.fecharConexao();
 	}
 
 	@FXML

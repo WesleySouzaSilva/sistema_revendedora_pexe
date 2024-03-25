@@ -33,7 +33,7 @@ public class TelaRelatorioGeralVendas {
 	@FXML
 	private Button btnConfirmar;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private RelatorioVendaDAO relatorioVendaDAO = null;
 	private DecimalFormat decimal = new DecimalFormat("###,###,###,##0.00");
 
@@ -87,9 +87,10 @@ public class TelaRelatorioGeralVendas {
 			dataFinal = java.sql.Date.valueOf(txtDataFinal.getValue());
 			dataFinalFormatada = formata.format(dataFinal);
 		}
-
+		
+		this.conexao = new Conexao();
 		if (dataInicial != null && dataFinal != null) {
-			this.relatorioVendaDAO = Principal.getRelatorioVendaDAO();
+			this.relatorioVendaDAO = new RelatorioVendaDAO(conexao);
 			for (RelatorioVenda re : relatorioVendaDAO.listarTodosResumo(dataInicial, dataFinal)) {
 				veiculo = re.getVeiculo();
 				vendedor = re.getVendedor();
@@ -131,13 +132,10 @@ public class TelaRelatorioGeralVendas {
 				lista.add(relatorio);
 			}
 
-			conexao.fecharConexao();
-
 			Relatorio relatorioImprimir = new Relatorio();
 			relatorioImprimir.gerarRelatorio(lista, "RelatorioVendas");
-			voltarTela();
 		}
-
+		conexao.fecharConexao();
 	}
 
 	public void cancelar() {
@@ -149,14 +147,7 @@ public class TelaRelatorioGeralVendas {
 		if (escolha.get() == ButtonType.OK) {
 			Stage stage = (Stage) btnCancelar.getScene().getWindow();
 			stage.close();
-		} else {
-
-		}
-	}
-
-	public void voltarTela() {
-		Stage stage = (Stage) btnCancelar.getScene().getWindow();
-		stage.close();
+		} 
 	}
 
 }

@@ -75,7 +75,7 @@ public class TelaEditarVeiculo {
 	@FXML
 	private TextField txtValorFipe;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private VeiculoDAO veiculoDAO = null;
 
 	public void initialize() {
@@ -280,7 +280,8 @@ public class TelaEditarVeiculo {
 
 	public void listarDados() {
 		TelaHome tela = new TelaHome();
-		this.veiculoDAO = Principal.getVeiculoDAO();
+		this.conexao = new Conexao();
+		this.veiculoDAO = new VeiculoDAO(conexao);
 		for (Veiculo v : veiculoDAO.listarTodosId(tela.getIdVeiculo())) {
 			txtNome.setText(v.getVeiculo());
 			txtPlaca.setText(v.getPlaca());
@@ -522,16 +523,17 @@ public class TelaEditarVeiculo {
 		Optional<ButtonType> escolha = alerta.showAndWait();
 
 		if (escolha.get() == ButtonType.OK) {
-			this.veiculoDAO = Principal.getVeiculoDAO();
+			this.conexao = new Conexao();
+			this.veiculoDAO = new VeiculoDAO(conexao);
 			boolean sucesso = veiculoDAO.atualizar(veiculo2);
 			System.out.println("valor boolean :" + sucesso);
+			conexao.fecharConexao();
 			if (sucesso) {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Confirmação de EDIÇÃO");
 				alert.setHeaderText("Dados do Veiculo atualizado com sucesso!");
 				alert.showAndWait();
 			}
-			conexao.fecharConexao();
 			voltarTela();
 
 		}
@@ -565,13 +567,15 @@ public class TelaEditarVeiculo {
 
 	public void comboBoxCategoriaVeiculo() {
 		cmbCategoria.getItems().clear();
-		this.veiculoDAO = Principal.getVeiculoDAO();
+		this.conexao = new Conexao();
+		this.veiculoDAO = new VeiculoDAO(conexao);
 		cmbCategoria.getItems().addAll(veiculoDAO.listarCategoriaMarca());
 		conexao.fecharConexao();
 	}
 
 	public void comboBoxMarcaVeiculo() {
-		this.veiculoDAO = Principal.getVeiculoDAO();
+		this.conexao = new Conexao();
+		this.veiculoDAO = new VeiculoDAO(conexao);
 		cmbMarca.getItems().clear();
 		if (cmbCategoria.getSelectionModel().getSelectedItem() != null) {
 			cmbMarca.getItems()

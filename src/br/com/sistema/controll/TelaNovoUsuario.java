@@ -42,7 +42,7 @@ public class TelaNovoUsuario {
 	@FXML
 	private Button btnCancelar;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private ObservableList<String> observa;
 	private ArrayList<String> lista = new ArrayList<>();
 	private UsuarioDAO usuarioDAO = null;
@@ -112,6 +112,7 @@ public class TelaNovoUsuario {
 
 	public void salvar() throws SQLException {
 		String nome = null, senha = null, permissao = null;
+		this.conexao = new Conexao();
 		if (txtNome.getText().isEmpty() || txtNome.getText() == null) {
 			Alert dlg = new Alert(AlertType.ERROR);
 			dlg.setContentText("Preencha o campo NOME!!!");
@@ -119,9 +120,8 @@ public class TelaNovoUsuario {
 			txtNome.requestFocus();
 			return;
 		} else {
-			boolean verifica = true;
 			String teste = txtNome.getText();
-			if (verifica == isRegistro(teste)) {
+			if (isRegistro(teste)) {
 				ValidationFields.checkEmptyFields(txtNome);
 				Alert dlg = new Alert(AlertType.INFORMATION);
 				dlg.setContentText("Usuario " + txtNome.getText() + " Já cadastrado");
@@ -160,30 +160,28 @@ public class TelaNovoUsuario {
 		Usuario usuario = new Usuario(null, nome, senha, permissao);
 		if (txtNome.getText() != null && txtSenha.getText() != null && cmbPermissao.getValue() != null) {
 
-			boolean sucess = true;
+			Alert alerta = new Alert(AlertType.CONFIRMATION);
+			alerta.setTitle("Confirmação de INCLUSÃO");
+			alerta.setHeaderText("Você quer mesmo cadastrar um novo USUARIO ? ");
+			alerta.setContentText("O Usuario " + txtNome.getText() + " será cadastrado! \nVocê tem certeza?");
+			Optional<ButtonType> escolha = alerta.showAndWait();
 
-			if (sucess) {
-				Alert alerta = new Alert(AlertType.CONFIRMATION);
-				alerta.setTitle("Confirmação de INCLUSÃO");
-				alerta.setHeaderText("Você quer mesmo cadastrar um novo USUARIO ? ");
-				alerta.setContentText("O Usuario " + txtNome.getText() + " será cadastrado! \nVocê tem certeza?");
-				Optional<ButtonType> escolha = alerta.showAndWait();
+			if (escolha.get() == ButtonType.OK) {
+				this.usuarioDAO = new UsuarioDAO(conexao);
+				boolean sucesso = usuarioDAO.inserir(usuario);
+				System.out.println("sucesso : " + sucesso);
+				conexao.fecharConexao();
+				voltarTela();
 
-				if (escolha.get() == ButtonType.OK) {
-					this.usuarioDAO = Principal.getUsuarioDAO();
-					boolean sucesso = usuarioDAO.inserir(usuario);
-					System.out.println("sucesso : " + sucesso);
-
-					conexao.fecharConexao();
-					voltarTela();
-
-				} else {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Confirmação de INCLUSÃO");
-					alert.setHeaderText("Erro ao cadastrar um novo Usuario! ");
-				}
+			} else {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Confirmação de INCLUSÃO");
+				alert.setHeaderText("Erro ao cadastrar um novo Usuario! ");
 			}
+
 		}
+		
+		conexao.fecharConexao();
 
 	}
 
@@ -220,7 +218,6 @@ public class TelaNovoUsuario {
 	}
 
 	public boolean isRegistro(String campo) throws SQLException {
-		conexao = Principal.getConexao();
 		boolean result = false;
 
 		String sql = "SELECT * FROM usuario WHERE nome = ? ";
@@ -233,7 +230,6 @@ public class TelaNovoUsuario {
 
 		}
 
-		conexao.fecharConexao();
 		return result;
 
 	}

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
+import br.com.sistema.conexao.Conexao;
 import br.com.sistema.filtros.FiltroFlutuante;
 import br.com.sistema.listeners.ListenerParaMaiusculas;
 import br.com.sistema.listeners.ListenerValorMinMax;
@@ -53,8 +54,9 @@ public class TelaDespesaVale {
 	@FXML
 	private Button btnCancelar;
 
-	private DespesaDAO despesaDAO = Principal.getDespesaDAO();
-	private FuncionarioDAO funcionarioDAO = Principal.getFuncionarioDAO();
+	private DespesaDAO despesaDAO;
+	private FuncionarioDAO funcionarioDAO;
+	private Conexao conexao;
 
 	public void initialize() {
 
@@ -232,7 +234,10 @@ public class TelaDespesaVale {
 		Optional<ButtonType> escolha = alerta.showAndWait();
 
 		if (escolha.get() == ButtonType.OK) {
+			this.conexao = new Conexao();
+			this.despesaDAO = new DespesaDAO(conexao);
 			boolean sucesso = despesaDAO.inserirDespesaFuncionario(despesa);
+			conexao.fecharConexao();
 			if (sucesso) {
 				Alert dlg = new Alert(AlertType.INFORMATION);
 				dlg.setContentText("Vale cadastrado com sucesso");
@@ -256,9 +261,12 @@ public class TelaDespesaVale {
 	}
 
 	public void listaDadosDespesaFuncionario() {
+		this.conexao = new Conexao();
+		this.funcionarioDAO = new FuncionarioDAO(conexao);
 		TelaListaFuncionario tela = new TelaListaFuncionario();
 		txtFuncionario.setText(funcionarioDAO.getNome(tela.IdFuncionario()));
 		txtDescricao.requestFocus();
+		conexao.fecharConexao();
 	}
 
 	public void cancelar() {

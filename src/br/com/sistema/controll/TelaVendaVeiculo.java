@@ -113,7 +113,7 @@ public class TelaVendaVeiculo {
 	@FXML
 	private Button btnConfirmar;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private VeiculoDAO veiculoDAO = null;
 	private PessoaDAO pessoaDAO = null;
 	private static Integer pessoa_id = null;
@@ -280,7 +280,8 @@ public class TelaVendaVeiculo {
 
 	public void listarDados() {
 		tela = new TelaHome();
-		this.veiculoDAO = Principal.getVeiculoDAO();
+		this.conexao = new Conexao();
+		this.veiculoDAO = new VeiculoDAO(conexao);
 		for (Veiculo v : veiculoDAO.listarTodosId(tela.getIdVeiculo())) {
 			txtNomeVeiculo.setText(v.getVeiculo());
 			txtPagamentoVeiculo.setText(v.getVeiculo());
@@ -304,6 +305,8 @@ public class TelaVendaVeiculo {
 			cmbBuscar.requestFocus();
 		} else {
 			String cmb = cmbBuscar.getValue().toString();
+			this.conexao = new Conexao();
+			this.pessoaDAO = new PessoaDAO(conexao);
 			switch (cmb) {
 			case "Nome":
 				if (txtPesquisa.getText().isEmpty()) {
@@ -314,13 +317,11 @@ public class TelaVendaVeiculo {
 					txtPesquisa.requestFocus();
 
 				} else {
-					this.pessoaDAO = Principal.getPessoaDAO();
 					String sql = txtPesquisa.getText();
 					clnNome.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("nome"));
 					clnCpfCnpj.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("cpfcnpj"));
 					ObservableList<Pessoa> lista = FXCollections.observableArrayList(pessoaDAO.buscarNome(sql));
 					tbPessoa.setItems(lista);
-					conexao.fecharConexao();
 				}
 
 				break;
@@ -333,25 +334,21 @@ public class TelaVendaVeiculo {
 					txtPesquisa.requestFocus();
 
 				} else {
-					this.pessoaDAO = Principal.getPessoaDAO();
 					String sql = txtPesquisa.getText();
 					clnNome.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("Nome"));
 					clnCpfCnpj.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("cpfcnpj"));
 					ObservableList<Pessoa> lista = FXCollections
 							.observableArrayList(pessoaDAO.buscarCpfCnpjCliente(formatarCpfCnpj(sql)));
 					tbPessoa.setItems(lista);
-					conexao.fecharConexao();
 
 				}
 
 				break;
 			case "Todos":
-				this.pessoaDAO = Principal.getPessoaDAO();
 				clnNome.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("Nome"));
 				clnCpfCnpj.setCellValueFactory(new PropertyValueFactory<Pessoa, String>("cpfcnpj"));
 				ObservableList<Pessoa> lista = FXCollections.observableArrayList(pessoaDAO.listarTodos());
 				tbPessoa.setItems(lista);
-				conexao.fecharConexao();
 
 				break;
 
@@ -359,6 +356,8 @@ public class TelaVendaVeiculo {
 				break;
 
 			}
+
+			conexao.fecharConexao();
 
 		}
 	}
@@ -532,7 +531,8 @@ public class TelaVendaVeiculo {
 		}
 
 		if (txtParcela.getText() != null && txtValorParcela.getText() != null && txtDataPagamento.getValue() != null) {
-			this.veiculoDAO = Principal.getVeiculoDAO();
+			this.conexao = new Conexao();
+			this.veiculoDAO = new VeiculoDAO(conexao);
 			BigDecimal valorEntrada = veiculoDAO.getValorEntrada(tela.getIdVeiculo());
 			BigDecimal valorDespesa = veiculoDAO.getTotalDespesaVeiculo(tela.getIdVeiculo());
 			BigDecimal valorCalculo = valorEntrada.add(valorDespesa);
@@ -542,7 +542,6 @@ public class TelaVendaVeiculo {
 					"valor entrada do veiculo : " + valorEntrada + "\nValor despesas veiculo : " + valorDespesa);
 			System.out.println("valor venda do veiculo : " + valorVenda + "\nValor custo veiculo : " + valorCalculo
 					+ "\nValor lucro do veiculo : " + lucroVenda);
-			conexao.fecharConexao();
 
 			String situacao = new String("PENDENTE");
 			String descricao = new String("VENDA DE VEICULO");
@@ -569,15 +568,13 @@ public class TelaVendaVeiculo {
 				ContasReceber contas = new ContasReceber(null, dataPagamento, valor, new BigDecimal("0.0"), valor,
 						qtdeParcela, 1, pessoa, ve, situacao, null, null, null, null, null, descricao, null, null,
 						null);
-				this.contasReceberDAO = Principal.getContasReceberDAO();
+				this.contasReceberDAO = new ContasReceberDAO(conexao);
 				boolean suce = contasReceberDAO.inserirPagamentoTemporario(contas);
 				System.out.println("sucesso inserir contas receber : " + suce);
-				conexao.fecharConexao();
 				Integer par = qtdeParcela - 1;
 				if (cmbTipoPagamento.getValue().equalsIgnoreCase("PROMISSORIA")
 						|| cmbTipoPagamento.getValue().equalsIgnoreCase("CHEQUE")) {
 					for (int i = 0; i < par; i++) {
-						this.contasReceberDAO = Principal.getContasReceberDAO();
 						Integer numeros = contasReceberDAO.getNumeroParcela(ve.getId());
 						Integer nume = numeros + 1;
 						Calendar c = Calendar.getInstance();
@@ -590,9 +587,7 @@ public class TelaVendaVeiculo {
 								null, null, null);
 						boolean suces = contasReceberDAO.inserirPagamentoTemporario(conta);
 						System.out.println("sucesso inserir contas receber temporario : " + suces);
-						conexao.fecharConexao();
 					}
-					this.contasReceberDAO = Principal.getContasReceberDAO();
 					for (ContasReceber c : contasReceberDAO.listarTodosPagamentoTemporarioParcelas(ve.getId())) {
 						ContasReceber conta = new ContasReceber(null, c.getDataVencimento(), c.getValorTotal(),
 								new BigDecimal("0.0"), c.getValorPendente(), c.getQtdeParcela(), c.getNumeroParcela(),
@@ -602,28 +597,24 @@ public class TelaVendaVeiculo {
 					}
 
 				} else {
-					this.contasReceberDAO = Principal.getContasReceberDAO();
 					ContasReceber conta = new ContasReceber(null, dataPagamento, valorVenda, new BigDecimal("0.0"),
 							new BigDecimal("0.0"), 1, 1, pessoa, ve, situacao, null, null, null, null, null, descricao,
 							null, null, null);
 					boolean suces = contasReceberDAO.inserir(conta);
 					System.out.println("sucesso inserir contas receber  : " + suces);
-					conexao.fecharConexao();
 				}
-				this.contasReceberDAO = Principal.getContasReceberDAO();
 				boolean apagarTemporario = contasReceberDAO.apagarPagamentoTemporario();
 				System.out.println("apagou dados temporarios : " + apagarTemporario);
-				conexao.fecharConexao();
 
-				this.pagamentoVeiculoDAO = Principal.getPagamentoVeiculoDAO();
+				this.pagamentoVeiculoDAO = new PagamentoVeiculoDAO(conexao);
 				boolean sucesso = pagamentoVeiculoDAO.inserir(pagamentoVeiculo);
 				System.out.println("valor boolean :" + sucesso);
 				if (sucesso) {
-					this.historicoVeiculoDAO = Principal.getHistoricoVeiculoDAO();
+					this.historicoVeiculoDAO = new HistoricoVeiculoDAO(conexao);
 					boolean suces = historicoVeiculoDAO.inserir(historico);
 					System.out.println("sucesso inserir historico veiculo : " + suces);
-					conexao.fecharConexao();
-					this.veiculoDAO = Principal.getVeiculoDAO();
+
+					this.veiculoDAO = new VeiculoDAO(conexao);
 					boolean sucessoAtualizaVeiculo = veiculoDAO.atualizarSituacao(vei);
 					System.out.println("sucesso atualizar veiculo : " + sucessoAtualizaVeiculo);
 					Alert alert = new Alert(AlertType.INFORMATION);
@@ -631,10 +622,12 @@ public class TelaVendaVeiculo {
 					alert.setHeaderText("Venda do veiculo salva com sucesso!");
 					alert.showAndWait();
 				}
+
 				conexao.fecharConexao();
 				voltarTela();
-
 			}
+			conexao.fecharConexao();
+
 		}
 
 	}
@@ -661,7 +654,8 @@ public class TelaVendaVeiculo {
 	}
 
 	private void listaFuncionario() {
-		this.funcionarioDAO = Principal.getFuncionarioDAO();
+		this.conexao = new Conexao();
+		this.funcionarioDAO = new FuncionarioDAO(conexao);
 		cmbFuncionario.getItems().addAll(funcionarioDAO.listar());
 		conexao.fecharConexao();
 	}

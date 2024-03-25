@@ -299,6 +299,7 @@ public class TelaHome {
 		});
 
 		menuListaContasPagar.setOnAction(e -> {
+			this.conexao = new Conexao();
 			try {
 				if (verificaPermissaoUsuario(telaLogin.permissaoUsuario())) {
 					try {
@@ -317,10 +318,11 @@ public class TelaHome {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
+			conexao.fecharConexao();
 		});
 
 		menuListaContasReceber.setOnAction(e -> {
+			this.conexao = new Conexao();
 			try {
 				if (verificaPermissaoUsuario(telaLogin.permissaoUsuario())) {
 					try {
@@ -339,6 +341,7 @@ public class TelaHome {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			conexao.fecharConexao();
 		});
 
 		menuListaFuncionarios.setOnAction(e -> {
@@ -351,6 +354,7 @@ public class TelaHome {
 		});
 
 		menuRelatorioVendedores.setOnAction(e -> {
+			this.conexao = new Conexao();
 			try {
 				if (verificaPermissaoUsuario(telaLogin.permissaoUsuario())) {
 					try {
@@ -369,9 +373,11 @@ public class TelaHome {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			conexao.fecharConexao();
 		});
 
 		menuListaGarantia.setOnAction(e -> {
+			this.conexao = new Conexao();
 			try {
 				if (verificaPermissaoUsuario(telaLogin.permissaoUsuario())) {
 					try {
@@ -390,9 +396,11 @@ public class TelaHome {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			conexao.fecharConexao();
 		});
 
 		menuRelatorioGeralVendas.setOnAction(e -> {
+			this.conexao = new Conexao();
 			try {
 				if (verificaPermissaoUsuario(telaLogin.permissaoUsuario())) {
 					try {
@@ -411,9 +419,11 @@ public class TelaHome {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			conexao.fecharConexao();
 		});
 
 		menuRelatorioDre.setOnAction(e -> {
+			this.conexao = new Conexao();
 			try {
 				if (verificaPermissaoUsuario(telaLogin.permissaoUsuario())) {
 					try {
@@ -432,6 +442,7 @@ public class TelaHome {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			conexao.fecharConexao();
 		});
 
 		menuClientesPF.setOnAction(e -> {
@@ -453,6 +464,7 @@ public class TelaHome {
 		});
 
 		menuListaUsuario.setOnAction(e -> {
+			this.conexao = new Conexao();
 			try {
 				if (verificaPermissaoUsuario(telaLogin.permissaoUsuario())) {
 					try {
@@ -471,6 +483,7 @@ public class TelaHome {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			conexao.fecharConexao();
 		});
 
 		decimal = new DecimalFormat("###,###,###,##0.00");
@@ -501,6 +514,7 @@ public class TelaHome {
 		});
 
 		btnHistoricoVeiculo.setOnAction(e -> {
+			this.conexao = new Conexao();
 			if (tbVeiculo.getSelectionModel().getSelectedItem() != null) {
 				try {
 					if (verificaPermissaoUsuario(telaLogin.permissaoUsuario())) {
@@ -527,7 +541,7 @@ public class TelaHome {
 
 				return;
 			}
-
+			conexao.fecharConexao();
 		});
 
 		btnNovoVeiculo.setOnAction(e -> {
@@ -540,6 +554,7 @@ public class TelaHome {
 		});
 
 		btnExcluir.setOnAction(e -> {
+			this.conexao = new Conexao();
 			if (tbVeiculo.getSelectionModel().getSelectedItem() != null) {
 				try {
 					if (verificaVeiculoVendido(veiculo_id)) {
@@ -572,6 +587,7 @@ public class TelaHome {
 
 				return;
 			}
+			conexao.fecharConexao();
 		});
 
 		btnImprimirLista.setOnAction(e -> {
@@ -587,6 +603,7 @@ public class TelaHome {
 		});
 
 		btnImprimirDados.setOnAction(e -> {
+			this.conexao = new Conexao();
 			if (tbVeiculo.getSelectionModel().getSelectedItem() != null) {
 				try {
 					if (verificaPermissaoUsuario(telaLogin.permissaoUsuario())) {
@@ -610,9 +627,11 @@ public class TelaHome {
 				dlg.setContentText("Selecione o veiculo, para imprimir o relatorio!");
 				dlg.showAndWait();
 			}
+			conexao.fecharConexao();
 		});
 
 		btnAdicionarDespesa.setOnAction(e -> {
+			this.conexao = new Conexao();
 			if (tbVeiculo.getSelectionModel().getSelectedItem() != null) {
 				try {
 					if (verificaVeiculoVendido(veiculo_id)) {
@@ -654,9 +673,11 @@ public class TelaHome {
 
 				return;
 			}
+			conexao.fecharConexao();
 		});
 
 		btnVenda.setOnAction(e -> {
+			this.conexao = new Conexao();
 			if (tbVeiculo.getSelectionModel().getSelectedItem() != null) {
 				try {
 					if (verificaVeiculoVendido(veiculo_id)) {
@@ -684,9 +705,11 @@ public class TelaHome {
 
 				return;
 			}
+			conexao.fecharConexao();
 		});
 
 		btnEditarDados.setOnAction(e -> {
+			this.conexao = new Conexao();
 			if (tbVeiculo.getSelectionModel().getSelectedItem() != null) {
 				try {
 					if (verificaVeiculoVendido(veiculo_id)) {
@@ -728,6 +751,7 @@ public class TelaHome {
 
 				return;
 			}
+			conexao.fecharConexao();
 		});
 
 		btnPesquisar.setOnAction(e -> {
@@ -1313,7 +1337,8 @@ public class TelaHome {
 		Optional<ButtonType> result = alerta.showAndWait();
 
 		if (result.get().equals(sim)) {
-
+			this.conexao = new Conexao();
+			this.veiculoDAO = new VeiculoDAO(conexao);
 			boolean sucesso = veiculoDAO.apagarVeiculo(veiculo_id);
 			boolean suce = veiculoDAO.apagarDespesaVeiculo(veiculo_id);
 			System.out.println("sucesso apagar despesaVeiculo : " + suce);
@@ -1371,6 +1396,8 @@ public class TelaHome {
 
 		} else {
 			cmb = cmbBuscar.getValue().toString();
+			this.conexao = new Conexao();
+			this.veiculoDAO = new VeiculoDAO(conexao);
 
 			switch (tipo) {
 			case "Estoque":
@@ -1436,8 +1463,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 
 				case "Categoria Veiculos":
@@ -1498,8 +1523,6 @@ public class TelaHome {
 						}
 
 					}
-
-					conexao.fecharConexao();
 
 					break;
 
@@ -1562,8 +1585,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 				case "Placa":
 
@@ -1623,8 +1644,6 @@ public class TelaHome {
 						}
 
 					}
-
-					conexao.fecharConexao();
 
 					break;
 				case "Renavam":
@@ -1686,8 +1705,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 
 				case "Todos":
@@ -1717,8 +1734,6 @@ public class TelaHome {
 						lista.add(veiculo);
 					}
 
-					conexao.fecharConexao();
-
 					break;
 
 				default:
@@ -1734,7 +1749,6 @@ public class TelaHome {
 					valorTotalCompraVeiculos = new String("0,00");
 				}
 				valorTotalFipeVeiculos = decimal.format(veiculoDAO.getValorTotalSoma("ESTOQUE", "valor_fipe"));
-				conexao.fecharConexao();
 				Veiculo veiculo2 = new Veiculo(qtde, valorTotalSomaVeiculos, valorTotalCompraVeiculos,
 						valorTotalFipeVeiculos);
 				lista.add(veiculo2);
@@ -1802,8 +1816,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 
 				case "Categoria Veiculos":
@@ -1864,8 +1876,6 @@ public class TelaHome {
 						}
 
 					}
-
-					conexao.fecharConexao();
 
 					break;
 
@@ -1928,8 +1938,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 				case "Placa":
 
@@ -1989,8 +1997,6 @@ public class TelaHome {
 						}
 
 					}
-
-					conexao.fecharConexao();
 
 					break;
 
@@ -2053,8 +2059,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 
 				case "Todos":
@@ -2084,8 +2088,6 @@ public class TelaHome {
 						lista.add(veiculo);
 					}
 
-					conexao.fecharConexao();
-
 					break;
 
 				default:
@@ -2101,7 +2103,6 @@ public class TelaHome {
 					valorTotalCompraVeiculos = new String("0,00");
 				}
 				valorTotalFipeVeiculos = decimal.format(veiculoDAO.getValorTotalSoma("VENDA", "valor_fipe"));
-				conexao.fecharConexao();
 				Veiculo veicul = new Veiculo(qtde, valorTotalSomaVeiculos, valorTotalCompraVeiculos,
 						valorTotalFipeVeiculos);
 				lista.add(veicul);
@@ -2168,8 +2169,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 
 				case "Categoria Veiculos":
@@ -2231,8 +2230,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 
 				case "Marca":
@@ -2293,8 +2290,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 				case "Placa":
 
@@ -2354,8 +2349,6 @@ public class TelaHome {
 						}
 
 					}
-
-					conexao.fecharConexao();
 
 					break;
 
@@ -2418,8 +2411,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 
 				case "Todos":
@@ -2450,8 +2441,6 @@ public class TelaHome {
 						lista.add(veiculo);
 					}
 
-					conexao.fecharConexao();
-
 					break;
 
 				default:
@@ -2469,7 +2458,6 @@ public class TelaHome {
 					valorTotalCompraVeiculos = new String("0,00");
 				}
 				valorTotalFipeVeiculos = decimal.format(veiculoDAO.getValorTotalSoma("CONSIGNADO", "valor_fipe"));
-				conexao.fecharConexao();
 				Veiculo veicu = new Veiculo(qtde, valorTotalSomaVeiculos, valorTotalCompraVeiculos,
 						valorTotalFipeVeiculos);
 				lista.add(veicu);
@@ -2537,7 +2525,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
 
 					break;
 
@@ -2600,8 +2587,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 
 				case "Marca":
@@ -2663,8 +2648,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
-
 					break;
 				case "Placa":
 
@@ -2724,8 +2707,6 @@ public class TelaHome {
 						}
 
 					}
-
-					conexao.fecharConexao();
 
 					break;
 				case "Renavam":
@@ -2787,7 +2768,6 @@ public class TelaHome {
 
 					}
 
-					conexao.fecharConexao();
 					break;
 
 				case "Todos":
@@ -2817,7 +2797,6 @@ public class TelaHome {
 						lista.add(veiculo);
 					}
 
-					conexao.fecharConexao();
 					break;
 
 				default:
@@ -2845,7 +2824,6 @@ public class TelaHome {
 	}
 
 	public void imprimirDadosVeiculo() throws JRException, SQLException {
-
 		ArrayList<HashMap<String, String>> listaDadosVeiculo = new ArrayList<>();
 		HashMap<String, String> mapa = new HashMap<>();
 		Relatorio relatorio = new Relatorio();
@@ -2858,7 +2836,8 @@ public class TelaHome {
 			return;
 
 		} else {
-
+			this.conexao = new Conexao();
+			this.veiculoDAO = new VeiculoDAO(conexao);
 			for (Veiculo v : veiculoDAO.listarTodosId(veiculo_id)) {
 				mapa.put("veiculo", v.getVeiculo());
 				mapa.put("placa", v.getPlaca());
@@ -2873,8 +2852,6 @@ public class TelaHome {
 				mapa.put("km", v.getKm());
 
 			}
-
-			conexao.fecharConexao();
 
 			Date dataEntradaVeiculo = veiculoDAO.getDataVeiculo(veiculo_id, "data_entrada");
 			Date dataVenda = null;
@@ -2910,7 +2887,6 @@ public class TelaHome {
 			mapa.put("totalDespesas", ve.getTotalDespesas());
 			mapa.put("valorEntrada", ve.getValorEntrada());
 			mapa.put("custoTotalVeiculo", ve.getCustoTotalVeiculo());
-			conexao.fecharConexao();
 
 			for (VeiculoRelatorio veis : veiculoDAO.listarDadosVenda(veiculo_id)) {
 				mapa.put("vendaCliente", veis.getVendaCliente());

@@ -160,7 +160,7 @@ public class TelaListaContasPagar {
 	@FXML
 	private Label lblValorTotal;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private static Date dataInicial, dataFinal;
 	private DespesaDAO despesaDAO = null;
 	private VeiculoDAO veiculoDAO = null;
@@ -349,7 +349,8 @@ public class TelaListaContasPagar {
 	}
 
 	public void lista() {
-		this.despesaDAO = Principal.getDespesaDAO();
+		this.conexao = new Conexao();
+		this.despesaDAO = new DespesaDAO(conexao);
 		for (Despesa d : despesaDAO.listarTodosId(pagamento_id)) {
 			txtData.setText(d.getDataVencimentoFormatada());
 			txtDescricao.setText(d.getDescricao());
@@ -363,6 +364,7 @@ public class TelaListaContasPagar {
 	}
 
 	public void listaDadosCompraVeiculo() throws SQLException {
+		this.conexao = new Conexao();
 		txtVeiculoNome.setText("");
 		txtVeiculoMarca.setText("");
 		txtVeiculoRenavam.setText("");
@@ -373,7 +375,7 @@ public class TelaListaContasPagar {
 		txtVeiculoValorEntrada.setText("");
 		txtVeiculoValorVenda.setText("");
 		if (verificaVeiculo(pagamento_id)) {
-			this.veiculoDAO = Principal.getVeiculoDAO();
+			this.veiculoDAO = new VeiculoDAO(conexao);
 			for (Veiculo v : veiculoDAO.listarTodosId(getIdVeiculo(pagamento_id))) {
 				txtVeiculoNome.setText(v.getVeiculo());
 				txtVeiculoMarca.setText(v.getMarca());
@@ -385,8 +387,8 @@ public class TelaListaContasPagar {
 				txtVeiculoValorEntrada.setText(v.getValorEntradaFormatado());
 				txtVeiculoValorVenda.setText(v.getValorVendaFormatado());
 			}
-			conexao.fecharConexao();
 		}
+		conexao.fecharConexao();
 	}
 
 	public void comboBoxDetalhes() {
@@ -447,11 +449,11 @@ public class TelaListaContasPagar {
 			clnDataPagamento.setCellValueFactory(new PropertyValueFactory<>("dataPagamentoFormatada"));
 			clnValor.setCellValueFactory(new PropertyValueFactory<>("valorFormatado"));
 			clnSituacao.setCellValueFactory(new PropertyValueFactory<>("situacao"));
-
+			this.conexao = new Conexao();
+			this.despesaDAO = new DespesaDAO(conexao);
 			switch (cmb) {
 			case "Loja":
 
-				this.despesaDAO = Principal.getDespesaDAO();
 				ObservableList<Despesa> lis = FXCollections
 						.observableArrayList(despesaDAO.listarTodosEmpresa(dataInicial, dataFinal));
 				tbPagamento.setItems(lis);
@@ -462,13 +464,11 @@ public class TelaListaContasPagar {
 						decimal.format(despesaDAO.getPagarDespesasContasPagar(dataInicial, dataFinal, "DESPESA LOJA")));
 				lblValorPago.setText(
 						decimal.format(despesaDAO.getPagoDespesasContasPagar(dataInicial, dataFinal, "DESPESA LOJA")));
-				conexao.fecharConexao();
 
 				break;
 
 			case "Funcionario":
 
-				this.despesaDAO = Principal.getDespesaDAO();
 				ObservableList<Despesa> list = FXCollections
 						.observableArrayList(despesaDAO.listarTodosFuncionario(dataInicial, dataFinal));
 				tbPagamento.setItems(list);
@@ -478,12 +478,10 @@ public class TelaListaContasPagar {
 						.format(despesaDAO.getPagarDespesasContasPagar(dataInicial, dataFinal, "DESPESA FUNCIONARI%")));
 				lblValorPago.setText(decimal
 						.format(despesaDAO.getPagoDespesasContasPagar(dataInicial, dataFinal, "DESPESA FUNCIONARI%")));
-				conexao.fecharConexao();
 
 				break;
 			case "Veiculos":
 
-				this.despesaDAO = Principal.getDespesaDAO();
 				ObservableList<Despesa> listaa = FXCollections
 						.observableArrayList(despesaDAO.listarTodosVeiculo(dataInicial, dataFinal));
 				tbPagamento.setItems(listaa);
@@ -493,13 +491,11 @@ public class TelaListaContasPagar {
 						.setText(decimal.format(despesaDAO.getPagarDespesasVeiculoContasPagar(dataInicial, dataFinal)));
 				lblValorPago
 						.setText(decimal.format(despesaDAO.getPagoDespesasVeiculoContasPagar(dataInicial, dataFinal)));
-				conexao.fecharConexao();
 
 				break;
 
 			case "Diversas":
 
-				this.despesaDAO = Principal.getDespesaDAO();
 				ObservableList<Despesa> li = FXCollections
 						.observableArrayList(despesaDAO.listarTodosDiversas(dataInicial, dataFinal));
 				tbPagamento.setItems(li);
@@ -510,30 +506,30 @@ public class TelaListaContasPagar {
 						.format(despesaDAO.getPagarDespesasContasPagar(dataInicial, dataFinal, "DESPESA DIVERSAS")));
 				lblValorPago.setText(decimal
 						.format(despesaDAO.getPagoDespesasContasPagar(dataInicial, dataFinal, "DESPESA DIVERSAS")));
-				conexao.fecharConexao();
 
 				break;
 
 			case "Todos":
-				this.despesaDAO = Principal.getDespesaDAO();
 				ObservableList<Despesa> lista = FXCollections
 						.observableArrayList(despesaDAO.listarTodos(dataInicial, dataFinal));
 				tbPagamento.setItems(lista);
 				lblValorTotal.setText(decimal.format(despesaDAO.getTotalDespesasContasPagar(dataInicial, dataFinal)));
 				lblValorPagar.setText(decimal.format(despesaDAO.getPagarDespesasContasPagar(dataInicial, dataFinal)));
 				lblValorPago.setText(decimal.format(despesaDAO.getPagoDespesasContasPagar(dataInicial, dataFinal)));
-				conexao.fecharConexao();
 
 				break;
 
 			default:
 				break;
 			}
+
+			conexao.fecharConexao();
 		}
 
 	}
 
 	public void receberTotal() throws SQLException {
+		this.conexao = new Conexao();
 		if (verificaPagamento(pagamento_id)) {
 			Alert alerta = new Alert(AlertType.CONFIRMATION);
 			alerta.setTitle("Confirmação de Pagamento");
@@ -553,8 +549,9 @@ public class TelaListaContasPagar {
 				Date dataPagamentoTotal = new java.sql.Date(data.getTime());
 				Despesa despesa = new Despesa(pagamento_id, null, null, null, dataPagamentoTotal, null, null, null,
 						null, null, null, null, null, situacao);
-				this.despesaDAO = Principal.getDespesaDAO();
+				this.despesaDAO = new DespesaDAO(conexao);
 				boolean sucesso = despesaDAO.atualizarPagamentoSituacao(despesa);
+				conexao.fecharConexao();
 				if (sucesso) {
 					Alert dlg = new Alert(AlertType.INFORMATION);
 					dlg.setContentText("Pagamento atualizado com sucesso !");
@@ -562,7 +559,6 @@ public class TelaListaContasPagar {
 					pesquisa();
 
 				}
-				conexao.fecharConexao();
 			}
 		}
 	}
@@ -575,16 +571,17 @@ public class TelaListaContasPagar {
 		Optional<ButtonType> escolha = alerta.showAndWait();
 
 		if (escolha.get() == ButtonType.OK) {
-			this.despesaDAO = Principal.getDespesaDAO();
+			this.conexao = new Conexao();
+			this.despesaDAO = new DespesaDAO(conexao);
 			Despesa despesa = new Despesa(pagamento_id);
 			boolean sucesso = despesaDAO.apagar(despesa);
+			conexao.fecharConexao();
 			if (sucesso) {
 				Alert dlg = new Alert(AlertType.INFORMATION);
 				dlg.setContentText("Despesa excluida com sucesso!");
 				dlg.showAndWait();
 
 			}
-			conexao.fecharConexao();
 		}
 	}
 
@@ -626,10 +623,11 @@ public class TelaListaContasPagar {
 			return;
 		} else {
 			cmb = cmbBuscar.getValue().toString();
+			this.conexao = new Conexao();
+			this.despesaDAO = new DespesaDAO(conexao);
 			switch (cmb) {
 			case "Loja":
 
-				this.despesaDAO = Principal.getDespesaDAO();
 				for (Despesa d : despesaDAO.listarTodosEmpresa(dataInicial, dataFinal)) {
 					valorPagar = decimal
 							.format(despesaDAO.getPagarDespesasContasPagar(dataInicial, dataFinal, "DESPESA LOJA"));
@@ -654,13 +652,10 @@ public class TelaListaContasPagar {
 				Relatorio relatorio = new Relatorio();
 				relatorio.gerarRelatorio(lista, "RelatorioDespesas");
 
-				conexao.fecharConexao();
-
 				break;
 
 			case "Funcionario":
 
-				this.despesaDAO = Principal.getDespesaDAO();
 				for (Despesa d : despesaDAO.listarTodosFuncionario(dataInicial, dataFinal)) {
 					valorPagar = decimal.format(
 							despesaDAO.getPagarDespesasContasPagar(dataInicial, dataFinal, "DESPESA FUNCIONARI%"));
@@ -685,12 +680,9 @@ public class TelaListaContasPagar {
 				Relatorio relatori = new Relatorio();
 				relatori.gerarRelatorio(lista, "RelatorioDespesas");
 
-				conexao.fecharConexao();
-
 				break;
 			case "Veiculos":
 
-				this.despesaDAO = Principal.getDespesaDAO();
 				for (Despesa d : despesaDAO.listarTodosVeiculo(dataInicial, dataFinal)) {
 					valorPagar = decimal.format(despesaDAO.getPagarDespesasVeiculoContasPagar(dataInicial, dataFinal));
 					valorPago = decimal.format(despesaDAO.getPagoDespesasVeiculoContasPagar(dataInicial, dataFinal));
@@ -712,13 +704,10 @@ public class TelaListaContasPagar {
 				Relatorio relato = new Relatorio();
 				relato.gerarRelatorio(lista, "RelatorioDespesas");
 
-				conexao.fecharConexao();
-
 				break;
 
 			case "Diversas":
 
-				this.despesaDAO = Principal.getDespesaDAO();
 				for (Despesa d : despesaDAO.listarTodosDiversas(dataInicial, dataFinal)) {
 					valorPagar = decimal
 							.format(despesaDAO.getPagarDespesasContasPagar(dataInicial, dataFinal, "DESPESA DIVERSAS"));
@@ -743,13 +732,10 @@ public class TelaListaContasPagar {
 				Relatorio relatoR = new Relatorio();
 				relatoR.gerarRelatorio(lista, "RelatorioDespesas");
 
-				conexao.fecharConexao();
-
 				break;
 
 			case "Todos":
 
-				this.despesaDAO = Principal.getDespesaDAO();
 				for (Despesa d : despesaDAO.listarTodos(dataInicial, dataFinal)) {
 					valorPagar = decimal.format(despesaDAO.getPagarDespesasContasPagar(dataInicial, dataFinal));
 					valorPago = decimal.format(despesaDAO.getPagoDespesasContasPagar(dataInicial, dataFinal));
@@ -771,18 +757,17 @@ public class TelaListaContasPagar {
 				Relatorio relatorioss = new Relatorio();
 				relatorioss.gerarRelatorio(lista, "RelatorioDespesas");
 
-				conexao.fecharConexao();
 				break;
 
 			default:
 				break;
 			}
+			conexao.fecharConexao();
 		}
 
 	}
 
 	public boolean verificaPagamento(Integer id) throws SQLException {
-		conexao = Principal.getConexao();
 		boolean result = false;
 
 		String sql = "SELECT * FROM despesas WHERE id = ? AND situacao = 'PAGO'";
@@ -803,7 +788,6 @@ public class TelaListaContasPagar {
 	}
 
 	public boolean verificaVeiculo(Integer despesa_id) throws SQLException {
-		conexao = Principal.getConexao();
 		boolean result = false;
 
 		String sql = "SELECT * FROM despesas WHERE id = ?";
@@ -824,52 +808,7 @@ public class TelaListaContasPagar {
 
 	}
 
-	public boolean verificaVeiculoEntrada(Integer despesa_id) throws SQLException {
-		conexao = Principal.getConexao();
-		boolean result = false;
-
-		String sql = "SELECT * FROM despesas WHERE id = ? AND tipo = 'DESPESA COMPRA VEICULO'";
-
-		PreparedStatement cmd = conexao.getConexao().prepareStatement(sql);
-		cmd.setInt(1, despesa_id);
-
-		ResultSet rs = cmd.executeQuery();
-
-		if (rs.next()) {
-			result = true;
-			veiculo_id = rs.getInt("veiculo_id");
-			System.out.println("pegou id veiculo : " + veiculo_id);
-
-		}
-
-		System.out.println("resultado : " + result);
-		return result;
-
-	}
-
-	public Integer getIdCliente(Integer veiculo_id) throws SQLException {
-		conexao = Principal.getConexao();
-		Integer result = null;
-
-		String sql = "SELECT * FROM veiculo WHERE id = ?";
-
-		PreparedStatement cmd = conexao.getConexao().prepareStatement(sql);
-		cmd.setInt(1, veiculo_id);
-
-		ResultSet rs = cmd.executeQuery();
-
-		if (rs.next()) {
-			result = rs.getInt("pessoa_id");
-
-		}
-
-		System.out.println("resultado : " + result);
-		return result;
-
-	}
-
 	public Integer getIdVeiculo(Integer despesa_id) throws SQLException {
-		conexao = Principal.getConexao();
 		Integer result = null;
 
 		String sql = "SELECT * FROM despesas WHERE id = ?";

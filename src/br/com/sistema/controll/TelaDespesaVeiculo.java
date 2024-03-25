@@ -48,9 +48,9 @@ public class TelaDespesaVeiculo {
 	@FXML
 	private Button btnCancelar;
 
-	private Conexao conexao = Principal.getConexao();
-	private DespesaDAO despesaDAO = Principal.getDespesaDAO();
-	private HistoricoVeiculoDAO historicoVeiculoDAO = Principal.getHistoricoVeiculoDAO();
+	private Conexao conexao;
+	private DespesaDAO despesaDAO;
+	private HistoricoVeiculoDAO historicoVeiculoDAO;
 
 	public void initialize() {
 
@@ -201,7 +201,7 @@ public class TelaDespesaVeiculo {
 		tipoDespesa = new String("DESPESA VEICULO");
 		situacao = new String("PENDENTE");
 		responsavel = telaLogin.permissaoUsuario();
-
+		this.conexao = new Conexao();
 		if (verificaDespesaVeiculo(tela.getIdVeiculo(), tipoDespesa, descricao, valor, dataFinal)) {
 			ValidationFields.checkEmptyFields(txtDescricao);
 			Alert dlg = new Alert(AlertType.WARNING);
@@ -210,6 +210,7 @@ public class TelaDespesaVeiculo {
 			txtDescricao.requestFocus();
 			return;
 		}
+		conexao.fecharConexao();
 
 		Despesa d = new Despesa(null, tipoDespesa, descricao, dataFinal, null, valor, null, responsavel, null, null,
 				veiculo, null, null, situacao);
@@ -224,14 +225,18 @@ public class TelaDespesaVeiculo {
 		Optional<ButtonType> escolha = alerta.showAndWait();
 
 		if (escolha.get() == ButtonType.OK) {
+			this.conexao = new Conexao();
+			this.despesaDAO = new DespesaDAO(conexao);
 			boolean sucesso = despesaDAO.inserirDespesaVeiculo(d);
 			System.out.println("sucesso inserir despesa : " + sucesso);
+			this.historicoVeiculoDAO = new HistoricoVeiculoDAO(conexao);
 			boolean suce = historicoVeiculoDAO.inserirHistorico(h);
 			System.out.println("sucesso inserir historico : " + suce);
 			if (sucesso) {
 				Alert dlg = new Alert(AlertType.INFORMATION);
 				dlg.setContentText("Despesa salva com sucesso!");
 				dlg.showAndWait();
+				conexao.fecharConexao();
 				voltarTela();
 			}
 

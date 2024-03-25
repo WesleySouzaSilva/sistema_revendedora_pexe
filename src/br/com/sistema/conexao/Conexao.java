@@ -9,8 +9,8 @@ import javax.swing.JOptionPane;
 public class Conexao {
 
 	private Connection conexao = null;
-	private String usuario = "sistema_revendedora";
-	private String senha = "bd_revendedora486231";
+	private String usuario = "sistema_revenda";
+	private String senha = "Bd-@4862*";
 
 	// "sistema_revenda", "sistema_revenda", "Bd-@4862*"
 	public Conexao() {
@@ -24,7 +24,7 @@ public class Conexao {
 //						senha);
 				conexao = DriverManager.getConnection(
 						// ip 192.168.1.253
-						"jdbc:mysql://localhost:3306/sistema_revendedora?autoReconnect=true&useSSL=false&serverTimezone=UTC", usuario,
+						"jdbc:mysql://sistema-revenda.mysql.uhserver.com/sistema_revenda?autoReconnect=true&useSSL=false&serverTimezone=UTC", usuario,
 						senha);
 
 				System.out.println("Conectou!!");

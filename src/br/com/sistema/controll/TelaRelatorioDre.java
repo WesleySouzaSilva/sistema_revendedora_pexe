@@ -38,7 +38,7 @@ public class TelaRelatorioDre {
 	@FXML
 	private Button btnConfirmar;
 
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private DecimalFormat decimal = new DecimalFormat("###,###,###,##0.00");
 	private DespesaDAO despesaDAO = null;
 	private ContasReceberDAO contasReceberDAO = null;
@@ -100,7 +100,8 @@ public class TelaRelatorioDre {
 			dataFinalFormatada = formata.format(dataFinal);
 		}
 
-		this.pagamentoVeiculoDAO = Principal.getPagamentoVeiculoDAO();
+		this.conexao = new Conexao();
+		this.pagamentoVeiculoDAO = new PagamentoVeiculoDAO(conexao);
 		lucroLiquidoVeiculos = decimal.format(pagamentoVeiculoDAO.getValorTotalLucro(dataInicial, dataFinal));
 
 		BigDecimal receitLiquid = pagamentoVeiculoDAO.getValorTotalLucro(dataInicial, dataFinal);
@@ -111,9 +112,8 @@ public class TelaRelatorioDre {
 			mediaLucroVeiculo = decimal.format(receitLiquid.divide(qtdeVenda, 2, RoundingMode.HALF_UP));
 
 		}
-		conexao.fecharConexao();
-
-		this.despesaDAO = Principal.getDespesaDAO();
+		
+		this.despesaDAO = new DespesaDAO(conexao);
 		despesaEmpresa = decimal.format(despesaDAO.getTotalDespesasBigDecimalEmpresa(dataInicial, dataFinal));
 		System.out.println("DESPESA EMPRESA : " + despesaEmpresa);
 		despesaDiversas = decimal.format(despesaDAO.getTotalDespesasBigDecimalDiversas(dataInicial, dataFinal));
@@ -141,9 +141,8 @@ public class TelaRelatorioDre {
 		} else {
 			mediaCompraVeiculo = decimal.format(comprVeicul.divide(qtdeCompra, 2, RoundingMode.HALF_UP));
 		}
-		conexao.fecharConexao();
 
-		this.contasReceberDAO = Principal.getContasReceberDAO();
+		this.contasReceberDAO = new ContasReceberDAO(conexao);
 		receitaTotal = decimal.format(contasReceberDAO.getValorContasReceber(dataInicial, dataFinal, "valor_total"));
 		contasReceberPago = decimal
 				.format(contasReceberDAO.getValorContasReceber(dataInicial, dataFinal, "valor_pago"));
@@ -152,11 +151,10 @@ public class TelaRelatorioDre {
 		contasReceberTotal = decimal
 				.format(contasReceberDAO.getValorContasReceber(dataInicial, dataFinal, "valor_total"));
 		BigDecimal contasReceber = contasReceberDAO.getValorContasReceber(dataInicial, dataFinal, "valor_total");
-		conexao.fecharConexao();
 
 		faturamento = decimal.format(contasReceber.subtract(despe));
 
-		this.veiculoDAO = Principal.getVeiculoDAO();
+		this.veiculoDAO = new VeiculoDAO(conexao);
 		qtdeVeiculos = veiculoDAO.getQtdeTotalEstoque();
 		valorVeiculos = decimal.format(veiculoDAO.getValorTotalEstoque(dataInicial, dataFinal, "valor_venda"));
 		qtdeVeiculosVendidos = veiculoDAO.getQtdeTotalVeiculosVendidos(dataInicial, dataFinal);

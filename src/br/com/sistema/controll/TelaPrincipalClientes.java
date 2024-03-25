@@ -177,15 +177,15 @@ public class TelaPrincipalClientes {
 	@FXML
 	private MenuItem menuCadastroPJ;
 
-	private Conexao conexao = Principal.getConexao();
-	private PessoaDAO pessoaDAO = Principal.getPessoaDAO();
-	private EnderecoDAO enderecoDAO = Principal.getEnderecoDAO();
-	private TelefoneDAO telefoneDAO = Principal.getTelefoneDAO();
-	private EmailDAO emailDAO = Principal.getEmailDAO();
+	private Conexao conexao;
+	private PessoaDAO pessoaDAO = null;
+	private EnderecoDAO enderecoDAO = null;
+	private TelefoneDAO telefoneDAO = null;
+	private EmailDAO emailDAO = null;
 	private static Integer pessoa_id;
 	private List<String> listaBusca = new ArrayList<>();
 	private static Integer pessoa_id_static;
-	private ClientePFPropertyDAO clientePFPropertyDAO = Principal.getClientePFPropertyDAO();
+	private ClientePFPropertyDAO clientePFPropertyDAO = null;
 
 	public void initialize() {
 
@@ -228,12 +228,17 @@ public class TelaPrincipalClientes {
 
 		tbClientes.setOnMouseClicked(e -> {
 			if (tbClientes.getSelectionModel().getSelectedItem() != null) {
-
+				this.conexao = new Conexao();
+				this.clientePFPropertyDAO = new ClientePFPropertyDAO(conexao);
+				this.enderecoDAO = new EnderecoDAO(conexao);
+				this.emailDAO = new EmailDAO(conexao);
+				this.telefoneDAO = new TelefoneDAO(conexao);
 				acaoBuscarCliente();
 				buscarEmail();
 				buscarEndereco();
 				buscarEndereco2();
 				buscarTelefone();
+				conexao.fecharConexao();
 			} else {
 				Alert dlg = new Alert(AlertType.INFORMATION);
 				ValidationFields.checkEmptyFields(tbClientes);
@@ -275,25 +280,25 @@ public class TelaPrincipalClientes {
 				alerta.showAndWait();
 				return;
 			} else {
+				this.conexao = new Conexao();
+				this.pessoaDAO = new PessoaDAO(conexao);
 
 				Pessoa pessoa = new Pessoa(pessoa_id, null, null, null, null, null, null, null, null, null, "NAO",
 						null);
 
-				boolean sucess1 = true;
-				if (sucess1) {
-					Alert alerta = new Alert(AlertType.CONFIRMATION);
-					alerta.setTitle("Confirmação de EXCLUSÃO");
-					alerta.setHeaderText("Você quer mesmo excluir o cliente selecionado? ");
-					alerta.setContentText(
-							"O cliente " + nomeCliente(pessoa_id) + " será excluido!" + "\nVocê tem certeza?");
-					Optional<ButtonType> escolha = alerta.showAndWait();
+				Alert alerta = new Alert(AlertType.CONFIRMATION);
+				alerta.setTitle("Confirmação de EXCLUSÃO");
+				alerta.setHeaderText("Você quer mesmo excluir o cliente selecionado? ");
+				alerta.setContentText(
+						"O cliente " + nomeCliente(pessoa_id) + " será excluido!" + "\nVocê tem certeza?");
+				Optional<ButtonType> escolha = alerta.showAndWait();
 
-					if (escolha.get() == ButtonType.OK) {
-						boolean sucesso = pessoaDAO.atualizar(pessoa);
-						System.out.println("valor boolean :" + sucesso);
-						acaoPesquisarPessoa();
+				if (escolha.get() == ButtonType.OK) {
+					boolean sucesso = pessoaDAO.atualizar(pessoa);
+					System.out.println("valor boolean :" + sucesso);
+					conexao.fecharConexao();
+					acaoPesquisarPessoa();
 
-					}
 				}
 
 			}
@@ -333,6 +338,9 @@ public class TelaPrincipalClientes {
 	}
 
 	public void acaoPesquisarPessoa() {
+		limparCampos();
+		this.conexao = new Conexao();
+		this.pessoaDAO = new PessoaDAO(conexao);
 		if (cmbBusca.getValue() == null) {
 			Alert dlg = new Alert(AlertType.INFORMATION);
 			ValidationFields.checkEmptyFields(cmbBusca);
@@ -392,6 +400,33 @@ public class TelaPrincipalClientes {
 			}
 
 		}
+
+		conexao.fecharConexao();
+	}
+	
+	private void limparCampos() {
+		tbClientes.getItems().clear();
+		tbEmail.getItems().clear();
+		tbEndereco.getItems().clear();
+		tbEndereco2.getItems().clear();
+		tbTelefone.getItems().clear();
+		lblBairro.setText("");
+		lblCep.setText("");
+		lblCidade.setText("");
+		lblCpfCnpj.setText("");
+		lblData.setText("");
+		lblEmail.setText("");
+		lblEmailNfs.setText("");
+		lblEstado.setText("");
+		lblNome.setText("");
+		lblNumero.setText("");
+		lblRg.setText("");
+		lblRua.setText("");
+		lblSexo.setText("");
+		lblTelCelular.setText("");
+		lblTelComercial.setText("");
+		lblTelResidencial.setText("");
+		lblTelWhatsapp.setText("");
 	}
 
 	public void selecionarPessoa(Pessoa pessoa) {
@@ -446,7 +481,7 @@ public class TelaPrincipalClientes {
 	public void editarCliente() throws IOException, SQLException {
 		Stage stage;
 		String p = new String("PF");
-
+		this.conexao = new Conexao();
 		if (isRegistroPessoa(pessoa_id).equals(p)) {
 
 			stage = new Stage();
@@ -477,6 +512,7 @@ public class TelaPrincipalClientes {
 			stage.show();
 			stage.setResizable(false);
 		}
+		conexao.fecharConexao();
 	}
 
 	public void buscarEndereco() {

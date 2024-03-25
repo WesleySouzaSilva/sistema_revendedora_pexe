@@ -91,7 +91,7 @@ public class TelaEditarClientePJ {
 	private PessoaDAOPJ pessoaDAOPJ = null;
 	private CidadeDAO cidadeDAO = null;
 	private EstadoDAO estadoDAO = null;
-	private Conexao conexao = Principal.getConexao();
+	private Conexao conexao;
 	private TelaPrincipalClientes tela;
 
 	public void initialize() {
@@ -221,7 +221,8 @@ public class TelaEditarClientePJ {
 	}
 
 	public void carregaComboBoxEstados() {
-		this.estadoDAO = Principal.getEstadoDAO();
+		this.conexao = new Conexao();
+		this.estadoDAO = new EstadoDAO(conexao);
 		cmbUf.getItems().addAll(estadoDAO.listar());
 		cmbUf.toString();
 		conexao.fecharConexao();
@@ -229,6 +230,9 @@ public class TelaEditarClientePJ {
 	}
 
 	public void comboBoxCidadePorEstado() {
+		this.conexao = new Conexao();
+		this.estadoDAO = new EstadoDAO(conexao);
+		this.cidadeDAO = new CidadeDAO(conexao);
 		if (cmbUf.getValue().toString().isEmpty()) {
 
 		} else {
@@ -239,12 +243,11 @@ public class TelaEditarClientePJ {
 			System.out.println("valor cmbEstado: " + nome);
 			System.out.println("valor Objeto estado: " + id.getId());
 
-			this.cidadeDAO = Principal.getCidadeDAO();
 			cmbCidade.getItems().addAll(cidadeDAO.buscarCidade(id.getId()));
 			cmbCidade.toString();
-			conexao.fecharConexao();
 		}
-
+		conexao.fecharConexao();
+		conexao.fecharConexao();
 	}
 
 	public void voltarTela() {
@@ -269,8 +272,8 @@ public class TelaEditarClientePJ {
 
 	public void acaoBuscarCliente() {
 		tela = new TelaPrincipalClientes();
-
-		this.pessoaDAO = Principal.getPessoaDAO();
+		this.conexao = new Conexao();
+		this.pessoaDAO = new PessoaDAO(conexao);
 		for (Pessoa pessoa : pessoaDAO.buscarCidade(tela.pessoaId())) {
 			txtNome.setText(pessoa.getNome());
 			txtCnpj.setText(pessoa.getCpfcnpj());
@@ -428,8 +431,8 @@ public class TelaEditarClientePJ {
 			emai = txtEmail.getText();
 
 		}
-
-		this.pessoaDAO = Principal.getPessoaDAO();
+		this.conexao = new Conexao();
+		this.pessoaDAO = new PessoaDAO(conexao);
 		Integer endereco_id = pessoaDAO.getEndereco(tela.pessoaId());
 		System.out.println("buscou endereco_id editar : " + endereco_id);
 		Integer email_id = pessoaDAO.getEmail(tela.pessoaId());
@@ -450,39 +453,30 @@ public class TelaEditarClientePJ {
 				&& txtEmail.getText() != null && txtEmailNFS.getText() != null && txtNome.getText() != null
 				&& txtNumero.getText() != null) {
 
-			this.emailDAO = Principal.getEmailDAO();
-			this.enderecoDAO = Principal.getEnderecoDAO();
-			this.telefoneDAO = Principal.getTelefoneDAO();
-			this.pessoaDAOPJ = Principal.getPessoaDAOPJ();
-			boolean sucesso = true;
-			if (sucesso) {
-				Alert alerta = new Alert(AlertType.CONFIRMATION);
-				alerta.setTitle("Confirmação de ATUALIZAÇÃO ");
-				alerta.setHeaderText("Você quer mesmo atualizar o Cliente ? ");
-				alerta.setContentText("O cliente " + txtNome.getText() + " será atualizado!" + "\nVocê tem certeza?");
-				Optional<ButtonType> escolha = alerta.showAndWait();
+			Alert alerta = new Alert(AlertType.CONFIRMATION);
+			alerta.setTitle("Confirmação de ATUALIZAÇÃO ");
+			alerta.setHeaderText("Você quer mesmo atualizar o Cliente ? ");
+			alerta.setContentText("O cliente " + txtNome.getText() + " será atualizado!" + "\nVocê tem certeza?");
+			Optional<ButtonType> escolha = alerta.showAndWait();
 
-				if (escolha.get() == ButtonType.OK) {
-					boolean sucessos = enderecoDAO.atualizar(enderecos);
-					boolean suces = telefoneDAO.atualizar(telefones);
-					boolean secess = emailDAO.atualizar(emails);
-					boolean su = pessoaDAOPJ.atualizar(pessoa);
-					System.out.println("atualizar endereco : " + sucessos);
-					System.out.println("atualizar telefone : " + suces);
-					System.out.println("atualizar email : " + secess);
-					System.out.println("atualizar pessoa : " + su);
-					conexao.fecharConexao();
-					voltarTelaIncial();
+			if (escolha.get() == ButtonType.OK) {
+				this.enderecoDAO = new EnderecoDAO(conexao);
+				boolean sucessos = enderecoDAO.atualizar(enderecos);
+				this.telefoneDAO = new TelefoneDAO(conexao);
+				boolean suces = telefoneDAO.atualizar(telefones);
+				this.emailDAO = new EmailDAO(conexao);
+				boolean secess = emailDAO.atualizar(emails);
+				this.pessoaDAOPJ = new PessoaDAOPJ(conexao);
+				boolean su = pessoaDAOPJ.atualizar(pessoa);
+				System.out.println("atualizar endereco : " + sucessos);
+				System.out.println("atualizar telefone : " + suces);
+				System.out.println("atualizar email : " + secess);
+				System.out.println("atualizar pessoa : " + su);
+				conexao.fecharConexao();
+				voltarTelaIncial();
 
-				} else {
-
-				}
-
-			} else {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Confirmação de INCLUSÃO");
-				alert.setHeaderText("Erro ao cadastrar um novo cliente! ");
 			}
+			conexao.fecharConexao();
 		}
 
 	}
