@@ -234,9 +234,11 @@ public class TelaNovaDespesa {
 		ArrayList<String> listaBusca = new ArrayList<>();
 		String em = new String("DESPESA LOJA");
 		String t = new String("DESPESA DIVERSAS");
+		String fun = new String("DESPESA FUNCIONARIO");
 
 		listaBusca.add(em);
 		listaBusca.add(t);
+		listaBusca.add(fun);
 
 		cmbTipo.getItems().addAll(listaBusca);
 	}
