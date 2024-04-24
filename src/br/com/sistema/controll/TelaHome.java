@@ -82,6 +82,9 @@ public class TelaHome {
 
 	@FXML
 	private TableColumn<Veiculo, String> clnMarca;
+	
+	@FXML
+	private TableColumn<Veiculo, String> clnAno;
 
 	@FXML
 	private TableColumn<Veiculo, String> clnValorVenda;
@@ -139,6 +142,9 @@ public class TelaHome {
 
 	@FXML
 	private Label lblDadosPlaca;
+	
+	@FXML
+	private Label lblAno;
 
 	@FXML
 	private Label lblDadosRenavam;
@@ -878,6 +884,7 @@ public class TelaHome {
 			clnCor.setCellValueFactory(new PropertyValueFactory<>("cor"));
 			clnKm.setCellValueFactory(new PropertyValueFactory<>("km"));
 			clnDataEntrada.setCellValueFactory(new PropertyValueFactory<>("dataEntradaFormatada"));
+			clnAno.setCellValueFactory(new PropertyValueFactory<>("ano_modelo"));
 			clnMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
 			clnValorVenda.setCellValueFactory(new PropertyValueFactory<>("valorVendaFormatado"));
 			clnSituacao.setCellValueFactory(new PropertyValueFactory<>("situacao"));
@@ -1365,7 +1372,7 @@ public class TelaHome {
 		ArrayList<Veiculo> lista = new ArrayList<>();
 		String nomeVeiculo = null, placa = null, renavam = null, cor = null, dataEntrada = null, dataVenda = null,
 				valorVenda = null, situacao = null, marca = null, categoria = null, financiamento = null,
-				sinistroRs = null, km = null, valorFipeFormatado = null;
+				sinistroRs = null, km = null, valorFipeFormatado = null, ano = null;
 		String qtde = null;
 		String valorTotalSomaVeiculos = null, valorTotalCompraVeiculos = null, valorTotalFipeVeiculos = null;
 		Integer id = null;
@@ -1414,6 +1421,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1426,7 +1434,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1441,6 +1449,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1453,7 +1462,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1475,6 +1484,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1487,7 +1497,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1502,6 +1512,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1514,7 +1525,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1536,6 +1547,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1548,7 +1560,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1563,6 +1575,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1575,7 +1588,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1596,6 +1609,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1608,7 +1622,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1623,6 +1637,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1635,7 +1650,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1656,6 +1671,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1668,7 +1684,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1683,6 +1699,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1695,7 +1712,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1714,6 +1731,7 @@ public class TelaHome {
 						marca = v.getMarca();
 						nomeVeiculo = v.getVeiculo();
 						placa = v.getPlaca();
+						ano = v.getAno_modelo();
 						cor = v.getCor();
 						renavam = v.getRenavam();
 						dataEntrada = v.getDataEntradaFormatada();
@@ -1726,7 +1744,7 @@ public class TelaHome {
 						km = v.getKm();
 						valorFipeFormatado = v.getValorFipeFormatado();
 
-						veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao, dataEntrada,
+						veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao, dataEntrada,
 								null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs, financiamento,
 								categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 								valorTotalFipeVeiculos);
@@ -1769,6 +1787,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1779,7 +1798,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1794,6 +1813,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1806,7 +1826,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1828,6 +1848,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1840,7 +1861,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1855,6 +1876,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1867,7 +1889,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1889,6 +1911,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1901,7 +1924,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1916,6 +1939,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1928,7 +1952,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1949,6 +1973,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1961,7 +1986,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -1976,6 +2001,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -1988,7 +2014,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2010,6 +2036,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2022,7 +2049,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2037,6 +2064,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2049,7 +2077,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2068,6 +2096,7 @@ public class TelaHome {
 						marca = v.getMarca();
 						nomeVeiculo = v.getVeiculo();
 						placa = v.getPlaca();
+						ano = v.getAno_modelo();
 						cor = v.getCor();
 						renavam = v.getRenavam();
 						dataEntrada = v.getDataEntradaFormatada();
@@ -2080,7 +2109,7 @@ public class TelaHome {
 						km = v.getKm();
 						valorFipeFormatado = v.getValorFipeFormatado();
 
-						veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao, dataEntrada,
+						veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao, dataEntrada,
 								null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs, financiamento,
 								categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 								valorTotalFipeVeiculos);
@@ -2122,6 +2151,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2132,7 +2162,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2147,6 +2177,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2159,7 +2190,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2181,6 +2212,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2193,7 +2225,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2208,6 +2240,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2220,7 +2253,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2242,6 +2275,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2254,7 +2288,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2268,6 +2302,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2280,7 +2315,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2301,6 +2336,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2313,7 +2349,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2328,6 +2364,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2340,7 +2377,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2362,6 +2399,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2374,7 +2412,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2389,6 +2427,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2401,7 +2440,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2421,6 +2460,7 @@ public class TelaHome {
 						marca = v.getMarca();
 						nomeVeiculo = v.getVeiculo();
 						placa = v.getPlaca();
+						ano = v.getAno_modelo();
 						cor = v.getCor();
 						renavam = v.getRenavam();
 						dataEntrada = v.getDataEntradaFormatada();
@@ -2433,7 +2473,7 @@ public class TelaHome {
 						km = v.getKm();
 						valorFipeFormatado = v.getValorFipeFormatado();
 
-						veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao, dataEntrada,
+						veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao, dataEntrada,
 								null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs, financiamento,
 								categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 								valorTotalFipeVeiculos);
@@ -2476,6 +2516,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2488,7 +2529,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2503,6 +2544,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2515,7 +2557,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2538,6 +2580,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2550,7 +2593,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2565,6 +2608,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2577,7 +2621,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2599,6 +2643,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2611,7 +2656,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2626,6 +2671,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2638,7 +2684,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2659,6 +2705,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2671,7 +2718,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2686,6 +2733,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2698,7 +2746,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2719,6 +2767,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2731,7 +2780,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2746,6 +2795,7 @@ public class TelaHome {
 							marca = v.getMarca();
 							nomeVeiculo = v.getVeiculo();
 							placa = v.getPlaca();
+							ano = v.getAno_modelo();
 							cor = v.getCor();
 							renavam = v.getRenavam();
 							dataEntrada = v.getDataEntradaFormatada();
@@ -2758,7 +2808,7 @@ public class TelaHome {
 							km = v.getKm();
 							valorFipeFormatado = v.getValorFipeFormatado();
 
-							veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao,
+							veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao,
 									dataEntrada, null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs,
 									financiamento, categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 									valorTotalFipeVeiculos);
@@ -2777,6 +2827,7 @@ public class TelaHome {
 						marca = v.getMarca();
 						nomeVeiculo = v.getVeiculo();
 						placa = v.getPlaca();
+						ano = v.getAno_modelo();
 						cor = v.getCor();
 						renavam = v.getRenavam();
 						dataEntrada = v.getDataEntradaFormatada();
@@ -2789,7 +2840,7 @@ public class TelaHome {
 						km = v.getKm();
 						valorFipeFormatado = v.getValorFipeFormatado();
 
-						veiculo = new Veiculo(id, nomeVeiculo, marca, null, renavam, placa, cor, situacao, dataEntrada,
+						veiculo = new Veiculo(id, nomeVeiculo, marca, ano, renavam, placa, cor, situacao, dataEntrada,
 								null, valorVenda, dataVenda, null, null, null, null, null, sinistroRs, financiamento,
 								categoria, km, null, valorFipeFormatado, valorTotalCompraVeiculos,
 								valorTotalFipeVeiculos);
@@ -2950,6 +3001,7 @@ public class TelaHome {
 			lblDadosPlaca.setText(v.getPlaca());
 			lblDadosCor.setText(v.getCor());
 			lblKm.setText(v.getKm());
+			lblAno.setText(v.getAno_modelo());
 			lblDadosRenavam.setText(v.getRenavam());
 			lblDadosDataEntrada.setText(v.getDataEntradaFormatada());
 			lblDadosValorVenda.setText(v.getValorVendaFormatado());
